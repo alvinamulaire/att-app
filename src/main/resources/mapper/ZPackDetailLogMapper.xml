@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZPackDetailLogMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZPackDetailLog">
+    <id column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="MASTER_SID" jdbcType="VARCHAR" property="masterSid" />
+    <result column="SFC" jdbcType="VARCHAR" property="sfc" />
+    <result column="BATCH_NO" jdbcType="VARCHAR" property="batchNo" />
+    <result column="SN" jdbcType="VARCHAR" property="sn" />
+    <result column="CARTON_NO" jdbcType="VARCHAR" property="cartonNo" />
+    <result column="CREATED_DATE_TIME" jdbcType="TIMESTAMP" property="createdDateTime" />
+    <result column="CREATED_USER" jdbcType="VARCHAR" property="createdUser" />
+    <result column="UNBOXING_DATE_TIME" jdbcType="TIMESTAMP" property="unboxingDateTime" />
+    <result column="UNBOXING_USER" jdbcType="VARCHAR" property="unboxingUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SID, SITE, MASTER_SID, SFC, BATCH_NO, SN, CARTON_NO, CREATED_DATE_TIME, CREATED_USER, 
+    UNBOXING_DATE_TIME, UNBOXING_USER
+  </sql>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZPackDetailLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_PACK_DETAIL_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Z_PACK_DETAIL_LOG
+    where SID = #{sid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Z_PACK_DETAIL_LOG
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.att.repository.entity.ZPackDetailLogExample">
+    delete from Z_PACK_DETAIL_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.repository.entity.ZPackDetailLog">
+    insert into Z_PACK_DETAIL_LOG (SID, SITE, MASTER_SID, 
+      SFC, BATCH_NO, SN, 
+      CARTON_NO, CREATED_DATE_TIME, CREATED_USER, 
+      UNBOXING_DATE_TIME, UNBOXING_USER)
+    values (#{sid,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{masterSid,jdbcType=VARCHAR}, 
+      #{sfc,jdbcType=VARCHAR}, #{batchNo,jdbcType=VARCHAR}, #{sn,jdbcType=VARCHAR}, 
+      #{cartonNo,jdbcType=VARCHAR}, #{createdDateTime,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, 
+      #{unboxingDateTime,jdbcType=TIMESTAMP}, #{unboxingUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.repository.entity.ZPackDetailLog">
+    insert into Z_PACK_DETAIL_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="site != null">
+        SITE,
+      </if>
+      <if test="masterSid != null">
+        MASTER_SID,
+      </if>
+      <if test="sfc != null">
+        SFC,
+      </if>
+      <if test="batchNo != null">
+        BATCH_NO,
+      </if>
+      <if test="sn != null">
+        SN,
+      </if>
+      <if test="cartonNo != null">
+        CARTON_NO,
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME,
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER,
+      </if>
+      <if test="unboxingDateTime != null">
+        UNBOXING_DATE_TIME,
+      </if>
+      <if test="unboxingUser != null">
+        UNBOXING_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="masterSid != null">
+        #{masterSid,jdbcType=VARCHAR},
+      </if>
+      <if test="sfc != null">
+        #{sfc,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null">
+        #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="cartonNo != null">
+        #{cartonNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDateTime != null">
+        #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="unboxingDateTime != null">
+        #{unboxingDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unboxingUser != null">
+        #{unboxingUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZPackDetailLogExample" resultType="java.lang.Long">
+    select count(*) from Z_PACK_DETAIL_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Z_PACK_DETAIL_LOG
+    <set>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site != null">
+        SITE = #{record.site,jdbcType=VARCHAR},
+      </if>
+      <if test="record.masterSid != null">
+        MASTER_SID = #{record.masterSid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfc != null">
+        SFC = #{record.sfc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchNo != null">
+        BATCH_NO = #{record.batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sn != null">
+        SN = #{record.sn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cartonNo != null">
+        CARTON_NO = #{record.cartonNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDateTime != null">
+        CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUser != null">
+        CREATED_USER = #{record.createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unboxingDateTime != null">
+        UNBOXING_DATE_TIME = #{record.unboxingDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.unboxingUser != null">
+        UNBOXING_USER = #{record.unboxingUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Z_PACK_DETAIL_LOG
+    set SID = #{record.sid,jdbcType=VARCHAR},
+      SITE = #{record.site,jdbcType=VARCHAR},
+      MASTER_SID = #{record.masterSid,jdbcType=VARCHAR},
+      SFC = #{record.sfc,jdbcType=VARCHAR},
+      BATCH_NO = #{record.batchNo,jdbcType=VARCHAR},
+      SN = #{record.sn,jdbcType=VARCHAR},
+      CARTON_NO = #{record.cartonNo,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{record.createdUser,jdbcType=VARCHAR},
+      UNBOXING_DATE_TIME = #{record.unboxingDateTime,jdbcType=TIMESTAMP},
+      UNBOXING_USER = #{record.unboxingUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.att.repository.entity.ZPackDetailLog">
+    update Z_PACK_DETAIL_LOG
+    <set>
+      <if test="site != null">
+        SITE = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="masterSid != null">
+        MASTER_SID = #{masterSid,jdbcType=VARCHAR},
+      </if>
+      <if test="sfc != null">
+        SFC = #{sfc,jdbcType=VARCHAR},
+      </if>
+      <if test="batchNo != null">
+        BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null">
+        SN = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="cartonNo != null">
+        CARTON_NO = #{cartonNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="unboxingDateTime != null">
+        UNBOXING_DATE_TIME = #{unboxingDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unboxingUser != null">
+        UNBOXING_USER = #{unboxingUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.att.repository.entity.ZPackDetailLog">
+    update Z_PACK_DETAIL_LOG
+    set SITE = #{site,jdbcType=VARCHAR},
+      MASTER_SID = #{masterSid,jdbcType=VARCHAR},
+      SFC = #{sfc,jdbcType=VARCHAR},
+      BATCH_NO = #{batchNo,jdbcType=VARCHAR},
+      SN = #{sn,jdbcType=VARCHAR},
+      CARTON_NO = #{cartonNo,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+      UNBOXING_DATE_TIME = #{unboxingDateTime,jdbcType=TIMESTAMP},
+      UNBOXING_USER = #{unboxingUser,jdbcType=VARCHAR}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+</mapper>

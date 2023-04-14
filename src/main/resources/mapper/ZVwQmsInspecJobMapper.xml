@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZVwQmsInspecJobMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZVwQmsInspecJob">
+    <result column="HANDLE" jdbcType="VARCHAR" property="handle" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="JOB_NO" jdbcType="VARCHAR" property="jobNo" />
+    <result column="WORK_CENTER" jdbcType="VARCHAR" property="workCenter" />
+    <result column="OPERATION" jdbcType="VARCHAR" property="operation" />
+    <result column="SFC" jdbcType="VARCHAR" property="sfc" />
+    <result column="RESRCE" jdbcType="VARCHAR" property="resrce" />
+    <result column="ITEM" jdbcType="VARCHAR" property="item" />
+    <result column="MATERIAL_NO" jdbcType="VARCHAR" property="materialNo" />
+    <result column="USER_GROUP" jdbcType="VARCHAR" property="userGroup" />
+    <result column="QC_PLAN" jdbcType="VARCHAR" property="qcPlan" />
+    <result column="QC_PLAN_REVISION" jdbcType="VARCHAR" property="qcPlanRevision" />
+    <result column="QC_FREQ" jdbcType="VARCHAR" property="qcFreq" />
+    <result column="QC_TYPE" jdbcType="VARCHAR" property="qcType" />
+    <result column="POPULATION_QTY" jdbcType="DECIMAL" property="populationQty" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="END_DATE_TIME" jdbcType="TIMESTAMP" property="endDateTime" />
+    <result column="CREATED_USER" jdbcType="VARCHAR" property="createdUser" />
+    <result column="CREATED_DATE_TIME" jdbcType="TIMESTAMP" property="createdDateTime" />
+    <result column="CHECK_USER" jdbcType="VARCHAR" property="checkUser" />
+    <result column="CHECK_DATE_TIME" jdbcType="TIMESTAMP" property="checkDateTime" />
+    <result column="RESULT" jdbcType="VARCHAR" property="result" />
+    <result column="OK_QTY" jdbcType="DECIMAL" property="okQty" />
+    <result column="NG_QTY" jdbcType="DECIMAL" property="ngQty" />
+    <result column="ABN_GROUP_NO" jdbcType="VARCHAR" property="abnGroupNo" />
+    <result column="UD_CODE" jdbcType="VARCHAR" property="udCode" />
+    <result column="TESTING_QTY" jdbcType="DECIMAL" property="testingQty" />
+    <result column="MODIFIED_DATE_TIME" jdbcType="TIMESTAMP" property="modifiedDateTime" />
+    <result column="MODIFIED_USER" jdbcType="VARCHAR" property="modifiedUser" />
+    <result column="IS_ERP" jdbcType="VARCHAR" property="isErp" />
+    <result column="QC_MODE" jdbcType="VARCHAR" property="qcMode" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.att.repository.entity.ZVwQmsInspecJob">
+    <result column="SUBMIT_REMARK" jdbcType="CLOB" property="submitRemark" />
+    <result column="JUDGE_REMARK" jdbcType="CLOB" property="judgeRemark" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    HANDLE, SITE, JOB_NO, WORK_CENTER, OPERATION, SFC, RESRCE, ITEM, MATERIAL_NO, USER_GROUP, 
+    QC_PLAN, QC_PLAN_REVISION, QC_FREQ, QC_TYPE, POPULATION_QTY, STATUS, END_DATE_TIME, 
+    CREATED_USER, CREATED_DATE_TIME, CHECK_USER, CHECK_DATE_TIME, RESULT, OK_QTY, NG_QTY, 
+    ABN_GROUP_NO, UD_CODE, TESTING_QTY, MODIFIED_DATE_TIME, MODIFIED_USER, IS_ERP, QC_MODE
+  </sql>
+  <sql id="Blob_Column_List">
+    SUBMIT_REMARK, JUDGE_REMARK
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.att.repository.entity.ZVwQmsInspecJobExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Z_VW_QMS_INSPEC_JOB
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZVwQmsInspecJobExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_VW_QMS_INSPEC_JOB
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZVwQmsInspecJobExample" resultType="java.lang.Long">
+    select count(*) from Z_VW_QMS_INSPEC_JOB
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+</mapper>

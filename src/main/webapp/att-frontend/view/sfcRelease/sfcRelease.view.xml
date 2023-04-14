@@ -1,0 +1,153 @@
+<mvc:View controllerName="att.view.sfcRelease.sfcRelease"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <Page class="sapUiSizeCompact">
+    <html:style>
+			.sapMPage>.sapMPageHeader + section{
+				top: 2.6rem
+			}
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <contentLeft>
+          <Button text="{i18n>g.search}" icon="sap-icon://open-folder" press="search" />
+          <Button text="{i18n>g.clear}" icon="sap-icon://eraser" press="clear" />
+        </contentLeft>
+        <!-- 標題 -->
+        <contentMiddle>
+          <Title text="{i18n>att.sfcRelease.label1}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <VBox>
+        <!-- 檢索條件 -->
+        <FlexBox width="100%" class="col-12 flex-column divColor" renderType="Bare">
+          <!-- 生產點 -->
+          <FlexBox width="50%" height="32px" class="sapUiTinyMarginTopBottom" alignItems="Center" renderType="Bare">
+            <Label text="{i18n>g.site}" class="set-required myLabel flex40" />
+            <Text text="{/site}" />
+          </FlexBox>
+          <!-- 現場訂單 -->
+          <FlexBox width="50%" class="sapUiTinyMarginBottom" alignItems="Center" renderType="Bare">
+            <Label text="{i18n>att.sfcRelease.label3}" class="set-required myLabel flex40" />
+            <Input id="shopOrder" width="30%" value="{/shopOrder}" liveChange="checkOrder" showValueHelp="true" valueHelpRequest="openDialog" cd:title="att.sfcRelease.label3" cd:filterKey="shopOrder" cd:callBackKey="shopOrder" cd:columns="shopOrder|att.sfcRelease.label3;plannedItem|att.sfcRelease.label8;itemDesc|att.sfcRelease.label17;qtyToBuild|att.sfcRelease.label12;releaseQty|att.sfcRelease.label21" cd:root="/" />
+          </FlexBox>
+        </FlexBox>
+        <!-- 現場訂單資訊 -->
+        <FlexBox width="100%" class="col-12 sapUiSmallMarginTop" renderType="Bare">
+          <VBox width="50%">
+            <!-- 工單狀態 -->
+            <FlexBox renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label6}" class="myLabel flex40" />
+              <Text text="{/statusName}" class="myText" />
+            </FlexBox>
+            <!-- 版次 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label7}" class="myLabel flex40" />
+              <Text text="{/partRev}" class="myText" />
+            </FlexBox>
+            <!-- 計畫物料 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label8}" class="set-required myLabel flex40" />
+              <Text text="{/plannedItem}" class="myText" />
+            </FlexBox>
+            <!-- 機種 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label9}" class="myLabel flex40" />
+              <Text text="{/productType}" class="myText" />
+            </FlexBox>
+            <!-- 計畫物料表 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label10}" class="set-required myLabel flex40" />
+              <Text text="{/bom}" class="myText" />
+            </FlexBox>
+            <!-- 途程 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label11}" class="set-required myLabel flex40" />
+              <Text text="{/router}" class="myText" />
+            </FlexBox>
+            <!-- 製造數量 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label12}" class="myLabel flex40" />
+              <Text text="{/qtyToBuild}" class="myText" />
+            </FlexBox>
+            <!-- 此次核發數量 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label13}" class="set-required myLabel flex40" />
+              <Input id="releaseAmt" value="{/releaseAmt}" type="Number" class="myInput" width="30%" liveChange="checkAmount" />
+            </FlexBox>
+            <!-- 計畫開始 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label14}" class="myLabel flex40" />
+              <Text text="{/plannedStartDateStr}" class="myText" />
+            </FlexBox>
+          </VBox>
+          <VBox width="50%">
+            <FlexBox renderType="Bare">
+              <!-- ERP 訂單類型 -->
+              <Label text="{i18n>att.sfcRelease.label15}" class="myLabel flex40" />
+              <Text text="{/auartValue}" class="myText" />
+            </FlexBox>
+            <!-- BUILD -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label16}" class="myLabel flex40" />
+              <Text text="{/build}" class="myText" />
+            </FlexBox>
+            <!-- 物料說明 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label17}" class="myLabel flex40" />
+              <Text text="{/itemDesc}" class="myText" />
+            </FlexBox>
+            <!-- 文館編號 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label18}" class="myLabel flex40" />
+              <Text text="{/iso}" class="myText" />
+            </FlexBox>
+            <!-- 物料表版本 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label19}" class="myLabel flex40" />
+              <Text text="{/bomVer}" class="myText" />
+            </FlexBox>
+            <!-- 途程版本 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label20}" class="myLabel flex40" />
+              <Text text="{/routerVer}" class="myText" />
+            </FlexBox>
+            <!-- 可核發數量 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label21}" class="myLabel flex40" />
+              <Text text="{/releaseQty}" class="myText" />
+            </FlexBox>
+            <!-- 標準批量 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare" height="32px">
+              <Label text="{i18n>att.sfcRelease.label22}" class="myLabel flex40" />
+              <Text text="{/lotSize}" class="myText" />
+            </FlexBox>
+            <!-- 計畫完成 -->
+            <FlexBox class="sapUiTinyMarginTop" renderType="Bare">
+              <Label text="{i18n>att.sfcRelease.label23}" class="myLabel flex40" />
+              <Text text="{/plannedCompDateStr}" class="myText" />
+            </FlexBox>
+          </VBox>
+        </FlexBox>
+        <!-- 流程卡 -->
+        <FlexBox class="col-12 sapUiMediumMarginTop" renderType="Bare" justifyContent="Center" alignItems="Center">
+          <CheckBox text="{i18n>att.sfcRelease.label4}" selected="{/printRunCard}" />
+        </FlexBox>
+      </VBox>
+    </content>
+    <!-- 核發 -->
+    <footer>
+      <Toolbar width="100%">
+        <FlexBox alignItems="Center" justifyContent="Center" renderType="Bare" width="100%">
+          <Button id="releaseBtn" width="15%" text="{i18n>att.sfcRelease.label5}" press="releaseSfc" cd:title="att.sfcRelease.label2" cd:filterKey="material" cd:callBackKey="material" cd:columns="material|g.material;order|att.sfcRelease.label3;SFC|att.sfcRelease.label24;Amount|att.sfcRelease.label25;route|att.sfcRelease.label11;waiting|att.sfcRelease.label26;Description|att.sfcRelease.label27;" cd:root="/" />
+        </FlexBox>
+      </Toolbar>
+    </footer>
+  </Page>
+</mvc:View>

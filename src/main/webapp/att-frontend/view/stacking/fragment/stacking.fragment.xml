@@ -1,0 +1,31 @@
+<core:FragmentDefinition xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:t="sap.ui.table">
+  <Dialog id="stackingDialog" showHeader="true" contentHeight="30%" contentWidth="50%" class="sapUiSizeCompact">
+    <html:style>
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <contentMiddle>
+          <Title text="{i18n>stacking.label10}" />
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+
+      <FlexBox renderType="Bare" class="col-12" height="100%" justifyContent="Center">
+        <!-- 出貨日期 -->
+        <FlexBox renderType="Bare" alignItems="Center" class="sapUiLargeMarginTop">
+          <Label text="{i18n>stacking.label10}" class="myLabel flex40" />
+          <Input width="60%" value="{/shippingDate}" change="check" />
+        </FlexBox>
+      </FlexBox>
+    </content>
+    <buttons>
+      <Button id="" text="{i18n>g.confirm}" press="confirm" />
+      <Button text="{i18n>g.cancel}" press="close" />
+    </buttons>
+  </Dialog>
+</core:FragmentDefinition>

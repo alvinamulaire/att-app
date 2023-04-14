@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZLabelPrintLogMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZLabelPrintLog">
+    <id column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="LABEL_TYPE" jdbcType="VARCHAR" property="labelType" />
+    <result column="PRINT_TYPE" jdbcType="VARCHAR" property="printType" />
+    <result column="KEY_VALUE" jdbcType="VARCHAR" property="keyValue" />
+    <result column="CREATED_DATE_TIME" jdbcType="TIMESTAMP" property="createdDateTime" />
+    <result column="CREATED_USER" jdbcType="VARCHAR" property="createdUser" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.att.repository.entity.ZLabelPrintLog">
+    <result column="REQUEST_CONTENT" jdbcType="CLOB" property="requestContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SID, SITE, LABEL_TYPE, PRINT_TYPE, KEY_VALUE, CREATED_DATE_TIME, CREATED_USER
+  </sql>
+  <sql id="Blob_Column_List">
+    REQUEST_CONTENT
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.att.repository.entity.ZLabelPrintLogExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Z_LABEL_PRINT_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZLabelPrintLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_LABEL_PRINT_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Z_LABEL_PRINT_LOG
+    where SID = #{sid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Z_LABEL_PRINT_LOG
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.att.repository.entity.ZLabelPrintLogExample">
+    delete from Z_LABEL_PRINT_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.repository.entity.ZLabelPrintLog">
+    insert into Z_LABEL_PRINT_LOG (SID, SITE, LABEL_TYPE, 
+      PRINT_TYPE, KEY_VALUE, CREATED_DATE_TIME, 
+      CREATED_USER, REQUEST_CONTENT)
+    values (#{sid,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{labelType,jdbcType=VARCHAR}, 
+      #{printType,jdbcType=VARCHAR}, #{keyValue,jdbcType=VARCHAR}, #{createdDateTime,jdbcType=TIMESTAMP}, 
+      #{createdUser,jdbcType=VARCHAR}, #{requestContent,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.repository.entity.ZLabelPrintLog">
+    insert into Z_LABEL_PRINT_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="site != null">
+        SITE,
+      </if>
+      <if test="labelType != null">
+        LABEL_TYPE,
+      </if>
+      <if test="printType != null">
+        PRINT_TYPE,
+      </if>
+      <if test="keyValue != null">
+        KEY_VALUE,
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME,
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER,
+      </if>
+      <if test="requestContent != null">
+        REQUEST_CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="labelType != null">
+        #{labelType,jdbcType=VARCHAR},
+      </if>
+      <if test="printType != null">
+        #{printType,jdbcType=VARCHAR},
+      </if>
+      <if test="keyValue != null">
+        #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDateTime != null">
+        #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="requestContent != null">
+        #{requestContent,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZLabelPrintLogExample" resultType="java.lang.Long">
+    select count(*) from Z_LABEL_PRINT_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Z_LABEL_PRINT_LOG
+    <set>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site != null">
+        SITE = #{record.site,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelType != null">
+        LABEL_TYPE = #{record.labelType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.printType != null">
+        PRINT_TYPE = #{record.printType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyValue != null">
+        KEY_VALUE = #{record.keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDateTime != null">
+        CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUser != null">
+        CREATED_USER = #{record.createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestContent != null">
+        REQUEST_CONTENT = #{record.requestContent,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update Z_LABEL_PRINT_LOG
+    set SID = #{record.sid,jdbcType=VARCHAR},
+      SITE = #{record.site,jdbcType=VARCHAR},
+      LABEL_TYPE = #{record.labelType,jdbcType=VARCHAR},
+      PRINT_TYPE = #{record.printType,jdbcType=VARCHAR},
+      KEY_VALUE = #{record.keyValue,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{record.createdUser,jdbcType=VARCHAR},
+      REQUEST_CONTENT = #{record.requestContent,jdbcType=CLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Z_LABEL_PRINT_LOG
+    set SID = #{record.sid,jdbcType=VARCHAR},
+      SITE = #{record.site,jdbcType=VARCHAR},
+      LABEL_TYPE = #{record.labelType,jdbcType=VARCHAR},
+      PRINT_TYPE = #{record.printType,jdbcType=VARCHAR},
+      KEY_VALUE = #{record.keyValue,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{record.createdUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.att.repository.entity.ZLabelPrintLog">
+    update Z_LABEL_PRINT_LOG
+    <set>
+      <if test="site != null">
+        SITE = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="labelType != null">
+        LABEL_TYPE = #{labelType,jdbcType=VARCHAR},
+      </if>
+      <if test="printType != null">
+        PRINT_TYPE = #{printType,jdbcType=VARCHAR},
+      </if>
+      <if test="keyValue != null">
+        KEY_VALUE = #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="requestContent != null">
+        REQUEST_CONTENT = #{requestContent,jdbcType=CLOB},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.att.repository.entity.ZLabelPrintLog">
+    update Z_LABEL_PRINT_LOG
+    set SITE = #{site,jdbcType=VARCHAR},
+      LABEL_TYPE = #{labelType,jdbcType=VARCHAR},
+      PRINT_TYPE = #{printType,jdbcType=VARCHAR},
+      KEY_VALUE = #{keyValue,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+      REQUEST_CONTENT = #{requestContent,jdbcType=CLOB}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.att.repository.entity.ZLabelPrintLog">
+    update Z_LABEL_PRINT_LOG
+    set SITE = #{site,jdbcType=VARCHAR},
+      LABEL_TYPE = #{labelType,jdbcType=VARCHAR},
+      PRINT_TYPE = #{printType,jdbcType=VARCHAR},
+      KEY_VALUE = #{keyValue,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+</mapper>

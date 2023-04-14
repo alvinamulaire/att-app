@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZPackInspecItemLogMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZPackInspecItemLog">
+    <id column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="ITEM" jdbcType="VARCHAR" property="item" />
+    <result column="QC_PLAN_BO" jdbcType="VARCHAR" property="qcPlanBo" />
+    <result column="QC_ITEM_SID" jdbcType="VARCHAR" property="qcItemSid" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="CREATE_DATE_TIME" jdbcType="TIMESTAMP" property="createDateTime" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SID, SITE, ITEM, QC_PLAN_BO, QC_ITEM_SID, REMARK, CREATE_DATE_TIME, CREATE_USER
+  </sql>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZPackInspecItemLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_PACK_INSPEC_ITEM_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Z_PACK_INSPEC_ITEM_LOG
+    where SID = #{sid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Z_PACK_INSPEC_ITEM_LOG
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.att.repository.entity.ZPackInspecItemLogExample">
+    delete from Z_PACK_INSPEC_ITEM_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.repository.entity.ZPackInspecItemLog">
+    insert into Z_PACK_INSPEC_ITEM_LOG (SID, SITE, ITEM, 
+      QC_PLAN_BO, QC_ITEM_SID, REMARK, 
+      CREATE_DATE_TIME, CREATE_USER)
+    values (#{sid,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, 
+      #{qcPlanBo,jdbcType=VARCHAR}, #{qcItemSid,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+      #{createDateTime,jdbcType=TIMESTAMP}, #{createUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.repository.entity.ZPackInspecItemLog">
+    insert into Z_PACK_INSPEC_ITEM_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="site != null">
+        SITE,
+      </if>
+      <if test="item != null">
+        ITEM,
+      </if>
+      <if test="qcPlanBo != null">
+        QC_PLAN_BO,
+      </if>
+      <if test="qcItemSid != null">
+        QC_ITEM_SID,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="createDateTime != null">
+        CREATE_DATE_TIME,
+      </if>
+      <if test="createUser != null">
+        CREATE_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null">
+        #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="qcPlanBo != null">
+        #{qcPlanBo,jdbcType=VARCHAR},
+      </if>
+      <if test="qcItemSid != null">
+        #{qcItemSid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDateTime != null">
+        #{createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZPackInspecItemLogExample" resultType="java.lang.Long">
+    select count(*) from Z_PACK_INSPEC_ITEM_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Z_PACK_INSPEC_ITEM_LOG
+    <set>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site != null">
+        SITE = #{record.site,jdbcType=VARCHAR},
+      </if>
+      <if test="record.item != null">
+        ITEM = #{record.item,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qcPlanBo != null">
+        QC_PLAN_BO = #{record.qcPlanBo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qcItemSid != null">
+        QC_ITEM_SID = #{record.qcItemSid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDateTime != null">
+        CREATE_DATE_TIME = #{record.createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUser != null">
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Z_PACK_INSPEC_ITEM_LOG
+    set SID = #{record.sid,jdbcType=VARCHAR},
+      SITE = #{record.site,jdbcType=VARCHAR},
+      ITEM = #{record.item,jdbcType=VARCHAR},
+      QC_PLAN_BO = #{record.qcPlanBo,jdbcType=VARCHAR},
+      QC_ITEM_SID = #{record.qcItemSid,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      CREATE_DATE_TIME = #{record.createDateTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.att.repository.entity.ZPackInspecItemLog">
+    update Z_PACK_INSPEC_ITEM_LOG
+    <set>
+      <if test="site != null">
+        SITE = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null">
+        ITEM = #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="qcPlanBo != null">
+        QC_PLAN_BO = #{qcPlanBo,jdbcType=VARCHAR},
+      </if>
+      <if test="qcItemSid != null">
+        QC_ITEM_SID = #{qcItemSid,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createDateTime != null">
+        CREATE_DATE_TIME = #{createDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUser != null">
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.att.repository.entity.ZPackInspecItemLog">
+    update Z_PACK_INSPEC_ITEM_LOG
+    set SITE = #{site,jdbcType=VARCHAR},
+      ITEM = #{item,jdbcType=VARCHAR},
+      QC_PLAN_BO = #{qcPlanBo,jdbcType=VARCHAR},
+      QC_ITEM_SID = #{qcItemSid,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      CREATE_DATE_TIME = #{createDateTime,jdbcType=TIMESTAMP},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,85 @@
+<core:FragmentDefinition xmlns="sap.m"
+                         xmlns:core="sap.ui.core"
+                         xmlns:html="http://www.w3.org/1999/xhtml"
+                         xmlns:t="sap.ui.table" >
+    <Dialog id="cancel"
+            showHeader="true"
+            contentHeight="40%"
+            contentWidth="50%"
+            class="sapUiSizeCompact" >
+        <html:style >
+        </html:style >
+        <customHeader >
+            <Bar class="title-midle" >
+                <contentMiddle >
+                    <Title text="{i18n>nc.report.label36}" />
+                </contentMiddle >
+            </Bar >
+        </customHeader >
+        <content >
+            <FlexBox renderType="Bare"
+                     width="90%"
+                     class="flex-wrap row" >
+                <FlexBox alignItems="Center"
+                         renderType="Bare"
+                         width="100%"
+                         class="col-12 sapUiTinyMarginTop" >
+                    <Label text="{i18n>nc.report.label6}"
+                           class="myLabel flex20 set-required" />
+                    <Select id="isCancelledSelect"
+                            forceSelection="false"
+                            selectedKey="true"
+                            class="myInput" >
+                        <core:Item key="true"
+                                   text="TRUE" />
+                        <core:Item key="false"
+                                   text="FALSE" />
+                    </Select >
+                </FlexBox >
+                <FlexBox alignItems="Center"
+                         renderType="Bare"
+                         width="100%"
+                         class="col-12 sapUiTinyMarginTop" >
+                    <Label text="{i18n>nc.report.label31}"
+                           class="myLabel flex20 set-required" />
+                    <TextArea rows="5"
+                              width="50%"
+                              value="{/cancelReason}" />
+                </FlexBox >
+                <FlexBox alignItems="Center"
+                         renderType="Bare"
+                         width="100%"
+                         class="col-12 sapUiTinyMarginTop" >
+                    <Label text="{i18n>nc.report.label32}"
+                           class="myLabel flex20" />
+                    <Label text="{/user}"
+                           class="myLabel notColon" />
+                </FlexBox >
+                <FlexBox alignItems="Center"
+                         renderType="Bare"
+                         width="100%"
+                         class="col-12 sapUiTinyMarginTop" >
+                    <Label text="{i18n>nc.report.label33}"
+                           class="myLabel flex20" />
+                    <Label text="{/name}"
+                           class="myLabel notColon" />
+                </FlexBox >
+                <FlexBox alignItems="Center"
+                         renderType="Bare"
+                         width="100%"
+                         class="col-12 sapUiTinyMarginTop" >
+                    <Label text="{i18n>nc.report.label34}"
+                           class="myLabel flex20" />
+                    <Label text="{/date}"
+                           class="myLabel notColon" />
+                </FlexBox >
+            </FlexBox >
+        </content >
+        <buttons >
+            <Button text="{i18n>g.confirm}"
+                    press="confirm" />
+            <Button text="{i18n>g.close}"
+                    press="close" />
+        </buttons >
+    </Dialog >
+</core:FragmentDefinition >

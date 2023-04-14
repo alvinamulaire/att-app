@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-config SYSTEM "http://www.visiprise.com/dtd/service-config.dtd">
+<service-config moduleId="com.att.serviceext">
+    <!-- Import required to create a new business service. -->
+    <import moduleId="com.sap.me.common" service="Prototype"/>
+    <import moduleId="com.sap.me.plant" service="ConfigDataLoaderParent"/>
+    <import moduleId="com.sap.me.activity" service="ExtensionLoaderParent"/>
+    <service name="CustomServiceExtensionLoader" parent="ExtensionLoaderParent"/>
+    <!--New service extension definition. You must declare the service class name. -->
+    <service name="ExtLoaderService" parent="ConfigDataLoaderParent"/>
+
+    <service name="MaterialCheckServiceExt" class="com.att.nwds.serviceext.MaterialCheckServiceExt" parent="Prototype">
+    </service>
+    <service name="ReduceInventoryExtension" class="com.att.nwds.serviceext.ReduceInventoryExtension"
+             parent="Prototype">
+    </service>
+    <service name="YieldNotificationExtension" class="com.att.nwds.serviceext.YieldNotificationExtension"
+             parent="Prototype">
+    </service>
+    <service name="ToolUnbindingServiceExt" class="com.att.nwds.serviceext.ToolUnbindingServiceExt" parent="Prototype">
+    </service>
+    <service name="ChangeAutoSplitSfcNumber" class="com.att.nwds.serviceext.ChangeAutoSplitSfcNumber"
+             parent="Prototype">
+    </service>
+    <service name="DispositionLogNcExtend" class="com.att.nwds.serviceext.DispositionLogNcExtend"
+             parent="Prototype">
+    </service>
+</service-config>

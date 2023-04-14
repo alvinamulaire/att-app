@@ -1,0 +1,244 @@
+<mvc:View controllerName="att.view.productionKanban.productionKanban"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:t="sap.ui.table"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+  xmlns:f="sap.f"
+  xmlns:card="sap.f.cards"
+  xmlns:microchart="sap.suite.ui.microchart"
+  xmlns:viz="sap.viz.ui5.controls"
+  xmlns:viz.data="sap.viz.ui5.data"
+  xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds" displayBlock="true">
+  <Page class="sapUiSizeCompact">
+    <html:style>      
+      .itemTitle {
+        font-size: 1.5em !important;
+      }
+      .kpiTitle {
+        background-color: #346DB0;
+        border-radius: 10px;
+        justify-content: center;
+        padding: 3px;
+      }      
+      @keyframes fade {
+        from {
+          opacity: 1.0;
+        }
+        50% {
+          opacity: 0.0;
+          background: #ffffff;
+        }
+        to {
+          opacity: 1.0;
+        }
+      }
+      .glassCard1, .glassCard2 {
+        background: rgba( 85, 115, 250, 0.15 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 3px );
+        -webkit-backdrop-filter: blur( 3px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+      }
+      .title1, .title2, .title3 {
+        border-radius: 10px;
+        justify-content: center;
+        padding: 5px;
+        font-size: 1rem;
+      }
+      .title1 { background-color: #009E00; }
+      .title2 { background-color: #FF9224; }
+      .title3 { background-color: #FF2D2D; }
+      .redBackground {
+        width: 130px;
+        justify-content: center;
+        padding: 3px;
+        border-radius: 5px;
+        background-color: #E00000;
+        animation: fade 300ms 5;
+      }
+    </html:style>
+    <customHeader>
+      <Bar class="title-midle">
+        <contentMiddle>
+          <Title text="{i18n>productionKanban.title}"/>
+        </contentMiddle>
+        <contentRight>
+          <Button icon="sap-icon://action-settings" press="setting" />
+        </contentRight>
+      </Bar>
+    </customHeader>
+    <content>
+      <!-- 看板資訊 -->
+      <FlexBox renderType="Bare" width="100%" class="flex-wrap col-12">
+        <!-- 第一行 -->
+        <FlexBox alignItems="Center" renderType="Bare" width="100%">
+          <!-- 物料編號 -->
+          <FlexBox renderType="Bare" width="70%">
+            <Label text="{i18n>g.itemNo}" class="myLabel itemTitle" />
+            <Text text="{/item}" class="myText itemTitle" />
+          </FlexBox>
+          <!-- 資料更新時間 -->
+          <FlexBox renderType="Bare" width="30%" justifyContent="End">
+            <Label text="{i18n>productionKanban.label1}" class="myLabel flex60" />
+            <Text text="{/updatedTime}" class="myText" />
+          </FlexBox>
+        </FlexBox>
+        <!-- 第二行 -->
+        <FlexBox alignItems="Center" renderType="Bare" width="100%">
+          <!-- 物料說明 -->
+          <FlexBox renderType="Bare" width="70%">
+            <Label text="{i18n>g.itemDesc}" class="myLabel itemTitle" />
+            <Text text="{/itemDesc}" class="myText itemTitle" />
+          </FlexBox>
+        </FlexBox>
+        <!-- 第三行 -->
+        <FlexBox renderType="Bare" width="100%" class="sapUiTinyMarginTopBottom">
+          <!-- 上下限 -->
+          <VBox width="33%" alignItems="Center">
+            <Text text="{i18n>productionKanban.label4}／{i18n>productionKanban.label5}／{i18n>productionKanban.label6}" width="300px" class="myText title1" />
+            <Text id="text1" text="{/monthWipUpper}／{/totalInQty}／{/monthWipLower}" class="myText sapUiTinyMarginTopBottom" />
+          </VBox>
+          <!-- 在製重工數 -->
+          <VBox width="33%" alignItems="Center">
+            <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label8}" width="300px" class="myText title2" />
+            <Text id="text2" text="{/monthWipRework}／{/totalInReworkQty}" class="myText sapUiTinyMarginTopBottom" />
+          </VBox>
+          <!-- 在製保留數 -->
+          <VBox width="33%" alignItems="Center">
+            <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label9}" width="300px" class="myText title3" />
+            <Text id="text3" text="{/monthWipHold}／{/totalInHoldQty}" class="myText sapUiTinyMarginTopBottom" />
+          </VBox>
+        </FlexBox>
+      </FlexBox>
+      <!-- 本月 -->
+      <f:Card width="100%" class="glassCard1 sapUiTinyMargin">
+        <f:content>
+          <FlexBox renderType="Bare" width="100%" justifyContent="SpaceAround" class="flex-wrap">
+            <Text text="{i18n>productionKanban.label2}" class="sapUiTinyMargin" width="100%" />
+            <!-- 實際生產 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label10}" width="175px" class="myText kpiTitle" />
+              <Text id="text4" text="{/monthlyActualProductionKpi}／{/monthlyActualProductionQty}" class="myText sapUiTinyMarginTop" />
+            </VBox>
+            <!-- 達成率 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label11}" width="175px" class="myText kpiTitle" />
+              <Text id="text5" text="{/monthAchievementRate}／{/monthlyAchievementRate}" class="myText sapUiTinyMarginTop" />
+            </VBox>
+            <!-- 直通良率 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label12}" width="175px" class="myText kpiTitle" />
+              <Text id="text6" text="{/monthFpy}／{/monthlyThruYield}" class="myText sapUiTinyMarginTop" />
+            </VBox>
+            <!-- 良率 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label13}" width="175px" class="myText kpiTitle" />
+              <Text id="text7" text="{/monthYield}／{/monthlyYield}" class="myText sapUiTinyMarginTop" />
+            </VBox>
+            <!-- 報廢數 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label14}" width="175px" class="myText kpiTitle" />
+              <Text id="text8" text="{/monthScrap}／{/monthlyQtyScrapped}" class="myText sapUiTinyMarginTop" />
+            </VBox>
+            <!-- 重工率 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label15}" width="175px" class="myText kpiTitle" />
+              <Text id="text9" text="{/monthReworkRate}／{/monthlyReworkRate}" class="myText sapUiTinyMarginTop" />
+            </VBox>
+            <!-- 重工數 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label16}" width="175px" class="myText kpiTitle" />
+              <Text id="text10" text="{/monthRework}／{/monthlyReworkQty}" class="myText sapUiTinyMarginTop" />
+            </VBox>
+          </FlexBox>
+        </f:content>
+      </f:Card>
+      <!-- 本日 -->
+      <f:Card width="100%" class="glassCard2 sapUiTinyMargin">
+        <f:content>
+          <FlexBox renderType="Bare" width="100%" justifyContent="SpaceAround" class="flex-wrap">
+            <Text text="{i18n>productionKanban.label3}" class="sapUiTinyMargin" width="100%" />
+            <!-- 實際生產 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label10}" width="175px" class="myText kpiTitle" />
+              <Text id="text11" text="{/actualProductionKpi}／{/actualProductionQty}" class="myText sapUiTinyMarginTopBottom" />
+            </VBox>
+            <!-- 達成率 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label11}" width="175px" class="myText kpiTitle" />
+              <Text id="text12" text="{/dayAchievementRate}／{/achievementRate}" class="myText sapUiTinyMarginTopBottom" />
+            </VBox>
+            <!-- 直通良率 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label12}" width="175px" class="myText kpiTitle" />
+              <Text id="text13" text="{/dayFpy}／{/thruYield}" class="myText sapUiTinyMarginTopBottom" />
+            </VBox>
+            <!-- 良率 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label13}" width="175px" class="myText kpiTitle" />
+              <Text id="text14" text="{/dayYield}／{/yield}" class="myText sapUiTinyMarginTopBottom" />
+            </VBox>
+            <!-- 報廢數 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label14}" width="175px" class="myText kpiTitle" />
+              <Text id="text15" text="{/dayScrap}／{/qtyScrapped}" class="myText sapUiTinyMarginTopBottom" />
+            </VBox>
+            <!-- 重工率 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label15}" width="175px" class="myText kpiTitle" />
+              <Text id="text16" text="{/dayReworkRate}／{/reworkRate}" class="myText sapUiTinyMarginTopBottom" />
+            </VBox>
+            <!-- 重工數 -->
+            <VBox width="13%" alignItems="Center" class="sapUiTinyMarginTopBottom">
+              <Text text="{i18n>productionKanban.label7}／{i18n>productionKanban.label16}" width="175px" class="myText kpiTitle" />
+              <Text id="text17" text="{/dayRework}／{/reworkQty}" class="myText sapUiTinyMarginTopBottom" />
+            </VBox>
+          </FlexBox>
+        </f:content>
+      </f:Card>
+      <!-- 直方圖 -->
+      <f:Card width="100%" class="sapUiTinyMargin">
+        <f:content>
+          <VBox justifyContent="SpaceBetween">
+            <!-- 圓餅圖 -->
+            <viz:VizFrame id="vizFrameCol" vizType='column' height='45vh' width="100%" legendVisible="true" uiConfig="{ applicationSet: 'fiori' }">
+              <!-- 圖形 資料 -->
+              <viz:dataset>
+                <viz.data:FlattenedDataset data="{/colData}">
+
+                  <!-- 作業站 -->
+                  <viz.data:dimensions>
+                    <viz.data:DimensionDefinition name="operation" value="{operation}" />
+                  </viz.data:dimensions>
+                  <!-- 在製量 -->
+                  <viz.data:measures>
+                    <viz.data:MeasureDefinition name="inQtyStr" value="{inQtyStr}" />
+                  </viz.data:measures>
+                  <!-- 良品 -->
+                  <viz.data:measures>
+                    <viz.data:MeasureDefinition name="qtyCompletedStr" value="{qtyCompletedStr}" />
+                  </viz.data:measures>
+                  <!-- 不良品 -->
+                  <viz.data:measures>
+                    <viz.data:MeasureDefinition name="qtyScrappedStr" value="{qtyScrappedStr}" />
+                  </viz.data:measures>
+
+                </viz.data:FlattenedDataset>
+              </viz:dataset>
+              <!-- 側欄 小標題 -->
+              <viz:feeds>
+                <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="operation" />
+                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="inQtyStr" />
+                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="qtyCompletedStr" />
+                <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="qtyScrappedStr" />
+              </viz:feeds>
+            </viz:VizFrame>
+          </VBox>
+        </f:content>
+      </f:Card>
+    </content>
+  </Page>
+</mvc:View>

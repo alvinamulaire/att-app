@@ -1,0 +1,459 @@
+<mvc:View controllerName="att.view.equipmentKanban.equipmentKanban"
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:t="sap.ui.table"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+  xmlns:f="sap.f"
+  xmlns:card="sap.f.cards"
+  xmlns:microchart="sap.suite.ui.microchart"
+  xmlns:viz="sap.viz.ui5.controls"
+  xmlns:viz.data="sap.viz.ui5.data"
+  xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+  displayBlock="true">
+  <Page class="sapUiSizeCompact">
+    <html:style>      
+      .wcTitle {
+        font-size: 2em !important;
+      }
+      .microchartTitle {
+        background-color: #346DB0;
+        border-radius: 50px;
+        justify-content: center;
+        padding: 3px;
+      }      
+      .sapMListTbl .sapMText, .sapMLabel, .sapMText, .sapSuiteRMCFont, .ui5-viz-controls-viz-description-title {        
+        font-size: 1.3em;		
+      }
+      .sapMListShowSeparatorsAll .sapMLIBShowSeparator:last-child>td {
+        border: none;        
+      }
+      .sapMListTblHeader>.sapMTableTH {        
+        background-color: #346DB0;
+      }
+      .sapMLIBShowSeparator>td {
+        border: none;
+      }
+      .pageNumber {
+        font-size: 1em;
+      }
+      @keyframes fade {
+        from {
+          opacity: 1.0;
+        }
+        50% {
+          opacity: 0.0;
+          background: #ffffff;
+        }
+        to {
+          opacity: 1.0;
+        }
+      }
+      .flipEffect {		
+        animation: fade 300ms 2;
+      }
+      .glassEffectBlue {
+        background: rgba( 85, 115, 250, 0.15 );
+        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+        backdrop-filter: blur( 3px );
+        -webkit-backdrop-filter: blur( 3px );
+        border-radius: 10px;
+        border: 1px solid rgba( 255, 255, 255, 0.18 );
+      }
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <contentMiddle>
+          <Title text="{i18n>equipmentKanban.title}"/>
+        </contentMiddle>
+        <contentRight>
+          <Button icon="sap-icon://action-settings"
+            press="setting" />
+        </contentRight>
+      </Bar>
+    </customHeader>
+    <content>
+      <!-- 看板資訊 -->
+      <FlexBox renderType="Bare"
+        width="100%"
+        class="flex-wrap col-12 sapUiTinyMarginTopBottom">
+        <!-- 工作中心 -->
+        <FlexBox renderType="Bare"
+          width="80%">
+          <Label text="{i18n>g.workCenter}"
+            class="myLabel wcTitle" />
+          <Text text="{/workCenter}"
+            class="myText wcTitle" />
+          <Label text="{i18n>g.description}"
+            class="myLabel flex20 wcTitle" />
+          <Text text="{/workCenterDesc}"
+            class="myText wcTitle" />
+        </FlexBox>
+        <!-- 資料更新時間 -->
+        <FlexBox renderType="Bare"
+          width="20%"
+          justifyContent="End">
+          <Label text="{i18n>equipmentKanban.label1}"
+            class="myLabel flex60" />
+          <Text text="{/updatedTime}"
+            class="myText" />
+        </FlexBox>
+      </FlexBox>
+      <!-- 設備狀態 -->
+      <FlexBox renderType="Bare"
+        class="col-12">
+        <!-- 設備狀態 圓形圖 -->
+        <f:Card width="40%"
+          id="glassCard">
+          <f:content>
+            <VBox justifyContent="SpaceBetween">
+              <!-- 設備狀態 -->
+              <Label text="{i18n>equipmentKanban.label2}"
+                class="sapUiTinyMargin" />
+              <!-- 圓餅圖 -->
+              <viz:VizFrame id="vizFramePie"
+                vizType='pie'
+                height='45vh'
+                width="100%"
+                class="pie"
+                legendVisible="true"
+                uiConfig="{ applicationSet: 'fiori' }">
+                <!-- 圖形 資料 -->
+                <viz:dataset>
+                  <viz.data:FlattenedDataset data="{/pieData}">
+
+                    <viz.data:dimensions>
+                      <viz.data:DimensionDefinition name="statusName"
+                        value="{statusName}" />
+                    </viz.data:dimensions>
+                    <viz.data:measures>
+                      <viz.data:MeasureDefinition name="resourceQty"
+                        value="{resourceQty}" />
+                    </viz.data:measures>
+
+                  </viz.data:FlattenedDataset>
+                </viz:dataset>
+                <!-- 側欄 小標題 -->
+                <viz:feeds>
+                  <viz.feeds:FeedItem uid="color"
+                    type="Dimension"
+                    values="statusName" />
+                  <viz.feeds:FeedItem uid="size"
+                    type="Measure"
+                    values="resourceQty" />
+                </viz:feeds>
+              </viz:VizFrame>
+              <!-- 機台總數 -->
+              <Text text="{i18n>equipmentKanban.label3}：{/resourceTotalQty}"
+                class="myText sapUiTinyMargin" />
+            </VBox>
+          </f:content>
+        </f:Card>
+        <!-- 效率 資訊 -->
+        <FlexBox renderType="Bare"
+          width="60%"
+          class="flex-wrap sapUiTinyMarginBegin">
+          <!-- 本月平均綜合效率 -->
+          <f:Card width="100%"
+            class="sapUiTinyMarginBottom"
+            id="glassCard2">
+            <f:content>
+              <VBox>
+                <!-- 標題 -->
+                <FlexBox renderType="Bare"
+                  justifyContent="Center"
+                  class="sapUiTinyMarginTopBottom">
+                  <Text text="{i18n>equipmentKanban.label4}"
+                    class="myText" />
+                </FlexBox>
+                <FlexBox renderType="Bare">
+                  <!-- 平均生產效率: 月 -->
+                  <VBox renderType="Bare"
+                    alignItems="Center"
+                    width="25%">
+                    <Text text="{i18n>equipmentKanban.label5}"
+                      width="80%"
+                      class="myText microchartTitle" />
+                    <FlexBox renderType="Bare"
+                      justifyContent="Center">
+                      <microchart:RadialMicroChart id="avgMonthEfficiency"
+                        size="Responsive"
+                        height="15vh"
+                        percentage="NA"
+                        alignContent="Center"
+                        class="sapUiTinyMargin" />
+                    </FlexBox>
+                    <Text text="KPI：{/targetMonthEfficiency}"
+                      class="myText" />
+                  </VBox>
+                  <!-- 平均生產良率: 月 -->
+                  <VBox renderType="Bare"
+                    alignItems="Center"
+                    width="25%">
+                    <Text text="{i18n>equipmentKanban.label6}"
+                      width="80%"
+                      class="myText microchartTitle" />
+                    <FlexBox renderType="Bare"
+                      justifyContent="Center">
+                      <!-- 若要呈現 NaN, 只能一開始設定非數字值, 再透過 setPercentage 賦值 -->
+                      <microchart:RadialMicroChart id="avgMonthYield"
+                        size="Responsive"
+                        height="15vh"
+                        percentage="NA"
+                        alignContent="Center"
+                        class="sapUiTinyMargin" />
+                    </FlexBox>
+                    <Text text="KPI：{/targetMonthYield}"
+                      class="myText" />
+                  </VBox>
+                  <!-- 平均稼動率 -->
+                  <VBox renderType="Bare"
+                    alignItems="Center"
+                    width="25%">
+                    <Text text="{i18n>equipmentKanban.label7}"
+                      width="80%"
+                      class="myText microchartTitle" />
+                    <FlexBox renderType="Bare"
+                      justifyContent="Center">
+                      <microchart:RadialMicroChart id="avgMonthUtilizationRate"
+                        size="Responsive"
+                        height="15vh"
+                        percentage="NA"
+                        alignContent="Center"
+                        class="sapUiTinyMargin" />
+                    </FlexBox>
+                    <Text text="KPI：{/targetMonthUtilizationRate}"
+                      class="myText" />
+                  </VBox>
+                  <!-- 平均 OEE -->
+                  <VBox renderType="Bare"
+                    alignItems="Center"
+                    width="25%">
+                    <Text text="{i18n>equipmentKanban.label8}"
+                      width="80%"
+                      class="myText microchartTitle" />
+                    <FlexBox renderType="Bare"
+                      justifyContent="Center">
+                      <microchart:RadialMicroChart id="avgMonthOee"
+                        size="Responsive"
+                        height="15vh"
+                        percentage="NA"
+                        alignContent="Center"
+                        class="sapUiTinyMargin" />
+                    </FlexBox>
+                    <Text text="KPI：{/targetMonthOee}"
+                      class="myText" />
+                  </VBox>
+                </FlexBox>
+              </VBox>
+            </f:content>
+          </f:Card>
+          <!-- 本日平均綜合效率 -->
+          <f:Card width="100%"
+            id="glassCard3">
+            <f:content>
+              <VBox>
+                <!-- 標題 -->
+                <FlexBox renderType="Bare"
+                  justifyContent="Center"
+                  class="sapUiTinyMarginTopBottom">
+                  <Text text="{i18n>equipmentKanban.label9}"
+                    class="myText" />
+                </FlexBox>
+                <FlexBox renderType="Bare">
+                  <!-- 平均生產效率 -->
+                  <VBox renderType="Bare"
+                    alignItems="Center"
+                    width="25%">
+                    <Text text="{i18n>equipmentKanban.label5}"
+                      width="80%"
+                      class="myText microchartTitle" />
+                    <FlexBox renderType="Bare"
+                      justifyContent="Center">
+                      <microchart:RadialMicroChart id="avgDayEfficiency"
+                        size="Responsive"
+                        height="15vh"
+                        percentage="NA"
+                        alignContent="Center"
+                        class="sapUiTinyMargin" />
+                    </FlexBox>
+                    <Text text="KPI：{/targetDayEfficiency}"
+                      class="myText sapUiTinyMarginBottom" />
+                  </VBox>
+                  <!-- 平均生產良率 -->
+                  <VBox renderType="Bare"
+                    alignItems="Center"
+                    width="25%">
+                    <Text text="{i18n>equipmentKanban.label6}"
+                      width="80%"
+                      class="myText microchartTitle" />
+                    <FlexBox renderType="Bare"
+                      justifyContent="Center">
+                      <microchart:RadialMicroChart id="avgDayYield"
+                        size="Responsive"
+                        height="15vh"
+                        percentage="NA"
+                        alignContent="Center"
+                        class="sapUiTinyMargin" />
+                    </FlexBox>
+                    <Text text="KPI：{/targetDayYield}"
+                      class="myText" />
+                  </VBox>
+                  <!-- 平均稼動率 -->
+                  <VBox renderType="Bare"
+                    alignItems="Center"
+                    width="25%">
+                    <Text text="{i18n>equipmentKanban.label7}"
+                      width="80%"
+                      class="myText microchartTitle" />
+                    <FlexBox renderType="Bare"
+                      justifyContent="Center">
+                      <microchart:RadialMicroChart id="avgDayUtilizationRate"
+                        size="Responsive"
+                        height="15vh"
+                        percentage="NA"
+                        alignContent="Center"
+                        class="sapUiTinyMargin" />
+                    </FlexBox>
+                    <Text text="KPI：{/targetDayUtilizationRate}"
+                      class="myText" />
+                  </VBox>
+                  <!-- 平均 OEE -->
+                  <VBox renderType="Bare"
+                    alignItems="Center"
+                    width="25%">
+                    <Text text="{i18n>equipmentKanban.label8}"
+                      width="80%"
+                      class="myText microchartTitle" />
+                    <FlexBox renderType="Bare"
+                      justifyContent="Center">
+                      <microchart:RadialMicroChart id="avgDayOee"
+                        size="Responsive"
+                        height="15vh"
+                        percentage="NA"
+                        alignContent="Center"
+                        class="sapUiTinyMargin" />
+                    </FlexBox>
+                    <Text text="KPI：{/targetDayOee}"
+                      class="myText" />
+                  </VBox>
+                </FlexBox>
+              </VBox>
+            </f:content>
+          </f:Card>
+        </FlexBox>
+      </FlexBox>
+      <!-- 設備本日明細 -->
+      <FlexBox renderType="Bare"
+        class="col-12 sapUiTinyMarginTopBottom">
+        <f:Card width="100%">
+          <f:content>
+            <VBox>
+              <!-- 本日綜合效率 -->
+              <FlexBox renderType="Bare"
+                width="100%"
+                justifyContent="Center"
+                class="sapUiTinyMarginTopBottom">
+                <Text text="{i18n>i18n>equipmentKanban.label18}"
+                  class="myText" />
+              </FlexBox>
+              <!-- 設備本日資訊 -->
+              <Table id="table"
+                items="{/tableShowList}"
+                width="100%">
+                <columns>
+                  <!-- 狀態 -->
+                  <Column hAlign="Center"
+                    width="5%">
+                    <Text text="{i18n>g.status}" />
+                  </Column>
+                  <!-- 狀態說明 -->
+                  <Column hAlign="Center"
+                    width="10%">
+                    <Text text="{i18n>equipmentKanban.label10}" />
+                  </Column>
+                  <!-- 設備編號 -->
+                  <Column hAlign="Center"
+                    width="15%">
+                    <Text text="{i18n>equipmentKanban.label11}" />
+                  </Column>
+                  <!-- 設備說明 -->
+                  <Column hAlign="Center">
+                    <Text text="{i18n>equipmentKanban.label19}" />
+                  </Column>
+                  <!-- 累計生產效率 -->
+                  <Column hAlign="Center"
+                    width="10%">
+                    <Text text="{i18n>equipmentKanban.label12}" />
+                  </Column>
+                  <!-- 累計生產良率 -->
+                  <Column hAlign="Center"
+                    width="10%">
+                    <Text text="{i18n>equipmentKanban.label13}" />
+                  </Column>
+                  <!-- 累計稼動率 -->
+                  <Column hAlign="Center"
+                    width="7%">
+                    <Text text="{i18n>equipmentKanban.label14}" />
+                  </Column>
+                  <!-- 累進 OEE -->
+                  <Column hAlign="Center"
+                    width="7%">
+                    <Text text="{i18n>equipmentKanban.label15}" />
+                  </Column>
+                  <!-- 當前 UPH -->
+                  <Column hAlign="Center"
+                    width="7%">
+                    <Text text="{i18n>equipmentKanban.label16}" />
+                  </Column>
+                  <!-- 當前 HPU -->
+                  <Column hAlign="Center"
+                    width="7%">
+                    <Text text="{i18n>equipmentKanban.label17}" />
+                  </Column>
+                </columns>
+                <items>
+                  <ColumnListItem>
+                    <cells>
+                      <core:Icon color="{iconColor}"
+                        src="sap-icon://circle-task-2" />
+                      <Text text="{statusDesc}" />
+                      <Text text="{resource}" />
+                      <Text text="{resourceDesc}" />
+                      <Text text="{path:'efficiency', formatter:'.changeText'}" />
+                      <Text text="{path:'yield', formatter:'.changeText'}" />
+                      <Text text="{path:'utilizationRate', formatter:'.changeText'}" />
+                      <Text text="{path:'oee', formatter:'.changeText'}" />
+                      <Text text="{uph}" />
+                      <Text text="{hpu}" />
+                    </cells>
+                  </ColumnListItem>
+                </items>
+              </Table>
+              <!-- 頁碼 -->
+              <FlexBox id="pageContent"
+                renderType="Bare"
+                width="100%"
+                class="sapUiSmallMarginTopBottom"
+                alignItems="Center"
+                justifyContent="Center">
+                <Button id="previous"
+                  enabled="{= ${/currentPage} > 1}"
+                  press="changePage"
+                  icon="sap-icon://nav-back" />
+                <Text text="{/currentPage} - {/totalPages}"
+                  class="myText sapUiSmallMarginBeginEnd pageNumber" />
+                <Button id="next"
+                  enabled="{= ${/totalPages} > ${/currentPage}}"
+                  press="changePage"
+                  icon="sap-icon://navigation-right-arrow" />
+              </FlexBox>
+            </VBox>
+          </f:content>
+        </f:Card>
+      </FlexBox>
+    </content>
+  </Page>
+</mvc:View>

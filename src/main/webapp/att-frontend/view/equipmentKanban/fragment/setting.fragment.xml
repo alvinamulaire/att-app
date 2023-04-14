@@ -1,0 +1,241 @@
+<core:FragmentDefinition xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:t="sap.ui.table"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <Dialog id="settingDialog"
+    showHeader="true"
+    contentHeight="70%"
+    contentWidth="70%"
+    class="sapUiSizeCompact">
+    <html:style>
+      .divBorder {
+        border-bottom-style: groove;
+      }
+      .sapUiTableCell .sapMText, .sapMLabel {
+        font-size: 1em !important
+      }
+    </html:style>
+    <customHeader>
+      <Bar class="title-midle">
+        <contentMiddle>
+          <Title text="{i18n>equipmentKanban.label20}" />
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <!-- 主內容 -->
+      <FlexBox renderType="Bare"
+        width="100%"
+        class="flex-wrap divBorder">
+        <!-- 第一行 -->
+        <FlexBox alignItems="Center"
+          renderType="Bare"
+          width="100%"
+          class="sapUiTinyMarginTop">
+          <!-- 生產點 -->
+          <FlexBox renderType="Bare"
+            width="50%">
+            <Label text="{i18n>g.site}"
+              class="myLabel flex30 set-required" />
+            <Text text="{/site}"
+              class="myText" />
+          </FlexBox>
+          <FlexBox renderType="Bare"
+            width="50%" />
+        </FlexBox>
+        <!-- 第二行 -->
+        <FlexBox alignItems="Center"
+          renderType="Bare"
+          width="100%"
+          class="sapUiTinyMarginTop">
+          <!-- 自動看板 -->
+          <FlexBox renderType="Bare"
+            width="50%">
+            <Label class="flex20" />
+            <RadioButton text="{i18n>equipmentKanban.label21}"
+              selected="{/kanbanType}" />
+          </FlexBox>
+        </FlexBox>
+        <!-- 第三行 -->
+        <FlexBox alignItems="Center"
+          renderType="Bare"
+          width="100%"
+          class="sapUiTinyMarginTop">
+          <!-- 看板刷新頻率 -->
+          <FlexBox renderType="Bare"
+            visible="{/kanbanType}"
+            width="50%">
+            <Label text="{i18n>equipmentKanban.label23}"
+              class="myLabel flex50" />
+            <Input width="40%"
+              value="{/refreshFrequency}"
+              liveChange="numberControl"
+              cd:negative="true"
+              cd:decimal="true"
+              cd:symbol="true" />
+          </FlexBox>
+          <!-- 清單變更時間 -->
+          <FlexBox renderType="Bare"
+            width="50%"
+            visible="{/kanbanType}">
+            <Label text="{i18n>equipmentKanban.label26}"
+              class="myLabel flex40" />
+            <Input width="40%"
+              value="{/pageRefreshFrequency}"
+              liveChange="numberControl"
+              cd:negative="true"
+              cd:decimal="true"
+              cd:symbol="true" />
+          </FlexBox>
+        </FlexBox>
+        <!-- 第四行 -->
+        <FlexBox alignItems="Center"
+          renderType="Bare"
+          width="100%"
+          class="sapUiTinyMarginTopBottom">
+          <!-- 手動看板 -->
+          <FlexBox renderType="Bare"
+            width="50%">
+            <Label class="flex20" />
+            <RadioButton text="{i18n>equipmentKanban.label22}"
+              selected="{= !${/kanbanType}}" />
+          </FlexBox>
+        </FlexBox>
+      </FlexBox>
+      <!-- table -->
+      <FlexBox renderType="Bare"
+        width="100%"
+        class="sapUiSmallMarginTop"
+        justifyContent="Center">
+        <!-- 工作中心 -->
+        <FlexBox renderType="Bare"
+          class="flex-wrap"
+          justifyContent="Center"
+          width="50%">
+          <FlexBox renderType="Bare"
+            width="90%">
+            <Label text="{i18n>g.workCenter}"
+              class="myLabel set-required" />
+          </FlexBox>
+          <t:Table id="workCenterTable"
+            width="90%"
+            rows="{/workCenterTable}"
+            selectionMode="MultiToggle"
+            selectionBehavior="RowSelector"
+            visibleRowCount="7"
+            enableColumnReordering="false">
+            <t:extension>
+              <OverflowToolbar style="Clear">
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://add"
+                  press="add(0)" />
+                <Button icon="sap-icon://less"
+                  press="minus(0)" />
+              </OverflowToolbar>
+            </t:extension>
+            <t:columns>
+              <!-- 工作中心 -->
+              <t:Column hAlign="Center"
+                resizable="false"
+                width="40%">
+                <Label text="{i18n>g.workCenter}" />
+                <t:template>
+                  <Input id="workCenter"
+                    width="100%"
+                    value="{workCenter}"
+                    valueHelpOnly="true"
+                    showValueHelp="true"
+                    valueHelpRequest="openDialog"
+                    cd:title="g.workCenter"
+                    cd:filterKey="workCenter"
+                    cd:callBackKey="workCenter"
+                    cd:columns="workCenter|g.workCenter;description|g.workCenterDesc"
+                    cd:root="/" />
+                </t:template>
+              </t:Column>
+              <!-- 工作中心說明 -->
+              <t:Column hAlign="Center"
+                resizable="false"
+                width="50%">
+                <Label text="{i18n>g.workCenterDesc}" />
+                <t:template>
+                  <Text text="{description}" />
+                </t:template>
+              </t:Column>
+            </t:columns>
+          </t:Table>
+        </FlexBox>
+        <!-- 狀態 -->
+        <FlexBox renderType="Bare"
+          class="flex-wrap"
+          justifyContent="Center"
+          width="50%">
+          <FlexBox renderType="Bare"
+            width="90%">
+            <Label text="{i18n>equipmentKanban.label27}"
+              class="myLabel set-required" />
+          </FlexBox>
+          <t:Table id="statusTable"
+            width="90%"
+            rows="{/statusTable}"
+            selectionMode="MultiToggle"
+            selectionBehavior="RowSelector"
+            visibleRowCount="7"
+            enableColumnReordering="false">
+            <t:extension>
+              <OverflowToolbar style="Clear">
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://add"
+                  press="add(1)" />
+                <Button icon="sap-icon://less"
+                  press="minus(1)" />
+              </OverflowToolbar>
+            </t:extension>
+            <t:columns>
+              <!-- 狀態 -->
+              <t:Column hAlign="Center"
+                resizable="false">
+                <Label text="{i18n>g.status}" />
+                <t:template>
+                  <Input id="status"
+                    width="100%"
+                    value="{chiDesc}"
+                    valueHelpOnly="true"
+                    showValueHelp="true"
+                    valueHelpRequest="openDialog"
+                    cd:title="g.status"
+                    cd:filterKey="status"
+                    cd:callBackKey="status"
+                    cd:columns="status|g.status;engDesc|equipmentKanban.label28;chiDesc|equipmentKanban.label29"
+                    cd:root="/" />
+                </t:template>
+              </t:Column>
+              <!-- 狀態類型 -->
+              <t:Column hAlign="Center"
+                resizable="false">
+                <Label text="{i18n>equipmentKanban.label27}" />
+                <t:template>
+                  <Select forceSelection="false"
+                    width="100%"
+                    selectedKey="{statusType}"
+                    items="{/statusTypeOptions}">
+                    <core:Item key="{key}"
+                      text="{name}" />
+                  </Select>
+                </t:template>
+              </t:Column>
+
+            </t:columns>
+          </t:Table>
+        </FlexBox>
+      </FlexBox>
+    </content>
+    <buttons>
+      <Button text="{i18n>equipmentKanban.label24}"
+        press="activate" />
+      <Button text="{i18n>equipmentKanban.label25}"
+        press="pause" />
+    </buttons>
+  </Dialog>
+</core:FragmentDefinition>

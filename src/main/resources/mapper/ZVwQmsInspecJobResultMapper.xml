@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZVwQmsInspecJobResultMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZVwQmsInspecJobResult">
+    <result column="HANDLE" jdbcType="VARCHAR" property="handle" />
+    <result column="SEQ" jdbcType="VARCHAR" property="seq" />
+    <result column="INSPEC_JOB_BO" jdbcType="VARCHAR" property="inspecJobBo" />
+    <result column="QC_PLAN_DETAIL_BO" jdbcType="VARCHAR" property="qcPlanDetailBo" />
+    <result column="SAMPLE_SIZE" jdbcType="DECIMAL" property="sampleSize" />
+    <result column="MEASUREMENT_POINTS" jdbcType="SMALLINT" property="measurementPoints" />
+    <result column="MAX_VALUE" jdbcType="DECIMAL" property="maxValue" />
+    <result column="MIN_VALUE" jdbcType="DECIMAL" property="minValue" />
+    <result column="CENTER_VALUE" jdbcType="DECIMAL" property="centerValue" />
+    <result column="CONTENT" jdbcType="VARCHAR" property="content" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="INSPEC_DATE_TIME" jdbcType="TIMESTAMP" property="inspecDateTime" />
+    <result column="RESULT" jdbcType="VARCHAR" property="result" />
+    <result column="INSPEC_RESULT" jdbcType="DECIMAL" property="inspecResult" />
+    <result column="MEMO" jdbcType="VARCHAR" property="memo" />
+    <result column="SERIES" jdbcType="SMALLINT" property="series" />
+    <result column="SN" jdbcType="VARCHAR" property="sn" />
+    <result column="QC_ITEM_SID" jdbcType="VARCHAR" property="qcItemSid" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="QC_ITEM" jdbcType="VARCHAR" property="qcItem" />
+    <result column="ITEM_TYPE" jdbcType="VARCHAR" property="itemType" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    HANDLE, SEQ, INSPEC_JOB_BO, QC_PLAN_DETAIL_BO, SAMPLE_SIZE, MEASUREMENT_POINTS, MAX_VALUE, 
+    MIN_VALUE, CENTER_VALUE, CONTENT, REMARK, INSPEC_DATE_TIME, RESULT, INSPEC_RESULT, 
+    MEMO, SERIES, SN, QC_ITEM_SID, SITE, QC_ITEM, ITEM_TYPE
+  </sql>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZVwQmsInspecJobResultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_VW_QMS_INSPEC_JOB_RESULT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZVwQmsInspecJobResultExample" resultType="java.lang.Long">
+    select count(*) from Z_VW_QMS_INSPEC_JOB_RESULT
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+</mapper>

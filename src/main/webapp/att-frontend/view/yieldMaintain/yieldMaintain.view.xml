@@ -1,0 +1,129 @@
+<mvc:View controllerName="att.view.yieldMaintain.yieldMaintain"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:t="sap.ui.table"
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+	xmlns:u="sap.ui.unified">
+	<Page class="sapUiSizeCompact">
+		<html:style>
+			.sapMPage>.sapMPageHeader + section{
+				top: 2.6rem
+			}		
+		</html:style>
+
+		<customHeader>
+			<Bar class="title-midle">
+				<contentLeft>
+					<Button text="{i18n>g.search}" icon="sap-icon://open-folder" press="search" />
+					<Button text="{i18n>g.clear}" icon="sap-icon://eraser" press="clear" />
+					<u:FileUploader id="uploadExcel" icon="sap-icon://document" change="uploadExcel" sameFilenameAllowed="true" buttonOnly="true" buttonText="{i18n>g.import}" fileType="XLSX,xlsx" />
+					<Button id="exportExcel" text="{i18n>g.export}" icon="sap-icon://action" press="exportExcel" />
+				</contentLeft>
+				<!-- 標題 -->
+				<contentMiddle>
+					<Title text="{i18n>att.yieldMaintain.label1}"/>
+				</contentMiddle>
+			</Bar>
+		</customHeader>
+		<content>
+			<VBox>
+				<!-- 檢索條件 -->
+				<VBox class="divColor">
+					<!-- 生產點 -->
+					<FlexBox width="50%" height="32px" class="sapUiTinyMarginTopBottom" alignItems="Center" renderType="Bare">
+						<Label text="{i18n>g.site}" class="set-required myLabel flex20" />
+						<Text text="{/site}" class="myText" />
+					</FlexBox>
+					<!-- 物料 -->
+					<FlexBox alignItems="Center" width="50%" renderType="Bare">
+						<Label text="{i18n>g.material}" class="set-required myLabel flex20" />
+						<Input id="item" width="30%" value="{/item}" liveChange="checkItem" showValueHelp="true" valueHelpRequest="openDialog" cd:title="g.material" cd:filterKey="item" cd:callBackKey="item" cd:columns="item|g.material;description|att.yieldMaintain.label10" cd:root="/" />
+					</FlexBox>
+					<!-- 途程 -->
+					<FlexBox alignItems="Center" width="50%" renderType="Bare" class="sapUiTinyMarginTopBottom">
+						<Label text="{i18n>att.yieldMaintain.label2}" class="myLabel flex20" />
+						<Input id="routing" width="30%" value="{/routing}" liveChange="checkRouting" showValueHelp="true" valueHelpRequest="openDialog" cd:title="att.yieldMaintain.label2" cd:filterKey="router" cd:callBackKey="router" cd:columns="router|att.yieldMaintain.label13;routerRevision|att.yieldMaintain.label3;description|att.yieldMaintain.label12;nowVer|att.yieldMaintain.label11;routingType|att.yieldMaintain.label4" cd:root="/" />
+						<!-- 版本 -->
+						<Label text="{i18n>g.version}" class="myLabel flex10" />
+						<Text text="{/routingVer}"/>
+					</FlexBox>
+				</VBox>
+				<!-- 表格資訊 -->
+				<FlexBox width="100%" class="col-12 sapUiSmallMarginTop" renderType="Bare">
+
+					<t:Table id="table" width="100%" rows="{/tableInfo}" selectionMode="None" class="sapUiTinyMarginTop" enableGrouping="true">
+
+						<t:columns>
+							<!-- 途程 -->
+							<t:Column hAlign="Center" id="TableRouting" sortProperty="router" filterProperty="router">
+								<Label text="{i18n>att.yieldMaintain.label2}" />
+								<t:template>
+									<Text text="{router}" />
+								</t:template>
+							</t:Column>
+							<!-- 途程版本 -->
+							<t:Column hAlign="Center" width="7%">
+								<Label text="{i18n>att.yieldMaintain.label3}" />
+								<t:template>
+									<Text text="{routerRevision}" />
+								</t:template>
+							</t:Column>
+							<!-- 途程說明 -->
+							<t:Column hAlign="Center">
+								<Label text="{i18n>att.yieldMaintain.label12}" />
+								<t:template>
+									<Text text="{routerDesc}" />
+								</t:template>
+							</t:Column>
+							<!-- 途程類型 -->
+							<t:Column hAlign="Center">
+								<Label text="{i18n>att.yieldMaintain.label4}" />
+								<t:template>
+									<Text text="{routerTypeName}" />
+								</t:template>
+							</t:Column>
+							<!-- 作業 -->
+							<t:Column hAlign="Center" sortProperty="operation" filterProperty="operation">
+								<Label text="{i18n>att.yieldMaintain.label5}" />
+								<t:template>
+									<Text text="{operation}" />
+								</t:template>
+							</t:Column>
+							<!-- 作業說明 -->
+							<t:Column hAlign="Center">
+								<Label text="{i18n>att.yieldMaintain.label6}" />
+								<t:template>
+									<Text text="{operationDesc}" />
+								</t:template>
+							</t:Column>
+							<!-- 步驟 ID -->
+							<t:Column hAlign="Center" width="7%">
+								<Label text="{i18n>att.yieldMaintain.label7}" />
+								<t:template>
+									<Text text="{stepId}" />
+								</t:template>
+							</t:Column>
+							<!-- 計畫良率(%) -->
+							<t:Column hAlign="Center">
+								<Label text="{i18n>att.yieldMaintain.label8}" />
+								<t:template>
+									<Text text="{planYield}" />
+								</t:template>
+							</t:Column>
+							<!-- 標準工時 -->
+							<t:Column hAlign="Center">
+								<Label text="{i18n>att.yieldMaintain.label9}" />
+								<t:template>
+									<Text text="{stdLabor}" />
+								</t:template>
+							</t:Column>
+						</t:columns>
+					</t:Table>
+
+				</FlexBox>
+			</VBox>
+		</content>
+	</Page>
+</mvc:View>

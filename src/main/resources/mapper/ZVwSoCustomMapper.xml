@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZVwSoCustomMapper">
+    <resultMap id="BaseResultMap" type="com.att.repository.entity.ZVwSoCustom">
+        <result column="SITE" jdbcType="VARCHAR" property="site"/>
+        <result column="SHOP_ORDER" jdbcType="VARCHAR" property="shopOrder"/>
+        <result column="PLANNED_BOM_BO" jdbcType="VARCHAR" property="plannedBomBo"/>
+        <result column="PLANNED_BOM_REVISION" jdbcType="VARCHAR" property="plannedBomRevision"/>
+        <result column="BOM_BO" jdbcType="VARCHAR" property="bomBo"/>
+        <result column="BOM_REVISION" jdbcType="VARCHAR" property="bomRevision"/>
+        <result column="PLANNED_ROUTER_BO" jdbcType="VARCHAR" property="plannedRouterBo"/>
+        <result column="PLANNED_ROUTER_REVISION" jdbcType="VARCHAR" property="plannedRouterRevision"/>
+        <result column="ROUTER_BO" jdbcType="VARCHAR" property="routerBo"/>
+        <result column="ROUTER_REVISION" jdbcType="VARCHAR" property="routerRevision"/>
+        <result column="QTY_TO_BUILD" jdbcType="DECIMAL" property="qtyToBuild"/>
+        <result column="RELEASE_QTY" jdbcType="DECIMAL" property="releaseQty"/>
+        <result column="PLANNED_START_DATE" jdbcType="TIMESTAMP" property="plannedStartDate"/>
+        <result column="PLANNED_COMP_DATE" jdbcType="TIMESTAMP" property="plannedCompDate"/>
+        <result column="PLANNED_ITEM" jdbcType="VARCHAR" property="plannedItem"/>
+        <result column="LOT_SIZE" jdbcType="DECIMAL" property="lotSize"/>
+        <result column="ITEM_VER" jdbcType="VARCHAR" property="itemVer"/>
+        <result column="ITEM_DESC" jdbcType="VARCHAR" property="itemDesc"/>
+        <result column="PLANNED_ITEM_BOM_BO" jdbcType="VARCHAR" property="plannedItemBomBo"/>
+        <result column="PLANNED_ITEM_BOM" jdbcType="VARCHAR" property="plannedItemBom"/>
+        <result column="PLANNED_ITEM_BOM_REVISION" jdbcType="VARCHAR" property="plannedItemBomRevision"/>
+        <result column="PLANNED_ITEM_ROUTER_BO" jdbcType="VARCHAR" property="plannedItemRouterBo"/>
+        <result column="PLANNED_ITEM_ROUTER" jdbcType="VARCHAR" property="plannedItemRouter"/>
+        <result column="PLANNED_ITEM_ROUTER_REVISION" jdbcType="VARCHAR" property="plannedItemRouterRevision"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="STATUS_DESCRIPTION" jdbcType="VARCHAR" property="statusDescription"/>
+        <result column="AUART" jdbcType="VARCHAR" property="auart"/>
+        <result column="PART_REV" jdbcType="VARCHAR" property="partRev"/>
+        <result column="BUILD" jdbcType="VARCHAR" property="build"/>
+        <result column="PRODUCT_TYPE" jdbcType="VARCHAR" property="productType"/>
+        <result column="ISO" jdbcType="VARCHAR" property="iso"/>
+        <result column="AUART_VALUE" jdbcType="VARCHAR" property="auartValue"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        SITE, SHOP_ORDER, PLANNED_BOM_BO, PLANNED_BOM_REVISION, BOM_BO, BOM_REVISION, PLANNED_ROUTER_BO,
+        PLANNED_ROUTER_REVISION, ROUTER_BO, ROUTER_REVISION, QTY_TO_BUILD, RELEASE_QTY, PLANNED_START_DATE,
+        PLANNED_COMP_DATE, PLANNED_ITEM, LOT_SIZE, ITEM_VER, ITEM_DESC, PLANNED_ITEM_BOM_BO,
+        PLANNED_ITEM_BOM, PLANNED_ITEM_BOM_REVISION, PLANNED_ITEM_ROUTER_BO, PLANNED_ITEM_ROUTER,
+        PLANNED_ITEM_ROUTER_REVISION, STATUS, STATUS_DESCRIPTION, AUART, PART_REV, BUILD,
+        PRODUCT_TYPE, ISO, AUART_VALUE
+    </sql>
+    <select id="selectByExample" parameterType="map" resultMap="BaseResultMap">
+        select
+        <if test="example.distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from Z_VW_SO_CUSTOM( #{locale} )
+        <if test="_parameter.example != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="example.orderByClause != null">
+            order by ${example.orderByClause}
+        </if>
+    </select>
+    <select id="countByExample" parameterType="com.att.repository.entity.ZVwSoCustomExample"
+            resultType="java.lang.Long">
+        select count(*) from Z_VW_SO_CUSTOM
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+</mapper>

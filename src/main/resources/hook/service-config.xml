@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-config SYSTEM "http://www.visiprise.com/dtd/service-config.dtd">
+<service-config moduleId="com.att.hook">
+    <!--If IDAT files are needed for the DC make sure ConfigDataLoaderParent service is specified-->
+    <import moduleId="com.sap.me.plant" service="ConfigDataLoaderParent"/>
+    <!-- Import required to create a new service extension-->
+    <import moduleId="com.sap.me.common" service="Prototype"/>
+    <!--Service declaration pointing to ConfigDataLoaderParent to trigger loading of configuration data from a software component
+    that is deployed separately from the SAP ME software component. This class will read each file using the specific path
+    and invoke the XmlInvocationService to load the configuration data into the system. -->
+    <service name="LoaderService" parent="ConfigDataLoaderParent"/>
+
+    <!-- New service definition. You must declare the service class name. -->
+    <service name="MaterialCheckHook" class="com.att.nwds.hook.MaterialCheckHook" parent="Prototype">
+    </service>
+
+    <service name="ProductionLevelHook" class="com.att.nwds.hook.ProductionLevelHook" parent="Prototype">
+    </service>
+
+    <service name="BatchNumberHook" class="com.att.nwds.hook.BatchNumberHook" parent="Prototype">
+    </service>
+
+    <service name="DcProductDateHook" class="com.att.nwds.hook.DcProductDateHook" parent="Prototype">
+    </service>
+
+    <service name="AutoShelfTakeOffHook" class="com.att.nwds.hook.AutoShelfTakeOffHook" parent="Prototype">
+    </service>
+
+    <service name="ClearInvHook" class="com.att.nwds.hook.ClearInvHook" parent="Prototype">
+    </service>
+</service-config>

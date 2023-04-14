@@ -1,0 +1,492 @@
+<mvc:View controllerName="att.view.ncReport.ncReport"
+          xmlns="sap.m"
+          xmlns:core="sap.ui.core"
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+          xmlns:t="sap.ui.table"
+          xmlns:viz="sap.viz.ui5.controls"
+          xmlns:f="sap.f"
+          xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+          xmlns:viz.data="sap.viz.ui5.data"
+          displayBlock="true" >
+    <Page class="sapUiSizeCompact" >
+        <html:style >
+            .sapMPage>.sapMPageHeader + section {
+            top: 2.6rem
+            }
+        </html:style >
+        <customHeader >
+            <Bar class="title-midle" >
+                <contentLeft >
+                    <!-- 檢索 -->
+                    <Button text="{i18n>g.search}"
+                            icon="sap-icon://open-folder"
+                            press="retrieve" />
+                    <!-- 清除 -->
+                    <Button text="{i18n>g.clear}"
+                            icon="sap-icon://eraser"
+                            press="clear" />
+                    <!-- 匯出 -->
+                    <Button text="{i18n>g.export}"
+                            icon="sap-icon://action"
+                            press="export" />
+                </contentLeft >
+                <contentMiddle >
+                    <Title text="{i18n>nc.report.label1}" />
+                </contentMiddle >
+            </Bar >
+        </customHeader >
+        <content >
+            <VBox >
+                <FlexBox renderType="Bare"
+                         width="100%"
+                         class="flex-wrap divColor" >
+                    <FlexBox alignItems="Center"
+                             renderType="Bare"
+                             width="100%"
+                             class="col-12 sapUiTinyMarginTop" >
+                        <!-- site -->
+                        <FlexBox renderType="Bare"
+                                 class="col-4" >
+                            <Label text="{i18n>g.site}"
+                                   class="myLabel flex30 set-required" />
+                            <Text text="{/site}"
+                                  class="myText" />
+                        </FlexBox >
+                        <!-- 作業站點 -->
+                        <FlexBox renderType="Bare"
+                                 class="col-4" >
+                            <Label text="{i18n>nc.report.label3}"
+                                   class="myLabel flex30 setTriangle" />
+                            <MultiInput submit="addToken"
+                                        tokenUpdate="tokenUpdate"
+                                        showValueHelp="true"
+                                        valueHelpRequest="operationDialog"
+                                        tokens="{path: '/operationList',sorter: { path: 'operation' }}"
+                                        cd:title="nc.report.label3"
+                                        cd:filterKey="operation,description"
+                                        cd:callBackKey="operation"
+                                        cd:columns="operation|nc.report.label3;description|nc.report.label17"
+                                        cd:multiple="true"
+                                        cd:root="/" >
+                                <tokens >
+                                    <Token key="{operation}"
+                                           text="{operation}" />
+                                </tokens >
+                            </MultiInput >
+                        </FlexBox >
+                        <!-- 執行日期 -->
+                        <FlexBox renderType="Bare"
+                                 class="col-4" >
+                            <Label text="{i18n>nc.report.label4}"
+                                   class="myLabel flex30 set-required" />
+                            <DateTimePicker width="33%"
+                                            class="myInput"
+                                            value="{/startDate}"
+                                            change="dateCheck"
+                                            displayFormat="yyyy/MM/dd HH:mm"
+                                            valueFormat="yyyy-MM-dd HH:mm" />
+                            <Text text="~"
+                                  class="myText sapUiTinyMarginBeginEnd" />
+                            <DateTimePicker width="33%"
+                                            class="myInput"
+                                            value="{/endDate}"
+                                            change="dateCheck"
+                                            displayFormat="yyyy/MM/dd HH:mm"
+                                            valueFormat="yyyy-MM-dd HH:mm" />
+                        </FlexBox >
+                    </FlexBox >
+                    <FlexBox alignItems="Center"
+                             renderType="Bare"
+                             width="100%"
+                             class="col-12 sapUiTinyMarginTop" >
+                        <!-- 物料編號 -->
+                        <FlexBox renderType="Bare"
+                                 class="col-4" >
+                            <Label text="{i18n>nc.report.label2}"
+                                   class="myLabel flex30 setTriangle" />
+                            <MultiInput submit="addToken"
+                                        tokenUpdate="tokenUpdate"
+                                        showValueHelp="true"
+                                        valueHelpRequest="itemDialog"
+                                        tokens="{path: '/itemList',sorter: { path: 'item' }}"
+                                        cd:title="nc.report.label2"
+                                        cd:filterKey="item,description"
+                                        cd:callBackKey="item"
+                                        cd:columns="item|nc.report.label2;description|nc.report.label14"
+                                        cd:multiple="true"
+                                        cd:root="/" >
+                                <tokens >
+                                    <Token key="{item}"
+                                           text="{item}" />
+                                </tokens >
+                            </MultiInput >
+                        </FlexBox >
+                        <!-- 不良代碼 -->
+                        <FlexBox renderType="Bare"
+                                 class="col-4" >
+                            <Label text="{i18n>nc.report.label5}"
+                                   class="myLabel flex30 setTriangle" />
+                            <MultiInput submit="addToken"
+                                        tokenUpdate="tokenUpdate"
+                                        showValueHelp="true"
+                                        valueHelpRequest="ncDialog"
+                                        tokens="{path: '/ncList',sorter: { path: 'ncCode' }}"
+                                        cd:title="nc.report.label5"
+                                        cd:filterKey="ncCode,description"
+                                        cd:callBackKey="ncCode"
+                                        cd:columns="ncCode|nc.report.label5;ncDesc|nc.report.label19"
+                                        cd:multiple="true"
+                                        cd:root="/" >
+                                <tokens >
+                                    <Token key="{ncCode}"
+                                           text="{ncCode}" />
+                                </tokens >
+                            </MultiInput >
+                        </FlexBox >
+                        <!-- 是否取消 -->
+                        <FlexBox renderType="Bare"
+                                 class="col-4" >
+                            <Label text="{i18n>nc.report.label6}"
+                                   class="myLabel flex30 setTriangle" />
+                            <Select id="isCancelledSelect"
+                                    forceSelection="false"
+                                    class="myInput" >
+                                <core:Item key=""
+                                           text="" />
+                                <core:Item key="true"
+                                           text="TRUE" />
+                                <core:Item key="false"
+                                           text="FALSE" />
+                            </Select >
+                        </FlexBox >
+                    </FlexBox >
+                    <FlexBox alignItems="Center"
+                             renderType="Bare"
+                             width="100%"
+                             class="col-12 sapUiTinyMarginTopBottom" >
+                        <!-- 工單編號 -->
+                        <FlexBox renderType="Bare"
+                                 class="col-4" >
+                            <Label text="{i18n>nc.report.label7}"
+                                   class="myLabel flex30 setTriangle" />
+                            <Input value="{/shopOrder}"
+                                   showValueHelp="true"
+                                   valueHelpRequest="shopOrderDialog"
+                                   cd:title="nc.report.label7"
+                                   cd:filterKey="shopOrder,item,itemDesc"
+                                   cd:callBackKey="shopOrder"
+                                   cd:columns="shopOrder|nc.report.label7;item|nc.report.label2;itemDesc|nc.report.label14"
+                                   cd:root="/" />
+                        </FlexBox >
+                        <!-- 不良種類 -->
+                        <FlexBox renderType="Bare"
+                                 class="col-4" >
+                            <Label text="{i18n>nc.report.label8}"
+                                   class="myLabel flex30 setTriangle" />
+                            <Select id="ncCategorySelect"
+                                    forceSelection="false"
+                                    class="myInput" >
+                                <core:Item key=""
+                                           text="" />
+                                <core:Item key="FAILURE"
+                                           text="{i18n>nc.category.failure}" />
+                                <core:Item key="DEFECT"
+                                           text="{i18n>nc.category.defect}" />
+                                <core:Item key="REPAIR"
+                                           text="{i18n>nc.category.repair}" />
+                            </Select >
+                        </FlexBox >
+                    </FlexBox >
+                </FlexBox >
+                <Panel id="chartPanel"
+                       expandable="true"
+                       expanded="true"
+                       width="100%"
+                       expand="expandChart" >
+                    <FlexBox renderType="Bare"
+                             width="100%" >
+                        <f:Card class="sapUiTinyMarginEnd"
+                                width="50%"
+                                height="12rem" >
+                            <f:content >
+                                <viz:VizFrame id="viz1"
+                                              uiConfig="{ applicationSet: 'fiori' }"
+                                              height="108%"
+                                              width="100%" >
+                                    <viz:dataset >
+                                        <viz.data:FlattenedDataset data="{/operationNcInfoList}" >
+                                            <viz.data:dimensions >
+                                                <viz.data:DimensionDefinition name="key"
+                                                                              value="{operation}"
+                                                                              dataType="string" />
+                                            </viz.data:dimensions >
+                                            <viz.data:measures >
+                                                <viz.data:MeasureDefinition name="reworkQty"
+                                                                            value="{reworkQty}" />
+                                                <viz.data:MeasureDefinition name="scrapQty"
+                                                                            value="{scrapQty}" />
+                                            </viz.data:measures >
+                                        </viz.data:FlattenedDataset >
+                                    </viz:dataset >
+                                    <viz:feeds >
+                                        <viz.feeds:FeedItem uid="valueAxis"
+                                                            type="Measure"
+                                                            values="reworkQty" />
+                                        <viz.feeds:FeedItem uid="valueAxis"
+                                                            type="Measure"
+                                                            values="scrapQty" />
+                                        <viz.feeds:FeedItem uid="categoryAxis"
+                                                            type="Dimension"
+                                                            values="key" />
+                                    </viz:feeds >
+                                </viz:VizFrame >
+                            </f:content >
+                        </f:Card >
+                        <f:Card width="50%"
+                                height="12rem" >
+                            <f:content >
+                                <viz:VizFrame id="viz2"
+                                              uiConfig="{ applicationSet: 'fiori' }"
+                                              height="108%"
+                                              width="100%" >
+                                    <viz:dataset >
+                                        <viz.data:FlattenedDataset data="{/ncInfoList}" >
+                                            <viz.data:dimensions >
+                                                <viz.data:DimensionDefinition name="key"
+                                                                              value="{ncCode}"
+                                                                              dataType="string" />
+                                            </viz.data:dimensions >
+                                            <viz.data:measures >
+                                                <viz.data:MeasureDefinition name="ncQty"
+                                                                            value="{ncQty}" />
+                                            </viz.data:measures >
+                                        </viz.data:FlattenedDataset >
+                                    </viz:dataset >
+                                    <viz:feeds >
+                                        <viz.feeds:FeedItem uid="valueAxis"
+                                                            type="Measure"
+                                                            values="ncQty" />
+                                        <viz.feeds:FeedItem uid="categoryAxis"
+                                                            type="Dimension"
+                                                            values="key" />
+                                    </viz:feeds >
+                                </viz:VizFrame >
+                            </f:content >
+                        </f:Card >
+                    </FlexBox >
+                </Panel >
+                <Panel expandable="true"
+                       expanded="true"
+                       width="100%" >
+                    <headerToolbar >
+                        <OverflowToolbar style="Clear" >
+                            <!-- 資料區間 -->
+                            <Label text="{i18n>nc.report.label35}"
+                                   class="myLabel" />
+                            <Text text="{/startDate}"
+                                  class="myText" />
+                            <Text text="～"
+                                  class="myText" />
+                            <Text text="{/endDate}"
+                                  class="myText" />
+                            <ToolbarSpacer />
+                        </OverflowToolbar >
+                    </headerToolbar >
+                    <t:Table id="table"
+                             rows="{/table}"
+                             selectionMode="None"
+                             visibleRowCount="1"
+                             enableCellFilter="true"
+                             enableColumnReordering="false" >
+                        <t:columns >
+                            <!-- 日期 -->
+                            <t:Column hAlign="Center"
+                                      width="8rem"
+                                      filterProperty="date"
+                                      sortProperty="date" >
+                                <Label text="{i18n>nc.report.label12}" />
+                                <t:template >
+                                    <Text text="{date}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 時間 -->
+                            <t:Column hAlign="Center"
+                                      width="5rem"
+                                      filterProperty="time"
+                                      sortProperty="time" >
+                                <Label text="{i18n>nc.report.label13}" />
+                                <t:template >
+                                    <Text text="{time}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 物料 -->
+                            <t:Column hAlign="Center"
+                                      width="10rem"
+                                      filterProperty="item"
+                                      sortProperty="item" >
+                                <Label text="{i18n>nc.report.label2}" />
+                                <t:template >
+                                    <Text text="{item}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 物料說明 -->
+                            <t:Column hAlign="Center"
+                                      width="12rem"
+                                      filterProperty="itemDesc"
+                                      sortProperty="itemDesc" >
+                                <Label text="{i18n>nc.report.label14}" />
+                                <t:template >
+                                    <Text text="{itemDesc}"
+                                          wrapping="false" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 工單 -->
+                            <t:Column hAlign="Center"
+                                      width="8rem"
+                                      filterProperty="shopOrder"
+                                      sortProperty="shopOrder" >
+                                <Label text="{i18n>nc.report.label15}" />
+                                <t:template >
+                                    <Text text="{shopOrder}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 工單類型 -->
+                            <t:Column hAlign="Center"
+                                      width="7rem"
+                                      filterProperty="shopOrderErpType"
+                                      sortProperty="shopOrderErpType" >
+                                <Label text="{i18n>nc.report.label16}" />
+                                <t:template >
+                                    <Text text="{shopOrderErpType}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 作業站點 -->
+                            <t:Column hAlign="Center"
+                                      width="7rem"
+                                      filterProperty="operation"
+                                      sortProperty="operation" >
+                                <Label text="{i18n>nc.report.label3}" />
+                                <t:template >
+                                    <Text text="{operation}" />
+                                </t:template >
+                            </t:Column >
+                            <!--  -->
+                            <t:Column hAlign="Center"
+                                      width="10rem"
+                                      filterProperty="operationDesc"
+                                      sortProperty="operationDesc" >
+                                <Label text="{i18n>nc.report.label17}" />
+                                <t:template >
+                                    <Text text="{operationDesc}" />
+                                </t:template >
+                            </t:Column >
+                            <!--  -->
+                            <t:Column hAlign="Center"
+                                      width="10rem"
+                                      filterProperty="sfc"
+                                      sortProperty="sfc" >
+                                <Label text="{i18n>nc.report.label18}" />
+                                <t:template >
+                                    <Text text="{sfc}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 不良代碼  -->
+                            <t:Column hAlign="Center"
+                                      width="8rem"
+                                      filterProperty="ncCode"
+                                      sortProperty="ncCode" >
+                                <Label text="{i18n>nc.report.label5}" />
+                                <t:template >
+                                    <Text text="{ncCode}" />
+                                </t:template >
+                            </t:Column >
+                            <!--  -->
+                            <t:Column hAlign="Center"
+                                      width="10rem"
+                                      filterProperty="ncCodeDesc"
+                                      sortProperty="ncCodeDesc" >
+                                <Label text="{i18n>nc.report.label19}" />
+                                <t:template >
+                                    <Text text="{ncCodeDesc}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 處置代碼  -->
+                            <t:Column hAlign="Center"
+                                      width="8rem"
+                                      filterProperty="actionCode"
+                                      sortProperty="actionCode" >
+                                <Label text="{i18n>nc.report.label20}" />
+                                <t:template >
+                                    <Text text="{actionCode}" />
+                                </t:template >
+                            </t:Column >
+                            <!--  -->
+                            <t:Column hAlign="Center"
+                                      width="10rem"
+                                      filterProperty="actionCodeDesc"
+                                      sortProperty="actionCodeDesc" >
+                                <Label text="{i18n>nc.report.label21}" />
+                                <t:template >
+                                    <Text text="{actionCodeDesc}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- NC數量 -->
+                            <t:Column hAlign="Center"
+                                      width="6rem"
+                                      filterProperty="ncQty"
+                                      sortProperty="ncQty" >
+                                <Label text="{i18n>nc.report.label22}" />
+                                <t:template >
+                                    <Text text="{ncQty}" />
+                                </t:template >
+                            </t:Column >
+                            <!--  -->
+                            <t:Column hAlign="Center"
+                                      width="10rem"
+                                      filterProperty="comments"
+                                      sortProperty="comments" >
+                                <Label text="{i18n>nc.report.label23}" />
+                                <t:template >
+                                    <Text text="{comments}" />
+                                </t:template >
+                            </t:Column >
+                            <!--  -->
+                            <t:Column hAlign="Center"
+                                      width="8rem"
+                                      filterProperty="user"
+                                      sortProperty="user" >
+                                <Label text="{i18n>nc.report.label24}" />
+                                <t:template >
+                                    <Text text="{user}" />
+                                </t:template >
+                            </t:Column >
+                            <!--  -->
+                            <t:Column hAlign="Center"
+                                      width="8rem"
+                                      filterProperty="userName"
+                                      sortProperty="userName" >
+                                <Label text="{i18n>nc.report.label25}" />
+                                <t:template >
+                                    <Text text="{userName}" />
+                                </t:template >
+                            </t:Column >
+                            <!--  -->
+                            <t:Column hAlign="Center"
+                                      width="7rem"
+                                      filterProperty="isCancelled"
+                                      sortProperty="isCancelled" >
+                                <Label text="{i18n>nc.report.label6}" />
+                                <t:template >
+                                    <Link text="{path:'isCancelled', formatter:'.toUpperCase'}"
+                                          press="cancelDialog" />
+                                </t:template >
+                            </t:Column >
+                        </t:columns >
+                    </t:Table >
+                </Panel >
+            </VBox >
+        </content >
+    </Page >
+</mvc:View >

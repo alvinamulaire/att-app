@@ -1,0 +1,350 @@
+<mvc:View controllerName="att.view.productionDailyReport.productionDailyReport"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+  xmlns:viz="sap.viz.ui5.controls"
+  xmlns:layout="sap.ui.layout"
+  xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+  xmlns:viz.data="sap.viz.ui5.data"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+  xmlns:fw="fw.custom">
+  <Page class="sapUiSizeCompact">
+    <html:style>
+			.sapMPage>.sapMPageHeader + section{
+				top: 2.6rem
+			}
+    </html:style>
+    <customHeader>
+      <Bar class="title-midle">
+        <contentLeft>
+          <!-- 檢索 -->
+          <Button text="{i18n>g.search}" icon="sap-icon://open-folder" press="search" />
+          <!-- 清除 -->
+          <Button text="{i18n>g.clear}" icon="sap-icon://eraser" press="clear" />
+          <!-- 匯出 -->
+          <Button text="{i18n>g.export}" icon="sap-icon://action" press="export" />
+        </contentLeft>
+        <!-- 標題 -->
+        <contentMiddle>
+          <Title text="{i18n>productionDailyReport.title}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <VBox>
+        <!-- 檢索條件 -->
+        <FlexBox renderType="Bare" width="100%" class="flex-wrap divColor">
+          <!-- 第一行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+            <!-- 生產點 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>g.site}" class="myLabel flex30 set-required" />
+              <Text text="{/site}" class="myText" />
+            </FlexBox>
+            <!-- 工單號碼 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>productionDailyReport.label2}" class="myLabel flex40 setTriangle" />
+              <Input id="shopOrder" width="30%" value="{/shopOrder}" showValueHelp="true" valueHelpRequest="openDialog" cd:title="productionDailyReport.label2" cd:filterKey="operation" cd:callBackKey="operation" cd:columns="operation|g.operation;description|g.operationDesc" cd:root="/" />
+            </FlexBox>
+          </FlexBox>
+          <!-- 第二行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+            <!-- 日期 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>g.date}" class="myLabel flex30 set-required" />
+              <DateTimePicker width="30%" class="myInput" value="{/startDate}" change="dateCheck" displayFormat="yyyy-MM-dd HH:mm" valueFormat="yyyy-MM-dd HH:mm" />
+              <Text text="　～　" class="myText" />
+              <DateTimePicker width="30%" class="myInput" value="{/endDate}" change="dateCheck" displayFormat="yyyy-MM-dd HH:mm" valueFormat="yyyy-MM-dd HH:mm" />
+            </FlexBox>
+            <!-- 作業站點 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>g.operation}" class="myLabel flex40 setTriangle" />
+              <Input id="operation" width="30%" value="{/operation}" showValueHelp="true" valueHelpRequest="openDialog" cd:title="g.operation" cd:filterKey="operation" cd:callBackKey="operation" cd:columns="operation|g.operation;description|g.operationDesc" cd:root="/" />
+            </FlexBox>
+          </FlexBox>
+          <!-- 第三行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTopBottom">
+            <!-- 物料編號 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>productionDailyReport.label1}" class="myLabel flex30 setTriangle" />
+              <MultiInput id="item" width="30%" valueHelpOnly="true" showValueHelp="true" tokenUpdate="tokenUpdate" valueHelpRequest="openDialog" cd:title="productionDailyReport.label1" cd:filterKey="item" cd:callBackKey="item" cd:columns="item|productionDailyReport.label1;description|g.materialDesc" cd:root="/" cd:multiple="true" tokens="{path: '/itemList' }">
+                <tokens>
+                  <Token key="{item}" text="{item}" />
+                </tokens>
+              </MultiInput>
+            </FlexBox>
+            <!-- ERP操作 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>productionDailyReport.label3}" class="myLabel flex40 setTriangle" />
+              <Input id="erpOperation" width="30%" value="{/erpOperation}" showValueHelp="true" valueHelpRequest="openDialog" cd:title="productionDailyReport.label3" cd:filterKey="erpOperation" cd:callBackKey="erpOperation" cd:columns="erpOperation|productionDailyReport.label3" cd:root="/" />
+            </FlexBox>
+          </FlexBox>
+        </FlexBox>
+        <!-- 主內容 -->
+        <FlexBox renderType="Bare" width="100%" class="flex-wrap">
+          <!-- 圖表 折疊 panel -->
+          <Panel expandable="true" expanded="true" width="100%">
+            <headerToolbar>
+              <OverflowToolbar style="Clear" />
+            </headerToolbar>
+            <content>
+              <FlexBox renderType="Bare" width="100%">
+                <!-- 產能狀況 -->
+                <VBox width="50%" height="100%">
+                  <FlexBox renderType="Bare" width="100%" justifyContent="Center" class="sapUiTinyMarginTop">
+                    <Text text="{i18n>productionDailyReport.label4}" class="myText" />
+                  </FlexBox>
+                  <!-- 日期區間 -->
+                  <FlexBox renderType="Bare" width="100%" justifyContent="Center" class="sapUiTinyMarginTopBottom">
+                    <Label text="{i18n>productionDailyReport.label5}" class="myLabel" />
+                    <Text text="{/startDate}" class="myText" />
+                    <Text text="　～　" class="myText" />
+                    <Text text="{/endDate}" class="myText" />
+                  </FlexBox>
+                  <!-- 圖形 -->
+                  <viz:VizFrame id="performanceChart" uiConfig="{applicationSet:'fiori'}" height="40vh" width="100%" vizType="column">
+                    <viz:dataset>
+                      <viz.data:FlattenedDataset data="{/production}">
+                        <!-- 定義 X 軸維度 -->
+                        <viz.data:dimensions>
+                          <!-- 日期 -->
+                          <viz.data:DimensionDefinition name="date" value="{date}" />
+                        </viz.data:dimensions>
+                        <!-- 定義 量測值 -->
+                        <viz.data:measures>
+                          <!-- 投入數 -->
+                          <viz.data:MeasureDefinition name="投入數" value="{totalStarted}" />
+                          <!-- 產出數 -->
+                          <viz.data:MeasureDefinition name="產出數" value="{totalCompleted}" />
+                          <!-- 重工數 -->
+                          <viz.data:MeasureDefinition name="重工數" value="{totalRework}" />
+                          <!-- 報廢數 -->
+                          <viz.data:MeasureDefinition name="報廢數" value="{totalScrapped}" />
+                        </viz.data:measures>
+                      </viz.data:FlattenedDataset>
+                    </viz:dataset>
+                    <!-- 圖形顯示 item -->
+                    <viz:feeds>
+                      <!-- 日期 - type: 維度, 量測類型 ; value: 值, uid:   -->
+                      <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="date" />
+                      <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="投入數" />
+                      <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="產出數" />
+                      <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="重工數" />
+                      <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="報廢數" />
+                    </viz:feeds>
+                  </viz:VizFrame>
+                </VBox>
+                <!-- 產能效率 -->
+                <VBox width="50%">
+                  <FlexBox renderType="Bare" width="100%" justifyContent="Center" class="sapUiTinyMarginTop">
+                    <Text text="{i18n>productionDailyReport.label6}" class="myText" />
+                  </FlexBox>
+                  <!-- 日期區間 -->
+                  <FlexBox renderType="Bare" width="100%" justifyContent="Center" class="sapUiTinyMarginTopBottom">
+                    <Label text="{i18n>productionDailyReport.label5}" class="myLabel" />
+                    <Text text="{/startDate}" class="myText" />
+                    <Text text="　～　" class="myText" />
+                    <Text text="{/endDate}" class="myText" />
+                  </FlexBox>
+                  <!-- 圖形 -->
+                  <viz:VizFrame id="efficiencyChart" uiConfig="{applicationSet:'fiori'}" height="40vh" width="100%" vizType="column">
+                    <viz:dataset>
+                      <viz.data:FlattenedDataset data="{/production}">
+                        <!-- 定義 X 軸維度 -->
+                        <viz.data:dimensions>
+                          <!-- 日期 -->
+                          <viz.data:DimensionDefinition name="date" value="{date}" />
+                        </viz.data:dimensions>
+                        <!-- 定義 量測值 -->
+                        <viz.data:measures>
+                          <!-- 良率 : 綠 00BB00 -->
+                          <viz.data:MeasureDefinition name="良率" value="{totalYield}" />
+                          <!-- 報廢率 : 紅 FF0000 -->
+                          <viz.data:MeasureDefinition name="報廢率" value="{totalScrapRate}" />
+                          <!-- 重工率 : 橘 FF9224 -->
+                          <viz.data:MeasureDefinition name="重工率" value="{totalReworkRate}" />
+                          <!-- 直通率 : 藍  0000E3 -->
+                          <viz.data:MeasureDefinition name="直通率" value="{totalThroughRate}" />
+                        </viz.data:measures>
+                      </viz.data:FlattenedDataset>
+                    </viz:dataset>
+                    <!-- 圖形顯示 item -->
+                    <viz:feeds>
+                      <!-- 日期 - type: 維度, 量測類型 ; value: 值, uid:   -->
+                      <viz.feeds:FeedItem uid="categoryAxis" type="Dimension" values="date" />
+                      <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="良率" />
+                      <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="報廢率" />
+                      <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="重工率" />
+                      <viz.feeds:FeedItem uid="valueAxis" type="Measure" values="直通率" />
+                    </viz:feeds>
+                  </viz:VizFrame>
+                </VBox>
+              </FlexBox>
+            </content>
+          </Panel>
+          <!-- table 折疊 panel -->
+          <Panel expandable="true" expanded="false" width="100%">
+            <headerToolbar>
+              <OverflowToolbar style="Clear">
+                <!-- 資料區間 -->
+                <Text text="{i18n>productionDailyReport.label14}：" class="myText" />
+                <Text text="{/startDate}　～　" class="myText" />
+                <Text text="{/endDate}" class="myText" />
+                <ToolbarSpacer/>
+              </OverflowToolbar>
+            </headerToolbar>
+            <content>
+              <fw:ColumnClickableTable id="table" updateFinished="filterTable" mode="SingleSelectMaster" growing="true" growingThreshold="9999" includeItemInSelection="true" items="{/table}">
+                <fw:columns>
+                  <!-- 日期 -->
+                  <fw:ColumnClickableColumn width="7rem" filterProperty="date" sortProperty="date" groupProperty="date" hAlign="Center">
+                    <Label text="{i18n>g.date}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 物料編號 -->
+                  <fw:ColumnClickableColumn width="10rem" filterProperty="item" sortProperty="item" groupProperty="item" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label1}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 物料說明 -->
+                  <fw:ColumnClickableColumn width="10rem" filterProperty="itemDesc" sortProperty="itemDesc" groupProperty="itemDesc" hAlign="Center">
+                    <Label text="{i18n>g.materialDesc}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 工單編號 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="shopOrderType" sortProperty="shopOrderType" groupProperty="shopOrderType" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label15}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 工單 -->
+                  <fw:ColumnClickableColumn width="7rem" filterProperty="shopOrder" sortProperty="shopOrder" groupProperty="shopOrder" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label16}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 途程編號 -->
+                  <fw:ColumnClickableColumn width="7rem" filterProperty="router" sortProperty="router" groupProperty="router" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label17}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 途程版本 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="routerRevision" sortProperty="routerRevision" groupProperty="routerRevision" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label18}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 途程說明 -->
+                  <fw:ColumnClickableColumn width="10rem" filterProperty="routerDesc" sortProperty="routerDesc" groupProperty="routerDesc" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label19}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 步驟順序 -->
+                  <fw:ColumnClickableColumn width="7rem" filterProperty="stepId" sortProperty="stepId" groupProperty="stepId" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label20}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- ME作業站點 -->
+                  <fw:ColumnClickableColumn width="7rem" filterProperty="operation" sortProperty="operation" groupProperty="operation" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label21}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 作業站點說明 -->
+                  <fw:ColumnClickableColumn width="10rem" filterProperty="operationDesc" sortProperty="operationDesc" groupProperty="operationDesc" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label22}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 是否為重工作業 -->
+                  <fw:ColumnClickableColumn width="10rem" filterProperty="isRework" sortProperty="isRework" groupProperty="isRework" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label23}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- ERP操作 -->
+                  <fw:ColumnClickableColumn width="7rem" filterProperty="erpOperation" sortProperty="erpOperation" groupProperty="erpOperation" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label3}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 投入數量 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="qtyStarted" sortProperty="qtyStarted" groupProperty="qtyStarted" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label24}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 完成數量 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="qtyCompleted" sortProperty="qtyCompleted" groupProperty="qtyCompleted" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label25}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 報廢數量 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="qtyScrapped" sortProperty="qtyScrapped" groupProperty="qtyScrapped" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label26}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 重工數量 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="qtyRework" sortProperty="qtyRework" groupProperty="qtyRework" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label27}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 良率 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="yield" sortProperty="yield" groupProperty="yield" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label28}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 報廢率 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="scrapRate" sortProperty="scrapRate" groupProperty="scrapRate" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label13}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 直通率 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="throughRate" sortProperty="throughRate" groupProperty="throughRate" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label29}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 重工率 -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="reworkRate" sortProperty="reworkRate" groupProperty="reworkRate" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label12}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 人時(時) -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="laborH" sortProperty="laborH" groupProperty="laborH" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label30}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 機時(時) -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="laborM" sortProperty="laborM" groupProperty="laborM" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label31}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- UPH -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="uph" sortProperty="uph" groupProperty="uph" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label32}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- HPU -->
+                  <fw:ColumnClickableColumn width="5rem" filterProperty="hpu" sortProperty="hpu" groupProperty="hpu" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label33}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 生產歷程 -->
+                  <fw:ColumnClickableColumn width="6rem" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label34}" />
+                  </fw:ColumnClickableColumn>
+                  <!-- 不良明細 -->
+                  <fw:ColumnClickableColumn width="6rem" hAlign="Center">
+                    <Label text="{i18n>productionDailyReport.label35}" />
+                  </fw:ColumnClickableColumn>
+                </fw:columns>
+                <fw:items>
+                  <ColumnListItem>
+                    <cells>
+                      <Text text="{date}" />
+                      <Text text="{item}" />
+                      <Text text="{itemDesc}" />
+                      <Text text="{shopOrderType}" />
+                      <Text text="{shopOrder}" />
+                      <Text text="{router}" />
+                      <Text text="{routerRevision}" />
+                      <Text text="{routerDesc}" />
+                      <Text text="{stepId}" />
+                      <Text text="{operation}" />
+                      <Text text="{operationDesc}" />
+                      <Text text="{isRework}" />
+                      <Text text="{erpOperation}" />
+                      <Text text="{qtyStarted}" />
+                      <Text text="{qtyCompleted}" />
+                      <Text text="{qtyScrapped}" />
+                      <Text text="{qtyRework}" />
+                      <Text text="{yield}" />
+                      <Text text="{scrapRate}" />
+                      <Text text="{throughRate}" />
+                      <Text text="{reworkRate}" />
+                      <Text text="{laborH}" />
+                      <Text text="{laborM}" />
+                      <Text text="{uph}" />
+                      <Text text="{hpu}" />
+                      <Button text="{i18n>productionDailyReport.label38}" press="producitonProcess" />
+                      <Button text="{i18n>productionDailyReport.label38}" press="defectLoss" />
+                    </cells>
+                  </ColumnListItem>
+                </fw:items>
+              </fw:ColumnClickableTable>
+            </content>
+          </Panel>
+        </FlexBox>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

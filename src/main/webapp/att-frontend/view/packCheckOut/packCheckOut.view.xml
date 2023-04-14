@@ -1,0 +1,75 @@
+<mvc:View controllerName="att.view.packCheckOut.packCheckOut"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <Page class="sapUiSizeCompact">
+    <html:style>
+    </html:style>
+    <customHeader>
+      <Bar class="title-midle">
+        <contentMiddle>
+          <Title text="{/title}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <VBox>
+        <FlexBox renderType="Bare" width="100%" class="flex-wrap" justifyContent="Center">
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="sapUiSmallMarginTopBottom">
+            <FlexBox renderType="Bare" width="30%"/>
+            <FlexBox renderType="Bare" width="60%">
+              <!-- 包裝箱號 -->
+              <FlexBox renderType="Bare" width="100%" visible = "{= ${/type} === 'C'}">
+                <Label text="{i18n>packCheckOut.carton.no}" class="myLabel" />
+                <Input id="carton" width="50%" value="{/carton}" submit="noSubmit" />
+              </FlexBox>
+              <!-- 棧板編號 -->
+              <FlexBox renderType="Bare" width="100%" visible = "{= ${/type} === 'P'}">
+                <Label text="{i18n>packCheckOut.pallet.no}" class="myLabel" />
+                <Input id="pallet" width="50%" value="{/pallet}" submit="noSubmit" />
+              </FlexBox>
+            </FlexBox>
+          </FlexBox>
+
+          <t:Table id="table" rows="{/table}" selectionMode="MultiToggle" class="sapUiTinyMarginTop" width="50%">
+            <t:extension>
+              <OverflowToolbar style="Clear">
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://less" press="tableSelectRemove"/>
+              </OverflowToolbar>
+            </t:extension>
+            <t:columns>
+              <!-- 箱號 -->
+              <t:Column hAlign="Center" visible = "{= ${/type} === 'C'}" >
+                <Label text="{i18n>packCheckOut.carton}" />
+                <t:template>
+                  <Text text="{carton}" />
+                </t:template>
+              </t:Column>
+              <!-- 板號 -->
+              <t:Column hAlign="Center" visible = "{= ${/type} === 'P'}" >
+                <Label text="{i18n>packCheckOut.pallet}" />
+                <t:template>
+                  <Text text="{pallet}" />
+                </t:template>
+              </t:Column>
+            </t:columns>
+          </t:Table>
+
+        </FlexBox>
+      </VBox>
+    </content>
+    <footer>
+         <OverflowToolbar>
+            <ToolbarSpacer/>
+            <!-- 出站 -->
+            <Button text="{i18n>packCheckOut.checkOut}"
+               press="checkOut"></Button>
+            <ToolbarSpacer/>
+         </OverflowToolbar>
+      </footer>
+  </Page>
+</mvc:View>

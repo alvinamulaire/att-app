@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-config SYSTEM "http://www.visiprise.com/dtd/service-config.dtd">
+<service-config moduleId="com.att.service">
+    <!-- Import required to create a new business service. -->
+    <import moduleId="com.sap.me.common" service="BusinessServiceParent"/>
+    <!-- Import required to create a new service extension-->
+    <import moduleId="com.sap.me.common" service="Prototype"/>
+
+    <service name="CommonService" interface="com.att.nwds.service.CommonService"
+             class="com.att.nwds.service.impl.CommonServiceImpl" parent="BusinessServiceParent">
+    </service>
+    <service name="AssemblyService" interface="com.att.nwds.service.AssemblyService"
+             class="com.att.nwds.service.impl.AssemblyServiceImpl" parent="BusinessServiceParent">
+    </service>
+    <service name="CustomPrintingDA" class="com.att.nwds.service.impl.CustomPrintingDA" parent="Prototype">
+    </service>
+</service-config>
+

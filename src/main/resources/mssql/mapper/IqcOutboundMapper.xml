@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.mssql.repository.mapper.IqcOutboundMapper">
+  <resultMap id="BaseResultMap" type="com.att.mssql.repository.entity.IqcOutbound">
+    <result column="WERK" jdbcType="CHAR" property="werk" />
+    <result column="PRUEFLOS" jdbcType="CHAR" property="prueflos" />
+    <result column="SELMATNR" jdbcType="CHAR" property="selmatnr" />
+    <result column="LOSMENGE" jdbcType="NUMERIC" property="losmenge" />
+    <result column="CHARG" jdbcType="CHAR" property="charg" />
+    <result column="LIFNR" jdbcType="CHAR" property="lifnr" />
+    <result column="LICHN" jdbcType="CHAR" property="lichn" />
+    <result column="ZB_MFDATE" jdbcType="CHAR" property="zbMfdate" />
+    <result column="MJAHR" jdbcType="NUMERIC" property="mjahr" />
+    <result column="EBELN" jdbcType="CHAR" property="ebeln" />
+    <result column="MBLNR" jdbcType="CHAR" property="mblnr" />
+    <result column="EBELP" jdbcType="NUMERIC" property="ebelp" />
+    <result column="BUDAT" jdbcType="CHAR" property="budat" />
+    <result column="CPUTM" jdbcType="CHAR" property="cputm" />
+    <result column="ERSTELDAT" jdbcType="CHAR" property="ersteldat" />
+    <result column="ERSTELZEIT" jdbcType="CHAR" property="erstelzeit" />
+    <result column="PASTRTERM" jdbcType="CHAR" property="pastrterm" />
+    <result column="ERSTELZEIT1" jdbcType="CHAR" property="erstelzeit1" />
+    <result column="STATUSTEXT" jdbcType="CHAR" property="statustext" />
+    <result column="ME_STATUS" jdbcType="CHAR" property="meStatus" />
+    <result column="ME_MEMO" jdbcType="CHAR" property="meMemo" />
+    <result column="NAME_ORG1" jdbcType="CHAR" property="nameOrg1" />
+    <result column="CREATED_BY" jdbcType="CHAR" property="createdBy" />
+    <result column="CREATION_DATE" jdbcType="CHAR" property="creationDate" />
+    <result column="CREATION_TIME" jdbcType="CHAR" property="creationTime" />
+    <result column="LAST_UPDATED_BY" jdbcType="CHAR" property="lastUpdatedBy" />
+    <result column="LAST_UPDATE_DATE" jdbcType="CHAR" property="lastUpdateDate" />
+    <result column="LAST_UPDATE_TIME" jdbcType="CHAR" property="lastUpdateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    WERK, PRUEFLOS, SELMATNR, LOSMENGE, CHARG, LIFNR, LICHN, ZB_MFDATE, MJAHR, EBELN, 
+    MBLNR, EBELP, BUDAT, CPUTM, ERSTELDAT, ERSTELZEIT, PASTRTERM, ERSTELZEIT1, STATUSTEXT, 
+    ME_STATUS, ME_MEMO, NAME_ORG1, CREATED_BY, CREATION_DATE, CREATION_TIME, LAST_UPDATED_BY, 
+    LAST_UPDATE_DATE, LAST_UPDATE_TIME
+  </sql>
+  <select id="selectByExample" parameterType="com.att.mssql.repository.entity.IqcOutboundExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from IQC_OUTBOUND
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.att.mssql.repository.entity.IqcOutboundExample">
+    delete from IQC_OUTBOUND
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.mssql.repository.entity.IqcOutbound">
+    insert into IQC_OUTBOUND (WERK, PRUEFLOS, SELMATNR, 
+      LOSMENGE, CHARG, LIFNR, LICHN, 
+      ZB_MFDATE, MJAHR, EBELN, MBLNR, 
+      EBELP, BUDAT, CPUTM, ERSTELDAT, 
+      ERSTELZEIT, PASTRTERM, ERSTELZEIT1, 
+      STATUSTEXT, ME_STATUS, ME_MEMO, 
+      NAME_ORG1, CREATED_BY, CREATION_DATE, 
+      CREATION_TIME, LAST_UPDATED_BY, LAST_UPDATE_DATE, 
+      LAST_UPDATE_TIME)
+    values (#{werk,jdbcType=CHAR}, #{prueflos,jdbcType=CHAR}, #{selmatnr,jdbcType=CHAR}, 
+      #{losmenge,jdbcType=NUMERIC}, #{charg,jdbcType=CHAR}, #{lifnr,jdbcType=CHAR}, #{lichn,jdbcType=CHAR}, 
+      #{zbMfdate,jdbcType=CHAR}, #{mjahr,jdbcType=NUMERIC}, #{ebeln,jdbcType=CHAR}, #{mblnr,jdbcType=CHAR}, 
+      #{ebelp,jdbcType=NUMERIC}, #{budat,jdbcType=CHAR}, #{cputm,jdbcType=CHAR}, #{ersteldat,jdbcType=CHAR}, 
+      #{erstelzeit,jdbcType=CHAR}, #{pastrterm,jdbcType=CHAR}, #{erstelzeit1,jdbcType=CHAR}, 
+      #{statustext,jdbcType=CHAR}, #{meStatus,jdbcType=CHAR}, #{meMemo,jdbcType=CHAR}, 
+      #{nameOrg1,jdbcType=CHAR}, #{createdBy,jdbcType=CHAR}, #{creationDate,jdbcType=CHAR}, 
+      #{creationTime,jdbcType=CHAR}, #{lastUpdatedBy,jdbcType=CHAR}, #{lastUpdateDate,jdbcType=CHAR}, 
+      #{lastUpdateTime,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.mssql.repository.entity.IqcOutbound">
+    insert into IQC_OUTBOUND
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="werk != null">
+        WERK,
+      </if>
+      <if test="prueflos != null">
+        PRUEFLOS,
+      </if>
+      <if test="selmatnr != null">
+        SELMATNR,
+      </if>
+      <if test="losmenge != null">
+        LOSMENGE,
+      </if>
+      <if test="charg != null">
+        CHARG,
+      </if>
+      <if test="lifnr != null">
+        LIFNR,
+      </if>
+      <if test="lichn != null">
+        LICHN,
+      </if>
+      <if test="zbMfdate != null">
+        ZB_MFDATE,
+      </if>
+      <if test="mjahr != null">
+        MJAHR,
+      </if>
+      <if test="ebeln != null">
+        EBELN,
+      </if>
+      <if test="mblnr != null">
+        MBLNR,
+      </if>
+      <if test="ebelp != null">
+        EBELP,
+      </if>
+      <if test="budat != null">
+        BUDAT,
+      </if>
+      <if test="cputm != null">
+        CPUTM,
+      </if>
+      <if test="ersteldat != null">
+        ERSTELDAT,
+      </if>
+      <if test="erstelzeit != null">
+        ERSTELZEIT,
+      </if>
+      <if test="pastrterm != null">
+        PASTRTERM,
+      </if>
+      <if test="erstelzeit1 != null">
+        ERSTELZEIT1,
+      </if>
+      <if test="statustext != null">
+        STATUSTEXT,
+      </if>
+      <if test="meStatus != null">
+        ME_STATUS,
+      </if>
+      <if test="meMemo != null">
+        ME_MEMO,
+      </if>
+      <if test="nameOrg1 != null">
+        NAME_ORG1,
+      </if>
+      <if test="createdBy != null">
+        CREATED_BY,
+      </if>
+      <if test="creationDate != null">
+        CREATION_DATE,
+      </if>
+      <if test="creationTime != null">
+        CREATION_TIME,
+      </if>
+      <if test="lastUpdatedBy != null">
+        LAST_UPDATED_BY,
+      </if>
+      <if test="lastUpdateDate != null">
+        LAST_UPDATE_DATE,
+      </if>
+      <if test="lastUpdateTime != null">
+        LAST_UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="werk != null">
+        #{werk,jdbcType=CHAR},
+      </if>
+      <if test="prueflos != null">
+        #{prueflos,jdbcType=CHAR},
+      </if>
+      <if test="selmatnr != null">
+        #{selmatnr,jdbcType=CHAR},
+      </if>
+      <if test="losmenge != null">
+        #{losmenge,jdbcType=NUMERIC},
+      </if>
+      <if test="charg != null">
+        #{charg,jdbcType=CHAR},
+      </if>
+      <if test="lifnr != null">
+        #{lifnr,jdbcType=CHAR},
+      </if>
+      <if test="lichn != null">
+        #{lichn,jdbcType=CHAR},
+      </if>
+      <if test="zbMfdate != null">
+        #{zbMfdate,jdbcType=CHAR},
+      </if>
+      <if test="mjahr != null">
+        #{mjahr,jdbcType=NUMERIC},
+      </if>
+      <if test="ebeln != null">
+        #{ebeln,jdbcType=CHAR},
+      </if>
+      <if test="mblnr != null">
+        #{mblnr,jdbcType=CHAR},
+      </if>
+      <if test="ebelp != null">
+        #{ebelp,jdbcType=NUMERIC},
+      </if>
+      <if test="budat != null">
+        #{budat,jdbcType=CHAR},
+      </if>
+      <if test="cputm != null">
+        #{cputm,jdbcType=CHAR},
+      </if>
+      <if test="ersteldat != null">
+        #{ersteldat,jdbcType=CHAR},
+      </if>
+      <if test="erstelzeit != null">
+        #{erstelzeit,jdbcType=CHAR},
+      </if>
+      <if test="pastrterm != null">
+        #{pastrterm,jdbcType=CHAR},
+      </if>
+      <if test="erstelzeit1 != null">
+        #{erstelzeit1,jdbcType=CHAR},
+      </if>
+      <if test="statustext != null">
+        #{statustext,jdbcType=CHAR},
+      </if>
+      <if test="meStatus != null">
+        #{meStatus,jdbcType=CHAR},
+      </if>
+      <if test="meMemo != null">
+        #{meMemo,jdbcType=CHAR},
+      </if>
+      <if test="nameOrg1 != null">
+        #{nameOrg1,jdbcType=CHAR},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=CHAR},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=CHAR},
+      </if>
+      <if test="creationTime != null">
+        #{creationTime,jdbcType=CHAR},
+      </if>
+      <if test="lastUpdatedBy != null">
+        #{lastUpdatedBy,jdbcType=CHAR},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=CHAR},
+      </if>
+      <if test="lastUpdateTime != null">
+        #{lastUpdateTime,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.mssql.repository.entity.IqcOutboundExample" resultType="java.lang.Long">
+    select count(*) from IQC_OUTBOUND
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update IQC_OUTBOUND
+    <set>
+      <if test="record.werk != null">
+        WERK = #{record.werk,jdbcType=CHAR},
+      </if>
+      <if test="record.prueflos != null">
+        PRUEFLOS = #{record.prueflos,jdbcType=CHAR},
+      </if>
+      <if test="record.selmatnr != null">
+        SELMATNR = #{record.selmatnr,jdbcType=CHAR},
+      </if>
+      <if test="record.losmenge != null">
+        LOSMENGE = #{record.losmenge,jdbcType=NUMERIC},
+      </if>
+      <if test="record.charg != null">
+        CHARG = #{record.charg,jdbcType=CHAR},
+      </if>
+      <if test="record.lifnr != null">
+        LIFNR = #{record.lifnr,jdbcType=CHAR},
+      </if>
+      <if test="record.lichn != null">
+        LICHN = #{record.lichn,jdbcType=CHAR},
+      </if>
+      <if test="record.zbMfdate != null">
+        ZB_MFDATE = #{record.zbMfdate,jdbcType=CHAR},
+      </if>
+      <if test="record.mjahr != null">
+        MJAHR = #{record.mjahr,jdbcType=NUMERIC},
+      </if>
+      <if test="record.ebeln != null">
+        EBELN = #{record.ebeln,jdbcType=CHAR},
+      </if>
+      <if test="record.mblnr != null">
+        MBLNR = #{record.mblnr,jdbcType=CHAR},
+      </if>
+      <if test="record.ebelp != null">
+        EBELP = #{record.ebelp,jdbcType=NUMERIC},
+      </if>
+      <if test="record.budat != null">
+        BUDAT = #{record.budat,jdbcType=CHAR},
+      </if>
+      <if test="record.cputm != null">
+        CPUTM = #{record.cputm,jdbcType=CHAR},
+      </if>
+      <if test="record.ersteldat != null">
+        ERSTELDAT = #{record.ersteldat,jdbcType=CHAR},
+      </if>
+      <if test="record.erstelzeit != null">
+        ERSTELZEIT = #{record.erstelzeit,jdbcType=CHAR},
+      </if>
+      <if test="record.pastrterm != null">
+        PASTRTERM = #{record.pastrterm,jdbcType=CHAR},
+      </if>
+      <if test="record.erstelzeit1 != null">
+        ERSTELZEIT1 = #{record.erstelzeit1,jdbcType=CHAR},
+      </if>
+      <if test="record.statustext != null">
+        STATUSTEXT = #{record.statustext,jdbcType=CHAR},
+      </if>
+      <if test="record.meStatus != null">
+        ME_STATUS = #{record.meStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.meMemo != null">
+        ME_MEMO = #{record.meMemo,jdbcType=CHAR},
+      </if>
+      <if test="record.nameOrg1 != null">
+        NAME_ORG1 = #{record.nameOrg1,jdbcType=CHAR},
+      </if>
+      <if test="record.createdBy != null">
+        CREATED_BY = #{record.createdBy,jdbcType=CHAR},
+      </if>
+      <if test="record.creationDate != null">
+        CREATION_DATE = #{record.creationDate,jdbcType=CHAR},
+      </if>
+      <if test="record.creationTime != null">
+        CREATION_TIME = #{record.creationTime,jdbcType=CHAR},
+      </if>
+      <if test="record.lastUpdatedBy != null">
+        LAST_UPDATED_BY = #{record.lastUpdatedBy,jdbcType=CHAR},
+      </if>
+      <if test="record.lastUpdateDate != null">
+        LAST_UPDATE_DATE = #{record.lastUpdateDate,jdbcType=CHAR},
+      </if>
+      <if test="record.lastUpdateTime != null">
+        LAST_UPDATE_TIME = #{record.lastUpdateTime,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update IQC_OUTBOUND
+    set WERK = #{record.werk,jdbcType=CHAR},
+      PRUEFLOS = #{record.prueflos,jdbcType=CHAR},
+      SELMATNR = #{record.selmatnr,jdbcType=CHAR},
+      LOSMENGE = #{record.losmenge,jdbcType=NUMERIC},
+      CHARG = #{record.charg,jdbcType=CHAR},
+      LIFNR = #{record.lifnr,jdbcType=CHAR},
+      LICHN = #{record.lichn,jdbcType=CHAR},
+      ZB_MFDATE = #{record.zbMfdate,jdbcType=CHAR},
+      MJAHR = #{record.mjahr,jdbcType=NUMERIC},
+      EBELN = #{record.ebeln,jdbcType=CHAR},
+      MBLNR = #{record.mblnr,jdbcType=CHAR},
+      EBELP = #{record.ebelp,jdbcType=NUMERIC},
+      BUDAT = #{record.budat,jdbcType=CHAR},
+      CPUTM = #{record.cputm,jdbcType=CHAR},
+      ERSTELDAT = #{record.ersteldat,jdbcType=CHAR},
+      ERSTELZEIT = #{record.erstelzeit,jdbcType=CHAR},
+      PASTRTERM = #{record.pastrterm,jdbcType=CHAR},
+      ERSTELZEIT1 = #{record.erstelzeit1,jdbcType=CHAR},
+      STATUSTEXT = #{record.statustext,jdbcType=CHAR},
+      ME_STATUS = #{record.meStatus,jdbcType=CHAR},
+      ME_MEMO = #{record.meMemo,jdbcType=CHAR},
+      NAME_ORG1 = #{record.nameOrg1,jdbcType=CHAR},
+      CREATED_BY = #{record.createdBy,jdbcType=CHAR},
+      CREATION_DATE = #{record.creationDate,jdbcType=CHAR},
+      CREATION_TIME = #{record.creationTime,jdbcType=CHAR},
+      LAST_UPDATED_BY = #{record.lastUpdatedBy,jdbcType=CHAR},
+      LAST_UPDATE_DATE = #{record.lastUpdateDate,jdbcType=CHAR},
+      LAST_UPDATE_TIME = #{record.lastUpdateTime,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

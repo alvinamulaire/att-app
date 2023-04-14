@@ -1,0 +1,139 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    xmlns:l="sap.ui.layout"
+    xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <Dialog contentWidth="50%"
+        showHeader="false"
+        id="containerDialog" class="sapUiSizeCompact">
+        <customHeader>
+            <Bar class="title-midle">
+                <contentMiddle>
+                <Title text="{i18n>print.container.name}" />
+                </contentMiddle>
+                <contentRight>
+                    <Button text="{i18n>g.clear}"
+                        icon="sap-icon://reset"
+                        press="clear"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+        <FlexBox class="flex-wrap row-cols-1"
+                width="100%"
+                alignItems="Center"
+                renderType="Bare"
+                justifyContent="Center">
+            <FlexBox class="col-12 col-sm-6 col-md-6 col-lg-6 flex-column"
+                    renderType="Bare">
+                <!-- 容器 -->
+                <FlexBox class="myColumn" renderType="Bare">
+                    <Label class="setReq myLabel flex40" text="{i18n>print.container.name}" />
+                    <Input 
+                        class="myInput"
+                        id="containerName" 
+                        value="{/containerName}" 
+                        showValueHelp="true" 
+                        valueHelpRequest="containerDialog" 
+                        cd:title="print.container.name" 
+                        cd:filterKey="name" 
+                        cd:callBackKey="name" 
+                        cd:columns="name|print.container.name;description|print.container.desc;packingMaxQty|print.container.max.qty" 
+                        cd:root="/" />
+                </FlexBox>
+            </FlexBox>
+        </FlexBox>
+        <FlexBox class="flex-wrap row-cols-1"
+            width="100%"
+            alignItems="Center"
+            renderType="Bare"
+            justifyContent="Center">
+            <FlexBox width="100%"
+                alignItems="Center"
+                renderType="Bare">
+                <FlexBox class="myColumn" renderType="Bare">
+                    <Label class="flex10" />
+                    <Label class="setReq myLabel flex20" text="{i18n>print.close.carton.date}" visible = "{= ${/type} === 'C'}" />
+                    <Label class="setReq myLabel flex20" text="{i18n>print.close.pallet.date}" visible = "{= ${/type} === 'P'}" />
+                    <DateTimePicker 
+                        width = "12em"
+                        class="myInput"
+                        id="closeStartDate"
+                        value="{/closeStartDate}"
+                        valueStateText="{i18n>g.time.error}"
+                        change="handleChange"
+                        displayFormat="yyyy-MM-dd HH:mm:ss"
+                        valueFormat="yyyy-MM-dd HH:mm:ss">
+                    </DateTimePicker>
+                    <Label textAlign="Center" width = "3em"  text="～" />
+                    <DateTimePicker 
+                        width = "12em"
+                        class="myInput"
+                        id="closeEndDate"
+                        value="{/closeEndDate}"
+                        valueStateText="{i18n>g.time.error}"
+                        change="handleChange"
+                        displayFormat="yyyy-MM-dd HH:mm:ss"
+                        valueFormat="yyyy-MM-dd HH:mm:ss">
+                    </DateTimePicker>
+                </FlexBox>
+            </FlexBox>
+        </FlexBox>
+        <FlexBox
+            justifyContent="Center">
+            <Button 
+                class="flex-wrap row-cols-1"
+                text="{i18n>g.search}"
+                press="search"/>
+        </FlexBox>
+
+        <FlexBox alignItems="Center"
+            justifyContent="Center"
+            renderType="Bare">
+            <t:Table id="containerTable"
+                rows="{/containerTable}"
+                enableSelectAll="false"
+                enableColumnReordering="false"
+                showNoData="false"
+                enableBusyIndicator="true"
+                selectionMode="Single"
+                rowSelectionChange="selectionChange"
+                selectionBehavior="RowOnly"
+                width="50%"
+                visibleRowCount="9">
+                <t:columns>
+                    <t:Column hAlign="Center"
+                        headerSpan="4"
+                        resizable="false"
+                        visible = "{= ${/type} === 'C'}">
+                        <Label text="{i18n>print.carton}" />
+                        <t:template>
+                            <FlexBox alignItems="Center"
+                                justifyContent="Center"
+                                renderType="Bare">
+                                <Text text="{carton}"></Text>
+                            </FlexBox>
+                        </t:template>
+                    </t:Column>
+                    <t:Column hAlign="Center"
+                        headerSpan="4"
+                        resizable="false"
+                        visible = "{= ${/type} === 'P'}">
+                        <Label text="{i18n>print.pallet.no}" />
+                        <t:template>
+                            <FlexBox alignItems="Center"
+                                justifyContent="Center"
+                                renderType="Bare">
+                                <Text text="{pallet}"></Text>
+                            </FlexBox>
+                        </t:template>
+                    </t:Column>
+                </t:columns>
+            </t:Table>
+        </FlexBox>
+        <buttons>
+            <Button text="{i18n>g.cancel}"
+                type="Emphasized"
+                press="close"></Button>
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

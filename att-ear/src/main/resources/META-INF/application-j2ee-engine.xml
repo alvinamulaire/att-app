@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<application-j2ee-engine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="application-j2ee-engine.xsd">
+<reference reference-type="hard">
+<reference-target provider-name="sap.com" target-type="application">me/ear</reference-target>
+</reference>
+<provider-name>att.com</provider-name>
+<start-up mode="always"/>
+</application-j2ee-engine>

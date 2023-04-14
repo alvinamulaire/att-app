@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE service-config SYSTEM "http://www.visiprise.com/dtd/service-config.dtd">
+<service-config moduleId="com.att.properties">
+    <import moduleId="com.sap.me.common" service="Prototype"/>
+    <service name="ExtensionTextResourceBundle" parent="Prototype"
+             class="com.sap.me.frame.globalization.LocaleSpecificTextResourcesGlobalizationExtensionService">
+        <property name="resourceName" value="bundles.AttLocaleSpecificText"/>
+    </service>
+
+    <service name="ExtensionErrorResourceBundle" parent="Prototype"
+             class="com.sap.me.frame.globalization.LocaleSpecificErrorResourcesGlobalizationExtensionService">
+        <property name="resourceName" value="bundles.AttErrorMessages"/>
+    </service>
+</service-config>

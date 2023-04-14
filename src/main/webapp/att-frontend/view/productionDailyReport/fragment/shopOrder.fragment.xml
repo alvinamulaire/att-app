@@ -1,0 +1,123 @@
+<core:FragmentDefinition xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:t="sap.ui.table">
+  <Dialog id="shopOrderDialog" showHeader="true" contentHeight="75%" contentWidth="75%" class="sapUiSizeCompact">
+    <html:style>
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <contentLeft>
+          <!-- 檢索 -->
+          <Button text="{i18n>g.search}" icon="sap-icon://open-folder" press="search" />
+          <!-- 清除 -->
+          <Button text="{i18n>g.clear}" icon="sap-icon://eraser" press="clear" />
+        </contentLeft>
+        <contentMiddle>
+          <Title text="{i18n>productionDailyReport.label41}" />
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <!-- 檢索條件 -->
+      <FlexBox renderType="Bare" width="100%" class="flex-wrap divColor">
+        <!-- 第一行 -->
+        <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+          <!-- 工單號碼 -->
+          <FlexBox renderType="Bare" width="50%">
+            <Label text="{i18n>productionDailyReport.label2}" class="myLabel flex30 setTriangle" />
+            <Input width="40%" value="{/shopOrder}" />
+          </FlexBox>
+          <!-- 物料編號 -->
+          <FlexBox renderType="Bare" width="50%">
+            <Label text="{i18n>productionDailyReport.label1}" class="myLabel flex30 setTriangle" />
+            <Input width="40%" value="{/plannedItem}" />
+          </FlexBox>
+        </FlexBox>
+        <!-- 第二行 -->
+        <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+          <!-- 工單類型 -->
+          <FlexBox renderType="Bare" width="50%">
+            <Label text="{i18n>productionDailyReport.label15}" class="myLabel flex30 setTriangle" />
+            <Select width="40%" selectedKey="{/auart}" items="{/auartOptions}" forceSelection="false">
+              <core:Item key="{key}" text="{name}" />
+            </Select>
+          </FlexBox>
+          <!-- 計畫完成 -->
+          <FlexBox renderType="Bare" width="50%">
+            <Label text="{i18n>productionDailyReport.label39}" class="myLabel flex30 setTriangle" />
+            <DateTimePicker width="40%" class="myInput" value="{/plannedCompDateStartStr}" change="dateCheck" displayFormat="yyyy-MM-dd HH:mm:ss" valueFormat="yyyy-MM-dd HH:mm:ss" />
+          </FlexBox>
+        </FlexBox>
+        <!-- 第三行 -->
+        <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTopBottom">
+          <!-- 工單狀態 -->
+          <FlexBox renderType="Bare" width="50%">
+            <Label text="{i18n>productionDailyReport.label40}" class="myLabel flex30 setTriangle" />
+            <Select width="40%" selectedKey="{/status}" items="{/statusOptions}" forceSelection="false">
+              <core:Item key="{key}" text="{name}" />
+            </Select>
+          </FlexBox>
+          <!--  -->
+          <FlexBox renderType="Bare" width="50%">
+            <Label class="flex30" />
+            <DateTimePicker width="40%" class="myInput" value="{/plannedCompDateEndStr}" change="dateCheck" displayFormat="yyyy-MM-dd HH:mm:ss" valueFormat="yyyy-MM-dd HH:mm:ss" />
+          </FlexBox>
+        </FlexBox>
+      </FlexBox>
+      <!-- table -->
+      <!-- 表格 -->
+      <t:Table id="shopOrderTable" rows="{/table}" selectionMode="Single" selectionBehavior="RowOnly" width="100%" enableColumnReordering="false" rowSelectionChange="select">
+        <t:columns>
+          <!-- 工單號碼 -->
+          <t:Column hAlign="Center" resizable="false">
+            <Label text="{i18n>productionDailyReport.label2}" />
+            <t:template>
+              <Text text="{shopOrder}" />
+            </t:template>
+          </t:Column>
+          <!-- 物料編號 -->
+          <t:Column hAlign="Center" resizable="false">
+            <Label text="{i18n>productionDailyReport.label1}" />
+            <t:template>
+              <Text text="{plannedItem}" />
+            </t:template>
+          </t:Column>
+          <!-- 物料說明 -->
+          <t:Column hAlign="Center" width="25%" resizable="false">
+            <Label text="{i18n>g.materialDesc}" />
+            <t:template>
+              <Text text="{itemDesc}" />
+            </t:template>
+          </t:Column>
+          <!-- 工單類型 -->
+          <t:Column hAlign="Center" resizable="false">
+            <Label text="{i18n>productionDailyReport.label15}" />
+            <t:template>
+              <Text text="{auart}" />
+            </t:template>
+          </t:Column>
+          <!-- 工單狀態 -->
+          <t:Column hAlign="Center" resizable="false">
+            <Label text="{i18n>productionDailyReport.label40}" />
+            <t:template>
+              <Text text="{statusDescription}" />
+            </t:template>
+          </t:Column>
+          <!-- 計畫完成日期 -->
+          <t:Column hAlign="Center" width="25%" resizable="false">
+            <Label text="{i18n>productionDailyReport.label39}" />
+            <t:template>
+              <Text text="{plannedCompDateStr}" />
+            </t:template>
+          </t:Column>
+        </t:columns>
+      </t:Table>
+    </content>
+
+    <buttons>
+      <Button text="{i18n>g.cancel}" press="close" />
+    </buttons>
+  </Dialog>
+</core:FragmentDefinition>

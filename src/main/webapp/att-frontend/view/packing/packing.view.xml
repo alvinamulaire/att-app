@@ -1,0 +1,337 @@
+<mvc:View controllerName="att.view.packing.packing"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <Page class="sapUiSizeCompact">
+        <html:style>
+            .sapMPage>.sapMPageHeader + section{
+                top: 2.6rem
+            }
+        </html:style >
+        <customHeader>
+            <Bar class="title-midle">
+                <contentLeft >
+                    <Button text="{i18n>g.search}"
+                        icon="sap-icon://open-folder"
+                        press="scanContainerNo" />
+                    <Button text="{i18n>packing.label2}"
+                        icon="sap-icon://add"
+                        press="scanContainer" />
+                    <Button text="{i18n>packing.label3}"
+                        icon="sap-icon://action"
+                        press="openContainerNo"
+                        enabled="{= ${/containerStatus} === '1'}" />
+                    <Button text="{i18n>g.clear}"
+                        icon="sap-icon://eraser"
+                        press="clear" />
+                    <Button text="{i18n>packing.label4}"
+                        icon="sap-icon://print"
+                        press="print" />
+                </contentLeft >
+                <!-- 標題 -->
+                <contentMiddle >
+                    <Title text="{i18n>packing.label1}" />
+                </contentMiddle >
+            </Bar >
+        </customHeader >
+        <content>
+            <VBox>
+                <!-- 檢索條件 -->
+                <FlexBox renderType="Bare"
+                    width="100%"
+                    class="flex-wrap divColor">
+                    <!-- 第一行 -->
+                    <FlexBox alignItems="Center"
+                        renderType="Bare"
+                        width="100%"
+                        class="col-12 sapUiTinyMarginTop">
+                        <!-- 容器 -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label5}"
+                                class="myLabel flex40 set-required" />
+                            <Input id="container"
+                                width="40%"
+                                value="{/container}"
+                                showValueHelp="true"
+                                submit="scanContainer"
+                                valueHelpRequest="openDialog"
+                                cd:title="packing.label5"
+                                cd:filterKey="name"
+                                cd:callBackKey="name"
+                                cd:columns="name|packing.label5;description|packing.label6;packingMaxQty|packing.label22"
+                                cd:root="/" />
+                        </FlexBox >
+                        <!-- 容器說明 -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label6}"
+                                class="myLabel flex30" />
+                            <Text text="{/containerDesc}"
+                                class="myText" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 第二行 -->
+                    <FlexBox alignItems="Center"
+                        renderType="Bare"
+                        width="100%"
+                        class="col-12 sapUiTinyMarginTop">
+                        <!-- 箱號 -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label7}"
+                                class="myLabel flex40 set-required" />
+                            <Input id="boxNo"
+                                width="40%"
+                                value="{/containerNo}"
+                                submit="scanContainerNo" />
+                        </FlexBox >
+                        <!-- 箱號狀態 -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label8}"
+                                class="myLabel flex30" />
+                            <Text text="{/containerStatusName}"
+                                class="myText" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 第三行 -->
+                    <FlexBox alignItems="Center"
+                        renderType="Bare"
+                        width="100%"
+                        class="col-12 sapUiTinyMarginTopBottom">
+                        <!-- 標籤機 -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label9}"
+                                class="myLabel flex40 set-required" />
+                            <Input id="printer"
+                                width="40%"
+                                value="{/printer}"
+                                valueHelpOnly="true"
+                                showValueHelp="true"
+                                valueHelpRequest="openDialog"
+                                cd:title="packing.label9"
+                                cd:filterKey="printerName"
+                                cd:callBackKey="printerName"
+                                cd:columns="printerName|packing.label9"
+                                cd:root="/" />
+                        </FlexBox >
+                        <!-- 箱號重量 -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label10}"
+                                class="myLabel flex30"
+                                visible="{= ${/containerWeightRule} === 'Y' || ${/containerWeightRule} === 'U' }" />
+                            <Text text="{/containerWeight}"
+                                class="myText"
+                                visible="{= ${/containerWeightRule} === 'Y' }" />
+                            <Input id="containerWeight"
+                                width="40%"
+                                value="{/containerWeight}"
+                                valueHelpOnly="true"
+                                showValueHelp="true"
+                                visible="{= ${/containerWeightRule} === 'U' }"
+                                enabled="{= ${/containerNoFlag}}"
+                                valueHelpRequest="openDialog" />
+                        </FlexBox >
+                    </FlexBox >
+                </FlexBox >
+                <!-- 主內容 -->
+                <FlexBox renderType="Bare"
+                    width="100%"
+                    class="flex-wrap"
+                    justifyContent="Center">
+                    <!-- 第一行 -->
+                    <FlexBox alignItems="Center"
+                        renderType="Bare"
+                        width="100%"
+                        class="col-12 sapUiTinyMarginTop">
+                        <!-- SFC -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label20}"
+                                class="myLabel flex40 set-required" />
+                            <Input width="40%"
+                                value="{/sfc}"
+                                submit="scanSFC"
+                                liveChange="changeSFC"
+                                enabled="{= ${/containerStatus} === '0'}" />
+                        </FlexBox >
+                        <!-- 已包裝數量 / SFC總數 -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label11}"
+                                class="myLabel flex40" />
+                            <Text text="{/sfcPackedQty}"
+                                class="myText" />
+                            <Text text="&#160;/&#160;"
+                                class="myText"
+                                visible="true" />
+                            <Text text="{/sfcQty}"
+                                class="myText" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 第二行 -->
+                    <FlexBox alignItems="Center"
+                        renderType="Bare"
+                        width="100%"
+                        class="sapUiTinyMarginTop">
+                        <!-- BATCH_NO -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label12}"
+                                class="myLabel flex40 set-required" />
+                            <Input id="batchNo"
+                                width="40%"
+                                value="{/batch_no}"
+                                submit="scanBatchNo"
+                                enabled="{= ${/containerStatus} === '0'}" />
+                        </FlexBox >
+                        <!-- 裝箱數 / 滿箱數  -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label13}"
+                                class="myLabel flex40" />
+                            <Text text="{/packedQty}"
+                                class="myText" />
+                            <Text text="&#160;/&#160;"
+                                class="myText"
+                                visible="{/boxStatus}" />
+                            <Text text="{/maxQty}"
+                                class="myText" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 第三行 -->
+                    <FlexBox alignItems="Center"
+                        renderType="Bare"
+                        width="100%"
+                        class="col-12 sapUiTinyMarginTop">
+                        <!-- SN -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label14}"
+                                class="myLabel flex40 set-required" />
+                            <Input id="sn"
+                                width="40%"
+                                value="{/sn}"
+                                submit="scanSN"
+                                enabled="{= ${/containerStatus} === '0'}" />
+                        </FlexBox >
+                        <!--   -->
+                        <FlexBox renderType="Bare"
+                            width="50%" />
+                    </FlexBox >
+                    <!-- 第四行 -->
+                    <FlexBox alignItems="Center"
+                        renderType="Bare"
+                        width="100%"
+                        class="col-12 sapUiTinyMarginTopBottom">
+                        <!-- 可包裝的前綴 -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label15}"
+                                class="myLabel flex40"
+                                visible="{/affixRule}" />
+                            <Text text="{/prefix}"
+                                class="myText"
+                                visible="{/affixRule}" />
+                        </FlexBox >
+                        <!-- 可包裝的後綴  -->
+                        <FlexBox renderType="Bare"
+                            width="50%">
+                            <Label text="{i18n>packing.label16}"
+                                class="myLabel flex40"
+                                visible="{/affixRule}" />
+                            <Text text="{/suffix}"
+                                class="myText"
+                                visible="{/affixRule}" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 表格 -->
+                    <t:Table id="table"
+                        rows="{/packingList}"
+                        firstVisibleRow="{/firstRow}"
+                        selectionMode="MultiToggle"
+                        width="90%"
+                        selectionBehavior="Row">
+                        <t:extension >
+                            <OverflowToolbar style="Clear">
+                                <ToolbarSpacer />
+                                <Button icon="sap-icon://less"
+                                    press="minus"
+                                    enabled="{= ${/containerStatus} === '0'}" />
+                            </OverflowToolbar >
+                        </t:extension >
+                        <t:columns >
+                            <!-- 序號 -->
+                            <t:Column hAlign="Center"
+                                width="5%">
+                                <Label text="{i18n>packing.label17}" />
+                                <t:template >
+                                    <Text text="{index}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 物料編號 -->
+                            <t:Column hAlign="Center"
+                                width="15%">
+                                <Label text="{i18n>packing.label18}" />
+                                <t:template >
+                                    <Text text="{item}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 物料說明 -->
+                            <t:Column hAlign="Center"
+                                width="15%">
+                                <Label text="{i18n>packing.label19}" />
+                                <t:template >
+                                    <Text text="{itemDesc}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- SFC -->
+                            <t:Column hAlign="Center"
+                                width="15%">
+                                <Label text="{i18n>packing.label20}" />
+                                <t:template >
+                                    <Text text="{sfc}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- BATCH_NO -->
+                            <t:Column hAlign="Center">
+                                <Label text="{i18n>packing.label12}" />
+                                <t:template >
+                                    <Text text="{batchNo}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- SN -->
+                            <t:Column hAlign="Center">
+                                <Label text="{i18n>packing.label14}" />
+                                <t:template >
+                                    <Text text="{sn}" />
+                                </t:template >
+                            </t:Column >
+                        </t:columns >
+                    </t:Table >
+                </FlexBox >
+            </VBox >
+        </content >
+        <!-- 完成 -->
+        <footer >
+            <Toolbar width="100%">
+                <FlexBox alignItems="Center"
+                    justifyContent="Center"
+                    renderType="Bare"
+                    class="col-12">
+                    <Button id="finish"
+                        text="{i18n>packing.label23}"
+                        press="finish"
+                        enabled="{= ${/containerStatus} === '0'}"
+                        width="15%" />
+                </FlexBox >
+            </Toolbar >
+        </footer >
+    </Page >
+</mvc:View >

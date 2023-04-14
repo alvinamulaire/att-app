@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZMaterialShelfStateMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZMaterialShelfState">
+    <id column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="OPERATION" jdbcType="VARCHAR" property="operation" />
+    <result column="RESOURCE" jdbcType="VARCHAR" property="resource" />
+    <result column="SFC" jdbcType="VARCHAR" property="sfc" />
+    <result column="QTY" jdbcType="DECIMAL" property="qty" />
+    <result column="SHELF_NO" jdbcType="VARCHAR" property="shelfNo" />
+    <result column="PUTON_DATE_TIME" jdbcType="TIMESTAMP" property="putonDateTime" />
+    <result column="PUTON_USER" jdbcType="VARCHAR" property="putonUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SID, SITE, OPERATION, RESOURCE, SFC, QTY, SHELF_NO, PUTON_DATE_TIME, PUTON_USER
+  </sql>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZMaterialShelfStateExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_MATERIAL_SHELF_STATE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Z_MATERIAL_SHELF_STATE
+    where SID = #{sid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Z_MATERIAL_SHELF_STATE
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.att.repository.entity.ZMaterialShelfStateExample">
+    delete from Z_MATERIAL_SHELF_STATE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.repository.entity.ZMaterialShelfState">
+    insert into Z_MATERIAL_SHELF_STATE (SID, SITE, OPERATION, 
+      RESOURCE, SFC, QTY, 
+      SHELF_NO, PUTON_DATE_TIME, PUTON_USER
+      )
+    values (#{sid,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR}, 
+      #{resource,jdbcType=VARCHAR}, #{sfc,jdbcType=VARCHAR}, #{qty,jdbcType=DECIMAL}, 
+      #{shelfNo,jdbcType=VARCHAR}, #{putonDateTime,jdbcType=TIMESTAMP}, #{putonUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.repository.entity.ZMaterialShelfState">
+    insert into Z_MATERIAL_SHELF_STATE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="site != null">
+        SITE,
+      </if>
+      <if test="operation != null">
+        OPERATION,
+      </if>
+      <if test="resource != null">
+        RESOURCE,
+      </if>
+      <if test="sfc != null">
+        SFC,
+      </if>
+      <if test="qty != null">
+        QTY,
+      </if>
+      <if test="shelfNo != null">
+        SHELF_NO,
+      </if>
+      <if test="putonDateTime != null">
+        PUTON_DATE_TIME,
+      </if>
+      <if test="putonUser != null">
+        PUTON_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null">
+        #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="resource != null">
+        #{resource,jdbcType=VARCHAR},
+      </if>
+      <if test="sfc != null">
+        #{sfc,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="shelfNo != null">
+        #{shelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="putonDateTime != null">
+        #{putonDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="putonUser != null">
+        #{putonUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZMaterialShelfStateExample" resultType="java.lang.Long">
+    select count(*) from Z_MATERIAL_SHELF_STATE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Z_MATERIAL_SHELF_STATE
+    <set>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site != null">
+        SITE = #{record.site,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operation != null">
+        OPERATION = #{record.operation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resource != null">
+        RESOURCE = #{record.resource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfc != null">
+        SFC = #{record.sfc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qty != null">
+        QTY = #{record.qty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shelfNo != null">
+        SHELF_NO = #{record.shelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.putonDateTime != null">
+        PUTON_DATE_TIME = #{record.putonDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.putonUser != null">
+        PUTON_USER = #{record.putonUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Z_MATERIAL_SHELF_STATE
+    set SID = #{record.sid,jdbcType=VARCHAR},
+      SITE = #{record.site,jdbcType=VARCHAR},
+      OPERATION = #{record.operation,jdbcType=VARCHAR},
+      RESOURCE = #{record.resource,jdbcType=VARCHAR},
+      SFC = #{record.sfc,jdbcType=VARCHAR},
+      QTY = #{record.qty,jdbcType=DECIMAL},
+      SHELF_NO = #{record.shelfNo,jdbcType=VARCHAR},
+      PUTON_DATE_TIME = #{record.putonDateTime,jdbcType=TIMESTAMP},
+      PUTON_USER = #{record.putonUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.att.repository.entity.ZMaterialShelfState">
+    update Z_MATERIAL_SHELF_STATE
+    <set>
+      <if test="site != null">
+        SITE = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null">
+        OPERATION = #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="resource != null">
+        RESOURCE = #{resource,jdbcType=VARCHAR},
+      </if>
+      <if test="sfc != null">
+        SFC = #{sfc,jdbcType=VARCHAR},
+      </if>
+      <if test="qty != null">
+        QTY = #{qty,jdbcType=DECIMAL},
+      </if>
+      <if test="shelfNo != null">
+        SHELF_NO = #{shelfNo,jdbcType=VARCHAR},
+      </if>
+      <if test="putonDateTime != null">
+        PUTON_DATE_TIME = #{putonDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="putonUser != null">
+        PUTON_USER = #{putonUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.att.repository.entity.ZMaterialShelfState">
+    update Z_MATERIAL_SHELF_STATE
+    set SITE = #{site,jdbcType=VARCHAR},
+      OPERATION = #{operation,jdbcType=VARCHAR},
+      RESOURCE = #{resource,jdbcType=VARCHAR},
+      SFC = #{sfc,jdbcType=VARCHAR},
+      QTY = #{qty,jdbcType=DECIMAL},
+      SHELF_NO = #{shelfNo,jdbcType=VARCHAR},
+      PUTON_DATE_TIME = #{putonDateTime,jdbcType=TIMESTAMP},
+      PUTON_USER = #{putonUser,jdbcType=VARCHAR}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+</mapper>

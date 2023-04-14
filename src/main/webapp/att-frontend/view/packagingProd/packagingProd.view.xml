@@ -1,0 +1,166 @@
+<mvc:View controllerName="att.view.packagingProd.packagingProd"
+          xmlns="sap.m"
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns:core="sap.ui.core"
+          xmlns:t="sap.ui.table"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+          displayBlock="true" >
+    <Page showHeader="true"
+          class="packagingProd sapUiSizeCompact" >
+        <html:style >
+            .sapMPage>.sapMPageHeader + section {
+            top: 2.5rem;
+            }
+            .bg-color {
+            background-color: #F0F0F0;
+            }
+        </html:style >
+        <customHeader >
+            <Bar >
+                <contentLeft >
+                    <!-- 檢索 -->
+                    <Button text="{i18n>g.search}"
+                            icon="sap-icon://detail-view"
+                            press="retrieve" ></Button >
+                    <!-- 儲存 -->
+                    <Button text="{i18n>g.save}"
+                            icon="sap-icon://save"
+                            press="save" />
+                    <!-- 清除 -->
+                    <Button text="{i18n>g.clear}"
+                            icon="sap-icon://eraser"
+                            press="clear" ></Button >
+                </contentLeft >
+                <contentMiddle >
+                    <Title level="H3"
+                           text="{i18n>packaging.product.label1}" />
+                </contentMiddle >
+                <contentRight >
+                </contentRight >
+            </Bar >
+        </customHeader >
+        <content >
+            <VBox class="divColor" >
+                <FlexBox width="100%"
+                         renderType="Bare"
+                         class="row flex-wrap" >
+                    <!-- 生產點 -->
+                    <FlexBox renderType="Bare"
+                             class="myColumn col-12 col-sm-12 col-md-6 col-lg-6 px-2" >
+                        <Label text="{i18n>g.site}"
+                               class="myLabel flex40 setReq"
+                               textAlign="Right" >
+                        </Label >
+                        <Label text="{/site}"
+                               class="myLabel notColon"
+                               textAlign="Right" >
+                        </Label >
+                    </FlexBox >
+                </FlexBox >
+                <FlexBox width="100%"
+                         renderType="Bare"
+                         class="row flex-wrap" >
+                    <!-- 物料編號 -->
+                    <FlexBox renderType="Bare"
+                             class="myColumn col-12 col-sm-12 col-md-6 col-lg-6 px-2" >
+                        <Label class="myLabel flex40 setReq"
+                               text="{i18n>packaging.product.label2}" >
+                        </Label >
+                        <Input value="{/item}"
+                               showValueHelp="true"
+                               valueHelpRequest="itemDialog"
+                               liveChange="itemChange"
+                               cd:title="packaging.product.label2"
+                               cd:filterKey="item,description,itemType,current"
+                               cd:callBackKey="item"
+                               cd:columns="item|packaging.product.label2;description|g.desc;itemType|packaging.product.label12;current|packaging.product.label13"
+                               cd:root="/" >
+                            <layoutData >
+                                <FlexItemData maxWidth="15rem" ></FlexItemData >
+                            </layoutData >
+                        </Input >
+                    </FlexBox >
+                </FlexBox >
+            </VBox >
+            <FlexBox renderType="Bare"
+                     class="row p-3 sapUiSmallMarginTop sapUiTinyMarginBegin"
+                     width="99%" >
+                <Bar class="bg-color" >
+                    <contentRight >
+                        <!--插入新项，删除选定项-->
+                        <Button icon="sap-icon://add"
+                                cd:key="new"
+                                type="Transparent"
+                                press="doTable"
+                                enabled="{=!${/isCreateJob}}" />
+                        <Button icon="sap-icon://less"
+                                cd:key="delete"
+                                type="Transparent"
+                                press="doTable"
+                                enabled="{=!${/isCreateJob}}" />
+                    </contentRight >
+                </Bar >
+                <t:Table id="table"
+                         rows="{/table}"
+                         width="100%"
+                         enableColumnReordering="false"
+                         showNoData="true"
+                         enableBusyIndicator="true"
+                         visibleRowCount="{/rowCnt}" >
+                    <t:columns >
+                        <!-- 序 -->
+                        <t:Column hAlign="Center"
+                                  width='5%' >
+                            <Label text="{i18n>packaging.product.label3}" />
+                            <t:template >
+                                <Text text="{seq}" />
+                            </t:template >
+                        </t:Column >
+                        <!-- 項目編號 -->
+                        <t:Column hAlign="Center"
+                                  width='10%' >
+                            <Label text="{i18n>packaging.product.label6}" />
+                            <t:template >
+                                <Input value="{qcItem}"
+                                       showValueHelp="true"
+                                       valueHelpOnly="true"
+                                       valueHelpRequest="qcPlanItemDialog"
+                                       liveChange="qcItemChange"
+                                       cd:title="packaging.product.label6"
+                                       cd:filterKey="qcPlan,qcItem,qcItemDesc,itemType"
+                                       cd:callBackKey="qcItem"
+                                       cd:columns="qcPlan|packaging.product.label4;qcItem|packaging.product.label6;qcItemDesc|g.desc;itemType|packaging.product.label14"
+                                       cd:root="/" />
+                            </t:template >
+                        </t:Column >
+                        <!-- 項目說明 -->
+                        <t:Column hAlign="Center"
+                                  width='10%' >
+                            <Label text="{i18n>packaging.product.label7}" />
+                            <t:template >
+                                <Text text="{qcItemDesc}" />
+                            </t:template >
+                        </t:Column >
+                        <!-- 檢驗類型 -->
+                        <t:Column hAlign="Center"
+                                  width='10%' >
+                            <Label text="{i18n>packaging.product.label8}" />
+                            <t:template >
+                                <Text text="{itemType}" />
+                            </t:template >
+                        </t:Column >
+                        <!-- 備註 -->
+                        <t:Column hAlign="Center"
+                                  width='15%' >
+                            <Label text="{i18n>packaging.product.label11}" />
+                            <t:template >
+                                <Text text="{remark}" />
+                            </t:template >
+                        </t:Column >
+                    </t:columns >
+                </t:Table >
+            </FlexBox >
+        </content >
+    </Page >
+</mvc:View >

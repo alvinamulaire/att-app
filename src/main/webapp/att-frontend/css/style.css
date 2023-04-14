@@ -1,0 +1,55 @@
+.shopOrderRelease>section {
+    top: 40px
+}
+
+.divColor {
+    background-color: #e6e6e6;
+    border-bottom-style: groove;
+}
+
+.divColor-yellow1 {
+    background-color: #FFFCEC;
+    border-style: groove;
+}
+
+.divColor-yellow2 {
+    background-color: #FFFCEC;
+    border-left-style: groove;
+    border-right-style: groove;
+    border-bottom-style: groove;
+}
+
+.divColor-yellow3 {
+    background-color: #FFFCEC;
+    border-left-style: groove;
+    border-right-style: groove;
+}
+
+.divColor-blue1 {
+    background-color: #ECF5FF;
+    border-style: groove;
+}
+
+.divColor-blue2 {
+    background-color: #ECF5FF;
+    border-top-style: groove;
+    border-left-style: groove;
+    border-right-style: groove;
+}
+
+.divColor-blue3 {
+    background-color: #ECF5FF;
+    border-left-style: groove;
+    border-right-style: groove;
+    border-bottom-style: groove;
+}
+
+.set-required ::before {
+    content: "*";
+    color: #c14646;
+    font-size: 1.25rem;
+    font-weight: bold;
+    position: relative;
+    vertical-align: middle;
+    line-height: 0;
+}

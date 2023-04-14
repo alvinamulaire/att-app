@@ -1,0 +1,140 @@
+<core:FragmentDefinition xmlns="sap.m"
+  xmlns:core="sap.ui.core"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:t="sap.ui.table">
+  <Dialog id="productionProcessDialog" showHeader="true" contentWidth="100%" class="sapUiSizeCompact">
+    <html:style>
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <contentLeft>
+          <!-- 匯出 -->
+          <Button text="{i18n>g.export}" icon="sap-icon://action" press="export" />
+        </contentLeft>
+        <contentMiddle>
+          <Title text="{i18n>productionDailyReport.label42}" />
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <!-- 表格 -->
+      <t:Table id="productionProcessTable" rows="{/detailLists}" selectionMode="None" width="100%" enableColumnReordering="false">
+        <t:extension>
+          <OverflowToolbar style="Clear">
+            <!-- 資料區間 -->
+            <Text text="{i18n>productionDailyReport.label14}：" class="myText" />
+            <Text text="{/startDate}　～　" class="myText" />
+            <Text text="{/endDate}" class="myText" />
+            <ToolbarSpacer/>
+          </OverflowToolbar>
+        </t:extension>
+        <t:columns>
+          <!-- SFC -->
+          <t:Column hAlign="Center" width="7rem" resizable="false">
+            <Label text="{i18n>g.sfc}" />
+            <t:template>
+              <Text text="{sfc}" />
+            </t:template>
+          </t:Column>
+          <!-- 執行功能 -->
+          <t:Column hAlign="Center" width="5rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label43}" />
+            <t:template>
+              <Text text="{actionCodeDesc}" />
+            </t:template>
+          </t:Column>
+          <!-- 功能代碼 -->
+          <t:Column hAlign="Center" width="5rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label55}" />
+            <t:template>
+              <Text text="{actionCode}" />
+            </t:template>
+          </t:Column>
+          <!-- 原始數量 -->
+          <!-- <t:Column hAlign="Center" width="5rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label44}" />
+            <t:template>
+              <Text text="{itemDesc}" />
+            </t:template>
+          </t:Column> -->
+          <!-- 工作中心 -->
+          <t:Column hAlign="Center" width="7rem" resizable="false">
+            <Label text="{i18n>g.workCenter}" />
+            <t:template>
+              <Text text="{workCenter}" />
+            </t:template>
+          </t:Column>
+          <!-- 工作中心說明 -->
+          <t:Column hAlign="Center" width="10rem" resizable="false">
+            <Label text="{i18n>g.workCenterDesc}" />
+            <t:template>
+              <Text text="{workCenterDesc}" />
+            </t:template>
+          </t:Column>
+          <!-- 作業站點 -->
+          <t:Column hAlign="Center" width="7rem" resizable="false">
+            <Label text="{i18n>g.operation}" />
+            <t:template>
+              <Text text="{operation}" />
+            </t:template>
+          </t:Column>
+          <!-- 作業站點說明 -->
+          <t:Column hAlign="Center" width="10rem" resizable="false">
+            <Label text="{i18n>g.operationDesc}" />
+            <t:template>
+              <Text text="{operationDesc}" />
+            </t:template>
+          </t:Column>
+          <!-- 設備編號 -->
+          <t:Column hAlign="Center" width="7rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label45}" />
+            <t:template>
+              <Text text="{resrce}" />
+            </t:template>
+          </t:Column>
+          <!-- 設備說明 -->
+          <t:Column hAlign="Center" width="10rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label46}" />
+            <t:template>
+              <Text text="{resrceDesc}" />
+            </t:template>
+          </t:Column>
+          <!-- 執行時間 -->
+          <t:Column hAlign="Center" width="10rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label47}" />
+            <t:template>
+              <Text text="{dateTimeStr}" />
+            </t:template>
+          </t:Column>
+          <!-- 執行人員 -->
+          <t:Column hAlign="Center" width="7rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label48}" />
+            <t:template>
+              <Text text="{userId}" />
+            </t:template>
+          </t:Column>
+          <!-- 執行數量 -->
+          <t:Column hAlign="Center" width="5rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label49}" />
+            <t:template>
+              <Text text="{qty}" />
+            </t:template>
+          </t:Column>
+          <!-- 上層 SFC -->
+          <t:Column hAlign="Center" width="7rem" resizable="false">
+            <Label text="{i18n>productionDailyReport.label50}" />
+            <t:template>
+              <Text text="{parentSfc}" />
+            </t:template>
+          </t:Column>
+
+        </t:columns>
+      </t:Table>
+    </content>
+
+    <buttons>
+      <Button text="{i18n>g.cancel}" press="close" />
+    </buttons>
+  </Dialog>
+</core:FragmentDefinition>

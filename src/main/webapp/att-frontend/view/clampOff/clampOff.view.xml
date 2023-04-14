@@ -1,0 +1,126 @@
+<mvc:View controllerName="att.view.clampOff.clampOff"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <Page class="sapUiSizeCompact">
+    <html:style>
+			.sapMPage>.sapMPageHeader + section{
+				top: 2.6rem
+			}
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <contentLeft>
+          <Button text="{i18n>g.search}" icon="sap-icon://open-folder" press="search" />
+          <Button text="{i18n>g.clear}" icon="sap-icon://eraser" press="clear" />
+        </contentLeft>
+        <!-- 標題 -->
+        <contentMiddle>
+          <Title text="{i18n>clampOff.label1}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <VBox>
+        <!-- 檢索條件 -->
+        <FlexBox renderType="Bare" width="100%" class="flex-wrap divColor">
+          <!-- 第一行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+            <!-- 生產點 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>g.site}" class="myLabel flex40" />
+              <Text text="{/site}" class="myText" />
+            </FlexBox>
+            <!--  -->
+            <FlexBox renderType="Bare" width="50%" />
+          </FlexBox>
+          <!-- 第二行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+            <!-- 作業 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>g.operation}" class="myLabel flex40 set-required" />
+              <Input id="operation" width="30%" value="{/operation}" showValueHelp="true" valueHelpRequest="openDialog" cd:title="g.operation" cd:filterKey="operation" cd:callBackKey="operation" cd:columns="operation|g.operation;description|g.operationDesc" cd:root="/" />
+            </FlexBox>
+            <!-- 站點說明 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>g.operationDesc}" class="myLabel flex30" />
+              <Text text="{/operationDesc}" class="myText" />
+            </FlexBox>
+          </FlexBox>
+          <!-- 第三行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTopBottom">
+            <!-- 資源 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>g.resource}" class="myLabel flex40 set-required" />
+              <Input id="resource" width="30%" value="{/resource}" showValueHelp="true" valueHelpRequest="openDialog" cd:title="g.resource" cd:filterKey="resrce" cd:callBackKey="resrce" cd:columns="resrce|g.resource;description|g.resourceDesc" cd:root="/" />
+            </FlexBox>
+            <!-- 資源說明 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>g.resourceDesc}" class="myLabel flex30" />
+              <Text text="{/resourceDesc}" class="myText" />
+            </FlexBox>
+          </FlexBox>
+        </FlexBox>
+
+        <!-- 主內容 -->
+        <FlexBox renderType="Bare" width="100%" class="flex-wrap" justifyContent="Center">
+          <FlexBox renderType="Bare" width="100%" alignItems="Center" class="col-12 sapUiTinyMarginTopBottom">
+            <!-- 工具編號 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>clampOff.label2}" class="myLabel flex40 set-required" />
+              <Input width="30%" value="{/toolNumber}" submit="checkToolNumber" />
+            </FlexBox>
+            <!--   -->
+            <FlexBox renderType="Bare" width="50%" />
+          </FlexBox>
+
+          <!-- 表格 -->
+          <t:Table id="table" rows="{/toolStateList}" selectionMode="MultiToggle" width="70%" selectionBehavior="Row">
+            <t:columns>
+              <!-- 工具編號 -->
+              <t:Column hAlign="Center">
+                <Label text="{i18n>clampStart.label4}" />
+                <t:template>
+                  <Text text="{toolNumber}" />
+                </t:template>
+              </t:Column>
+              <!-- SFC -->
+              <t:Column hAlign="Center">
+                <Label text="{i18n>g.sfc}" />
+                <t:template>
+                  <Text text="{sfc}" />
+                </t:template>
+              </t:Column>
+              <!-- SN -->
+              <t:Column hAlign="Center">
+                <Label text="{i18n>clampOff.label3}" />
+                <t:template>
+                  <Text text="{sn}" />
+                </t:template>
+              </t:Column>
+              <!-- 數量 -->
+              <t:Column hAlign="Center" width="10%">
+                <Label text="{i18n>clampOff.label4}" />
+                <t:template>
+                  <Text text="{qty}" />
+                </t:template>
+              </t:Column>
+            </t:columns>
+          </t:Table>
+        </FlexBox>
+      </VBox>
+    </content>
+    <!-- 下機 -->
+    <footer>
+      <Toolbar width="100%">
+        <FlexBox renderType="Bare" alignItems="Center" justifyContent="Center" class="col-12">
+          <Button id="off" text="{i18n>clampOff.label5}" press="off" width="15%" />
+        </FlexBox>
+      </Toolbar>
+    </footer>
+  </Page>
+</mvc:View>

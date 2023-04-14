@@ -1,0 +1,317 @@
+<mvc:View controllerName="att.view.print.print"
+    xmlns="sap.m"
+    xmlns:t="sap.ui.table"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:u="sap.ui.unified"
+    displayBlock="true">
+    <Page showHeader="true"
+        class="print sapUiSizeCompact">
+        <html:style>
+            .print > section{
+                margin-right: 0px;
+                margin-left: 0px;
+                top:40px !important;
+            }
+            .print .divColor {
+                background-color:#e6e6e6;
+                border-bottom-style:groove;
+            }
+            .print .title-midle > div.sapMBarMiddle > div {
+                vertical-align: middle;
+            }
+            .setReq ::before{
+                content: "*";
+                color: #c14646;
+                font-size: 1.25rem;
+                font-weight: bold;
+                position: relative;
+                vertical-align: middle;
+                line-height: 0;
+            }
+            .print .myDividerColumn{
+                -ms-flex-preferred-size: 0;
+                flex-basis: 0;
+                -ms-flex-positive: 1;
+                flex-grow: 1;
+                max-width: 100%;
+                min-height: 42px;
+                top: 5px;
+            }
+            .print .myTextArea{
+                max-width: 100%;
+                min-height: 47px;
+                top: 5px;
+            }
+            .print .myColumn{
+                -ms-flex-preferred-size: 0;
+                flex-basis: 0;
+                -ms-flex-positive: 1;
+                flex-grow: 1;
+                max-width: 100%;
+                min-height: 37px;
+            }
+            .print .myLabel{
+                padding-bottom: 0.5rem !important;
+                padding-top: 0.5rem !important;
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+                justify-content: flex-end !important;
+                display: flex !important;
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+                text-align: right;
+                
+            }
+            .print .myText{
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                display: flex !important;
+                flex: 0 0 66.666667%;
+                max-width: 66.666667%;
+                align-items: center;
+            }
+            .print .myInput{
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                display: flex !important;
+                flex: 0 0 66.666667%;
+                max-width: 66.666667%;
+            }
+            .print .myDivider{ 
+                border-bottom: 1px solid !important;
+            }
+            .gotop {
+                position: fixed;
+                display: none;
+                opacity: 1;
+                z-index: 110;
+                right: 10px;
+                bottom: 35px;
+                transition: all .2s ease-in-out;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .gotop>span{
+                height: 32px !important;
+                border-radius:999em;
+            }
+            .gotop>span>span{
+                top: 2px;
+            }
+        </html:style>
+        <customHeader>
+            <Bar class="title-midle"
+                visible="{/notPod}">
+                <contentLeft>
+                    <!-- 返回 -->
+                    <Button text="{i18n>g.back}"
+                        icon="sap-icon://nav-back"
+                        press="back"
+                        visible = "{/back}"/>
+                    <!-- 檢索 -->
+                    <Button text="{i18n>g.retrieve}"
+                        icon="sap-icon://detail-view"
+                        press="retrieve"/>
+                    <!-- 清除 -->
+                    <Button text="{i18n>g.clear}"
+                        icon="sap-icon://reset"
+                        press="clear"/>
+                </contentLeft>
+                <contentMiddle>
+                    <Title level="H3"
+                        text="{i18n>print.title}"/>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+        <content>
+            <FlexBox class="flex-wrap row-cols-2 divColor"
+                width="100%"
+                alignItems="Start"
+                renderType="Bare">
+                <FlexBox class="col-12 col-sm-6 col-md-4 col-lg-4 flex-column"
+                    renderType="Bare">
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- 標籤類型 -->
+                        <Label class="myLabel setReq"
+                            text="{i18n>print.label.type}">
+                        </Label>
+                        <Select id="labelTypeSelect"
+                            class="d-flex px-0"
+                            width="100%"
+                            selectedKey="{/labelType}"
+                            change="labelChange"
+                            items="{path: '/labelTypeList'}">
+                            <core:Item key="{key}"
+                                text="{text}"></core:Item>
+                        </Select>
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare" visible = "{= ${/labelType} === '0'}">
+                        <!-- 焊接碼 -->
+                        <Label class="myLabel setTriangle"
+                            text="{i18n>print.tlSn}">
+                        </Label>
+                        <Input id="tlsn" value="{/tlSn}"/>
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare" visible = "{= ${/labelType} === '1'}">
+                        <!-- 箱號 -->
+                        <Label class="myLabel setTriangle"
+                            text="{i18n>print.carton}">
+                        </Label>
+                        <Input value="{/carton}"
+                            showValueHelp="true" 
+                            valueHelpRequest="cartonDialog" />
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare" visible = "{= ${/labelType} === '2'}">
+                        <!-- 棧板編號 -->
+                        <Label class="myLabel setTriangle"
+                            text="{i18n>print.pallet.no}">
+                        </Label>
+                        <Input value="{/pallet}"
+                            showValueHelp="true" 
+                            valueHelpRequest="palletDialog" />
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- SFC -->
+                        <Label class="myLabel setTriangle"
+                            text="{i18n>print.sfc}">
+                        </Label>
+                        <Input value="{/sfc}"/>
+                    </FlexBox>
+                </FlexBox>
+                <FlexBox class="col-12 col-sm-6 col-md-4 col-lg-4 flex-column"
+                    renderType="Bare">
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare" visible = "{= ${/labelType} === '1'}">
+                        <!-- 棧板編號 -->
+                        <Label class="myLabel setTriangle"
+                            text="{i18n>print.pallet.no}">
+                        </Label>
+                        <Input value="{/pallet}"
+                            showValueHelp="true" 
+                            valueHelpRequest="palletDialog" />
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- 現場訂單 -->
+                        <Label class="myLabel setTriangle"
+                            text="{i18n>print.shoporder}">
+                        </Label>
+                        <Input 
+                            id="shopOrder" 
+                            value="{/shopOrder}" 
+                            showValueHelp="true" 
+                            valueHelpRequest="shopOrderDialog" 
+                            cd:title="print.shoporder" 
+                            cd:filterKey="shopOrder" 
+                            cd:callBackKey="shopOrder" 
+                            cd:columns="shopOrder|print.shoporder;item|print.item;itemDescription|print.item.desc" 
+                            cd:root="/" />
+                    </FlexBox>
+                </FlexBox>
+            </FlexBox>
+            <FlexBox class="flex-wrap row-cols-2 "
+                width="100%"
+                alignItems="Start"
+                renderType="Bare">
+                <FlexBox class="col-12 col-sm-6 col-md-4 col-lg-4 flex-column" renderType="Bare">
+                    <FlexBox class="myDividerColumn"
+                        renderType="Bare">
+                        <!-- 標籤機 -->
+                        <Label class="myLabel setReq"
+                            text="{i18n>print.printer}">
+                        </Label>
+                        <Input
+                            value="{/printer}"
+                            showValueHelp="true" 
+                            valueHelpRequest="printerDialog" 
+                            cd:title="print.printer" 
+                            cd:filterKey="printer" 
+                            cd:callBackKey="printer" 
+                            cd:columns="printer|print.printer" 
+                            cd:root="/" >
+                        </Input>
+                    </FlexBox>
+                </FlexBox>
+            </FlexBox>
+            <FlexBox class="flex-wrap row-cols-12"
+                width="100%"
+                alignItems="Center"
+                renderType="Bare">
+                <FlexBox class="col-1 col-sm-1 col-md-1 col-lg-1" renderType="Bare">
+                </FlexBox>
+                <FlexBox class="col-10 col-sm-10 col-md-10 col-lg-10"
+                    renderType="Bare">
+                    <t:Table id="table"
+                        rows="{/table}"
+                        visibleRowCount="12">
+                        <t:columns>
+                            <!-- 序號 -->
+                            <t:Column hAlign="Center">
+                                <Label text="{i18n>g.seq}" />
+                                <t:template>
+                                    <Text text="{seq}" />
+                                </t:template>
+                            </t:Column>
+                            <!-- 現場訂單 -->
+                            <t:Column hAlign="Center">
+                                <Label text="{i18n>print.shoporder}" />
+                                <t:template>
+                                    <Text text="{shopOrder}" />
+                                </t:template>
+                            </t:Column>
+                            <!-- SFC -->
+                            <t:Column hAlign="Center" visible = "{= ${/labelType} === '0'}">
+                                <Label text="{i18n>print.sfc}" />
+                                <t:template>
+                                    <Text text="{sfc}" />
+                                </t:template>
+                            </t:Column>
+                            <!-- 焊接碼 -->
+                            <t:Column hAlign="Center" visible = "{= ${/labelType} === '0'}">
+                                <Label text="{i18n>print.tlSn}" />
+                                <t:template>
+                                    <Text text="{tlSn}" />
+                                </t:template>
+                            </t:Column>
+                            <!-- 棧板編號 -->
+                            <t:Column hAlign="Center" visible = "{= ${/labelType} !== '0'}">
+                                <Label text="{i18n>print.pallet}" />
+                                <t:template>
+                                    <Text text="{pallet}" />
+                                </t:template>
+                            </t:Column>
+                            <!-- 箱號 -->
+                            <t:Column hAlign="Center" visible = "{= ${/labelType} === '1'}">
+                                <Label text="{i18n>print.carton}" />
+                                <t:template>
+                                    <Text text="{carton}" />
+                                </t:template>
+                            </t:Column>
+                        </t:columns>
+                    </t:Table>
+                </FlexBox>
+            </FlexBox>
+        </content>
+        <footer>
+         <OverflowToolbar>
+            <ToolbarSpacer/>
+            <!-- 標籤列印 -->
+            <Button text="{i18n>print.print}"
+               press="print"></Button>
+            <ToolbarSpacer/>
+         </OverflowToolbar>
+      </footer>
+    </Page>
+</mvc:View>

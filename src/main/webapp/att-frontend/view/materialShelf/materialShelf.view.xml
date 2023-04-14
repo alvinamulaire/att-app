@@ -1,0 +1,132 @@
+<mvc:View controllerName="att.view.materialShelf.materialShelf"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <Page class="sapUiSizeCompact">
+    <html:style>
+			.sapMPage>.sapMPageHeader + section{
+				top: 2.6rem
+			}
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <!-- 標題 -->
+        <contentMiddle>
+          <Title text="{i18n>att.materialShelf.label1}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <VBox>
+        <!-- 檢索條件 -->
+        <FlexBox renderType="Bare" width="100%" class="divColor flex-wrap">
+          <!-- 第一行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+            <!-- 生產點 -->
+            <FlexBox renderType="Bare" width="33%">
+              <Label text="{i18n>g.site}" class="myLabel flex40" />
+              <Text text="{/site}" class="myText" />
+            </FlexBox>
+            <!-- 作業編號 -->
+            <FlexBox renderType="Bare" width="33%">
+              <Label text="{i18n>att.materialShelf.label2}" class="myLabel flex40" />
+              <Text text="{/operation}" class="myText" />
+            </FlexBox>
+            <!-- 作業說明 -->
+            <FlexBox renderType="Bare" width="33%">
+              <Label text="{i18n>att.materialShelf.label3}" class="myLabel flex40" />
+              <Text text="{/operationDesc}" class="myText" />
+            </FlexBox>
+          </FlexBox>
+          <!-- 第二行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTopBottom">
+            <!-- SFC -->
+            <FlexBox renderType="Bare" width="33%">
+              <Label text="{i18n>att.materialShelf.label4}" class="set-required myLabel flex40" />
+              <Text text="{/sfc}" class="myText" />
+            </FlexBox>
+            <!-- 設備編號 -->
+            <FlexBox renderType="Bare" width="33%">
+              <Label text="{i18n>att.materialShelf.label5}" class="myLabel flex40" />
+              <Text text="{/resource}" class="myText" />
+            </FlexBox>
+            <!-- 設備說明 -->
+            <FlexBox renderType="Bare" width="33%">
+              <Label text="{i18n>att.materialShelf.label6}" class="myLabel flex40" />
+              <Text text="{/resourceDesc}" class="myText" />
+            </FlexBox>
+          </FlexBox>
+          <!-- 第三行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginBottom">
+            <!--  -->
+            <FlexBox renderType="Bare" width="33%" />
+            <!-- 作業中數量 -->
+            <FlexBox renderType="Bare" width="33%">
+              <Label text="{i18n>att.materialShelf.label7}" class="myLabel flex40" />
+              <Text text="{/sfcQty}" class="myText" />
+            </FlexBox>
+            <!-- 料架數量 -->
+            <FlexBox renderType="Bare" width="33%">
+              <Label text="{i18n>att.materialShelf.label8}" class="myLabel flex40" />
+              <Text text="{/rackQty}" class="myText" />
+            </FlexBox>
+          </FlexBox>
+        </FlexBox>
+
+        <!-- 主內容 -->
+        <FlexBox renderType="Bare" width="100%" class="flex-wrap" justifyContent="Center">
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="sapUiSmallMarginTopBottom">
+            <!-- 數量 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>att.materialShelf.label9}" class="myLabel flex40" />
+              <Input id="qty" width="33%" value="{/qty}" liveChange="checkQty" submit="switchFocus" cd:negative="true" cd:decimal="true" cd:symbol="true" />
+            </FlexBox>
+            <!-- 料架編號 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>att.materialShelf.label10}" class="myLabel flex40 set-required" />
+              <Input id="rackNum" width="33%" value="{/rackNum}" change="checkRackNum" submit="add" cd:Symbol="false" />
+            </FlexBox>
+          </FlexBox>
+
+          <t:Table id="table" rows="{/shelfList}" selectionMode="MultiToggle" class="sapUiTinyMarginTop" width="50%">
+            <t:extension>
+              <OverflowToolbar style="Clear">
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://add" press="add"/>
+                <Button icon="sap-icon://less" press="minus"/>
+              </OverflowToolbar>
+            </t:extension>
+            <t:columns>
+              <!-- 順序 -->
+              <t:Column hAlign="Center" width="10%">
+                <Label text="{i18n>att.materialShelf.label11}" />
+                <t:template>
+                  <Text text="{index}" />
+                </t:template>
+              </t:Column>
+              <!-- 料架編號 -->
+              <t:Column hAlign="Center">
+                <Label text="{i18n>att.materialShelf.label10}" />
+                <t:template>
+                  <Text text="{shelfNo}" />
+                </t:template>
+              </t:Column>
+              <!-- 數量 -->
+              <t:Column hAlign="Center" width="25%">
+                <Label text="{i18n>att.materialShelf.label9}" />
+                <t:template>
+                  <Text text="{qty}" />
+                </t:template>
+              </t:Column>
+            </t:columns>
+          </t:Table>
+
+        </FlexBox>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

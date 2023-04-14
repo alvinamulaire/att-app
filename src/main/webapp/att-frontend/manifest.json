@@ -1,0 +1,245 @@
+{
+    "_version": "1.8.0",
+    "sap.app": {
+        "id": "att",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "title": "{{app.Title}}",
+        "description": "{{app.Description}}",
+        "applicationVersion": {
+            "version": "1.0.0"
+        },
+        "dataSources": {}
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        },
+        "supportedThemes": [
+            "sap_hcb",
+            "sap_bluecrystal",
+            "sap_belize"
+        ]
+    },
+    "sap.ui5": {
+        "rootView": {
+            "viewName": "att.app.App",
+            "type": "XML"
+        },
+        "dependencies": {
+            "minUI5Version": "1.30",
+            "libs": {
+                "sap.ui.core": {},
+                "sap.m": {},
+                "sap.ui.layout": {},
+                "sap.uxap": {}
+            }
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "att.i18n.i18n"
+                }
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "viewPath": "att",
+                "controlId": "app",
+                "controlAggregation": "pages",
+                "async": true
+            },
+            "routes": [
+                {
+                    "name": "yieldMaintain",
+                    "pattern": "yieldMaintain:?req:",
+                    "target": "yieldMaintain"
+                },
+                {
+                    "name": "sfcRelease",
+                    "pattern": "sfcRelease:?req:",
+                    "target": "sfcRelease"
+                },
+                {
+                    "name": "materialShelf",
+                    "pattern": "materialShelf:?req:",
+                    "target": "materialShelf"
+                },
+                {
+                    "name": "returnMaterial",
+                    "pattern": "returnMaterial:?req:",
+                    "target": "returnMaterial"
+                },
+                {
+                    "name": "sn",
+                    "pattern": "sn:?req:",
+                    "target": "sn"
+                },
+                {
+                    "name": "packing",
+                    "pattern": "packing:?req:",
+                    "target": "packing"
+                },
+                {
+                    "name": "stacking",
+                    "pattern": "stacking:?req:",
+                    "target": "stacking"
+                },
+                {
+                    "name": "tlSn",
+                    "pattern": "tlSn:?req:",
+                    "target": "tlSn"
+                },
+                {
+                    "name": "print",
+                    "pattern": "print:?req:",
+                    "target": "print"
+                },
+                {
+                    "name": "packCheckOut",
+                    "pattern": "packCheckOut:?req:",
+                    "target": "packCheckOut"
+                },
+                {
+                    "name": "packagingProd",
+                    "pattern": "packagingProd:?req:",
+                    "target": "packagingProd"
+                },
+                {
+                    "name": "clampStart",
+                    "pattern": "clampStart:?req:",
+                    "target": "clampStart"
+                },
+                {
+                    "name": "clampOff",
+                    "pattern": "clampOff:?req:",
+                    "target": "clampOff"
+                },
+                {
+                    "name": "clampComplete",
+                    "pattern": "clampComplete:?req:",
+                    "target": "clampComplete"
+                },
+                {
+                    "name": "sfcDone",
+                    "pattern": "sfcDone:?req:",
+                    "target": "sfcDone"
+                },
+                {
+                    "name": "shippingReport",
+                    "pattern": "shippingReport:?req:",
+                    "target": "shippingReport"
+                },
+                {
+                    "name": "productionDailyReport",
+                    "pattern": "productionDailyReport:?req:",
+                    "target": "productionDailyReport"
+                },
+                {
+                    "name": "ncOperation",
+                    "pattern": "ncOperation:?req:",
+                    "target": "ncOperation"
+                },
+                {
+                    "name": "ncReport",
+                    "pattern": "ncReport:?req:",
+                    "target": "ncReport"
+                },
+                {
+                    "name": "equipmentKanban",
+                    "pattern": "equipmentKanban:?req:",
+                    "target": "equipmentKanban"
+                },
+                {
+                    "name": "productionKanban",
+                    "pattern": "productionKanban:?req:",
+                    "target": "productionKanban"
+                },
+                {
+                    "name": "tmsalerman",
+                    "pattern": "tmsalerman:?req:",
+                    "target": "tmsalerman"
+                }
+            ],
+            "targets": {
+                "yieldMaintain": {
+                    "viewName": "view.yieldMaintain.yieldMaintain"
+                },
+                "sfcRelease": {
+                    "viewName": "view.sfcRelease.sfcRelease"
+                },
+                "materialShelf": {
+                    "viewName": "view.materialShelf.materialShelf"
+                },
+                "returnMaterial": {
+                    "viewName": "view.returnMaterial.returnMaterial"
+                },
+                "sn": {
+                    "viewName": "view.sn.sn"
+                },
+                "packing": {
+                    "viewName": "view.packing.packing"
+                },
+                "stacking": {
+                    "viewName": "view.stacking.stacking"
+                },
+                "tlSn": {
+                    "viewName": "view.tlSn.tlSn"
+                },
+                "print": {
+                    "viewName": "view.print.print"
+                },
+                "packCheckOut": {
+                    "viewName": "view.packCheckOut.packCheckOut"
+                },
+                "packagingProd": {
+                    "viewName": "view.packagingProd.packagingProd"
+                },
+                "clampStart": {
+                    "viewName": "view.clampStart.clampStart"
+                },
+                "clampOff": {
+                    "viewName": "view.clampOff.clampOff"
+                },
+                "clampComplete": {
+                    "viewName": "view.clampComplete.clampComplete"
+                },
+                "sfcDone": {
+                    "viewName": "view.sfcDone.sfcDone"
+                },
+                "shippingReport": {
+                    "viewName": "view.shippingReport.shippingReport"
+                },
+                "productionDailyReport": {
+                    "viewName": "view.productionDailyReport.productionDailyReport"
+                },
+                "ncOperation": {
+                    "viewName": "view.ncOperation.ncOperation"
+                },
+                "ncReport": {
+                    "viewName": "view.ncReport.ncReport"
+                },
+                "tmsalerman": {
+                    "viewName": "view.tmsalerman.tmsalerman"
+                },
+                "equipmentKanban": {
+                    "viewName": "view.equipmentKanban.equipmentKanban",
+                    "black": "Y"
+                },
+                "productionKanban": {
+                    "viewName": "view.productionKanban.productionKanban",
+                    "black": "Y"
+                }
+            }
+        }
+    }
+}

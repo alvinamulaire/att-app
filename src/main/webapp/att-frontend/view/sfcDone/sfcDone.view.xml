@@ -1,0 +1,131 @@
+<mvc:View controllerName="att.view.sfcDone.sfcDone"
+          xmlns="sap.m"
+          xmlns:t="sap.ui.table"
+          xmlns:mvc="sap.ui.core.mvc"
+          xmlns:core="sap.ui.core"
+          xmlns:html="http://www.w3.org/1999/xhtml"
+          xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+          xmlns:u="sap.ui.unified"
+          displayBlock="true" >
+    <Page class="sfcDone sapUiSizeCompact" >
+        <html:style>
+            .sapMPage>.sapMPageHeader + section {
+            top: 2.6rem;
+            }
+        </html:style>
+        <customHeader >
+            <Bar class="title-midle" >
+                <contentMiddle >
+                    <Title text="{i18n>sfcDone.title}" />
+                </contentMiddle >
+            </Bar >
+        </customHeader >
+        <content >
+            <FlexBox class="flex-wrap row-cols-2 divColor"
+                     width="100%"
+                     alignItems="Start"
+                     renderType="Bare" >
+                <FlexBox class="col-12 col-sm-6 col-md-4 col-lg-4 flex-column"
+                         renderType="Bare" >
+                    <FlexBox class="myColumn"
+                             renderType="Bare" >
+                        <!-- 作業站點 -->
+                        <Label class="myLabel setReq flex40"
+                               text="{i18n>sfcDone.operation}" >
+                        </Label >
+                        <Text class="myText"
+                              text="{/operation}" >
+                        </Text >
+                    </FlexBox >
+                    <FlexBox class="myColumn"
+                             renderType="Bare" >
+                        <!-- 資源 -->
+                        <Label class="myLabel setReq flex40"
+                               text="{i18n>sfcDone.resource}" >
+                        </Label >
+                        <Text class="myText"
+                              text="{/resource}" >
+                        </Text >
+                    </FlexBox >
+                </FlexBox >
+                <FlexBox class="col-12 col-sm-6 col-md-4 col-lg-4 flex-column"
+                         renderType="Bare" >
+                    <FlexBox class="myColumn"
+                             renderType="Bare" >
+                        <!-- 作業說明 -->
+                        <Label class="myLabel"
+                               text="{i18n>sfcDone.operationDesc}" >
+                        </Label >
+                        <Text class="myText"
+                              text="{/operationDesc}" />
+                    </FlexBox >
+                    <FlexBox class="myColumn"
+                             renderType="Bare" >
+                        <!-- 資源說明 -->
+                        <Label class="myLabel"
+                               text="{i18n>sfcDone.resourceDesc}" >
+                        </Label >
+                        <Text class="myText"
+                              text="{/resourceDesc}" />
+                    </FlexBox >
+                </FlexBox >
+            </FlexBox >
+            <FlexBox renderType="Bare"
+                     width="100%"
+                     class="flex-wrap"
+                     justifyContent="Center" >
+                <t:Table id="table"
+                         rows="{/table}"
+                         selectionMode="None"
+                         class="sapUiTinyMarginTop"
+                         width="80%" >
+                    <t:columns >
+                        <!-- 物料編號 -->
+                        <t:Column hAlign="Center" >
+                            <Label text="{i18n>sfcDone.item}" />
+                            <t:template >
+                                <Text text="{item}" />
+                            </t:template >
+                        </t:Column >
+                        <!-- 現場訂單 -->
+                        <t:Column hAlign="Center" >
+                            <Label text="{i18n>sfcDone.shoporder}" />
+                            <t:template >
+                                <Text text="{shopOrder}" />
+                            </t:template >
+                        </t:Column >
+                        <!-- SFC -->
+                        <t:Column hAlign="Center" >
+                            <Label text="{i18n>sfcDone.sfc}" />
+                            <t:template >
+                                <Text text="{sfc}" />
+                            </t:template >
+                        </t:Column >
+                        <!-- 數量 -->
+                        <t:Column hAlign="Center" >
+                            <Label text="{i18n>sfcDone.qty}" />
+                            <t:template >
+                                <Input value="{qty}"
+                                       liveChange="numberControl"
+                                       cd:max="20"
+                                       cd:negative="true"
+                                       cd:decimal="false"
+                                       cd:symbol="true" />
+                            </t:template >
+                        </t:Column >
+                    </t:columns >
+                </t:Table >
+            </FlexBox >
+        </content >
+        <footer >
+            <OverflowToolbar >
+                <ToolbarSpacer />
+                <!-- 出站 -->
+                <Button text="{i18n>sfcDone.complete}"
+                        enabled="{= ${/table/length} !== 0}"
+                        press="sfcDone" ></Button >
+                <ToolbarSpacer />
+            </OverflowToolbar >
+        </footer >
+    </Page >
+</mvc:View >

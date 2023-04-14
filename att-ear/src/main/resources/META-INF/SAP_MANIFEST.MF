@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Ext-SDM-SDA-Comp-Version: 1
+softwaretype: J2EE
+deployfile: SDA_FILE.xml
+archivetype: DC
+keyname: att-ear
+keyvendor: att.com
+keylocation: ATT PRD
+keycounter: 1.4.11
+componentelement: <componentelement  name="att-ear" vendor="att.com" componenttype="DC" s
+ ubsystem="NO_SUBSYS" location="ATT PRD" counter="1.4.11" deltaversion="F
+ " updateversion="LB-20211015144444" componentprovider="ATT PRD" archive
+ type="DC"/>
+dependencylist: <dependency  keyname="me/ear" keyvendor="sap.com" />
+compress: true

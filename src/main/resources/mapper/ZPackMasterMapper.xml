@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZPackMasterMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZPackMaster">
+    <id column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="CONTAINER_NAME" jdbcType="VARCHAR" property="containerName" />
+    <result column="CONTAINER_NO" jdbcType="VARCHAR" property="containerNo" />
+    <result column="CONTAINER_TYPE" jdbcType="VARCHAR" property="containerType" />
+    <result column="MAX_QTY" jdbcType="DECIMAL" property="maxQty" />
+    <result column="IS_MANTISSA" jdbcType="VARCHAR" property="isMantissa" />
+    <result column="MFG_DATE" jdbcType="VARCHAR" property="mfgDate" />
+    <result column="EXP_DATE" jdbcType="VARCHAR" property="expDate" />
+    <result column="DMX_MFG_1" jdbcType="VARCHAR" property="dmxMfg1" />
+    <result column="DMX_MFG_2" jdbcType="VARCHAR" property="dmxMfg2" />
+    <result column="DMX_MFG_3" jdbcType="VARCHAR" property="dmxMfg3" />
+    <result column="DMX_EXP_1" jdbcType="VARCHAR" property="dmxExp1" />
+    <result column="DMX_EXP_2" jdbcType="VARCHAR" property="dmxExp2" />
+    <result column="DMX_EXP_3" jdbcType="VARCHAR" property="dmxExp3" />
+    <result column="WEIGHT" jdbcType="DECIMAL" property="weight" />
+    <result column="SHIPPING_DATE" jdbcType="VARCHAR" property="shippingDate" />
+    <result column="STATUS" jdbcType="VARCHAR" property="status" />
+    <result column="CREATED_DATE_TIME" jdbcType="TIMESTAMP" property="createdDateTime" />
+    <result column="CREATED_USER" jdbcType="VARCHAR" property="createdUser" />
+    <result column="MODIFIED_DATE_TIME" jdbcType="TIMESTAMP" property="modifiedDateTime" />
+    <result column="MODIFIED_USER" jdbcType="VARCHAR" property="modifiedUser" />
+    <result column="CLOSE_DATE_TIME" jdbcType="TIMESTAMP" property="closeDateTime" />
+    <result column="CLOSE_USER" jdbcType="VARCHAR" property="closeUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SID, SITE, CONTAINER_NAME, CONTAINER_NO, CONTAINER_TYPE, MAX_QTY, IS_MANTISSA, MFG_DATE, 
+    EXP_DATE, DMX_MFG_1, DMX_MFG_2, DMX_MFG_3, DMX_EXP_1, DMX_EXP_2, DMX_EXP_3, WEIGHT, 
+    SHIPPING_DATE, STATUS, CREATED_DATE_TIME, CREATED_USER, MODIFIED_DATE_TIME, MODIFIED_USER, 
+    CLOSE_DATE_TIME, CLOSE_USER
+  </sql>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZPackMasterExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_PACK_MASTER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Z_PACK_MASTER
+    where SID = #{sid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Z_PACK_MASTER
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.att.repository.entity.ZPackMasterExample">
+    delete from Z_PACK_MASTER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.repository.entity.ZPackMaster">
+    insert into Z_PACK_MASTER (SID, SITE, CONTAINER_NAME, 
+      CONTAINER_NO, CONTAINER_TYPE, MAX_QTY, 
+      IS_MANTISSA, MFG_DATE, EXP_DATE, 
+      DMX_MFG_1, DMX_MFG_2, DMX_MFG_3, 
+      DMX_EXP_1, DMX_EXP_2, DMX_EXP_3, 
+      WEIGHT, SHIPPING_DATE, STATUS, 
+      CREATED_DATE_TIME, CREATED_USER, MODIFIED_DATE_TIME, 
+      MODIFIED_USER, CLOSE_DATE_TIME, CLOSE_USER
+      )
+    values (#{sid,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{containerName,jdbcType=VARCHAR}, 
+      #{containerNo,jdbcType=VARCHAR}, #{containerType,jdbcType=VARCHAR}, #{maxQty,jdbcType=DECIMAL}, 
+      #{isMantissa,jdbcType=VARCHAR}, #{mfgDate,jdbcType=VARCHAR}, #{expDate,jdbcType=VARCHAR}, 
+      #{dmxMfg1,jdbcType=VARCHAR}, #{dmxMfg2,jdbcType=VARCHAR}, #{dmxMfg3,jdbcType=VARCHAR}, 
+      #{dmxExp1,jdbcType=VARCHAR}, #{dmxExp2,jdbcType=VARCHAR}, #{dmxExp3,jdbcType=VARCHAR}, 
+      #{weight,jdbcType=DECIMAL}, #{shippingDate,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createdDateTime,jdbcType=TIMESTAMP}, #{createdUser,jdbcType=VARCHAR}, #{modifiedDateTime,jdbcType=TIMESTAMP}, 
+      #{modifiedUser,jdbcType=VARCHAR}, #{closeDateTime,jdbcType=TIMESTAMP}, #{closeUser,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.repository.entity.ZPackMaster">
+    insert into Z_PACK_MASTER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="site != null">
+        SITE,
+      </if>
+      <if test="containerName != null">
+        CONTAINER_NAME,
+      </if>
+      <if test="containerNo != null">
+        CONTAINER_NO,
+      </if>
+      <if test="containerType != null">
+        CONTAINER_TYPE,
+      </if>
+      <if test="maxQty != null">
+        MAX_QTY,
+      </if>
+      <if test="isMantissa != null">
+        IS_MANTISSA,
+      </if>
+      <if test="mfgDate != null">
+        MFG_DATE,
+      </if>
+      <if test="expDate != null">
+        EXP_DATE,
+      </if>
+      <if test="dmxMfg1 != null">
+        DMX_MFG_1,
+      </if>
+      <if test="dmxMfg2 != null">
+        DMX_MFG_2,
+      </if>
+      <if test="dmxMfg3 != null">
+        DMX_MFG_3,
+      </if>
+      <if test="dmxExp1 != null">
+        DMX_EXP_1,
+      </if>
+      <if test="dmxExp2 != null">
+        DMX_EXP_2,
+      </if>
+      <if test="dmxExp3 != null">
+        DMX_EXP_3,
+      </if>
+      <if test="weight != null">
+        WEIGHT,
+      </if>
+      <if test="shippingDate != null">
+        SHIPPING_DATE,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME,
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER,
+      </if>
+      <if test="modifiedDateTime != null">
+        MODIFIED_DATE_TIME,
+      </if>
+      <if test="modifiedUser != null">
+        MODIFIED_USER,
+      </if>
+      <if test="closeDateTime != null">
+        CLOSE_DATE_TIME,
+      </if>
+      <if test="closeUser != null">
+        CLOSE_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="containerName != null">
+        #{containerName,jdbcType=VARCHAR},
+      </if>
+      <if test="containerNo != null">
+        #{containerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="containerType != null">
+        #{containerType,jdbcType=VARCHAR},
+      </if>
+      <if test="maxQty != null">
+        #{maxQty,jdbcType=DECIMAL},
+      </if>
+      <if test="isMantissa != null">
+        #{isMantissa,jdbcType=VARCHAR},
+      </if>
+      <if test="mfgDate != null">
+        #{mfgDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expDate != null">
+        #{expDate,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxMfg1 != null">
+        #{dmxMfg1,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxMfg2 != null">
+        #{dmxMfg2,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxMfg3 != null">
+        #{dmxMfg3,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxExp1 != null">
+        #{dmxExp1,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxExp2 != null">
+        #{dmxExp2,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxExp3 != null">
+        #{dmxExp3,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="shippingDate != null">
+        #{shippingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDateTime != null">
+        #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedDateTime != null">
+        #{modifiedDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedUser != null">
+        #{modifiedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="closeDateTime != null">
+        #{closeDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeUser != null">
+        #{closeUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZPackMasterExample" resultType="java.lang.Long">
+    select count(*) from Z_PACK_MASTER
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Z_PACK_MASTER
+    <set>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site != null">
+        SITE = #{record.site,jdbcType=VARCHAR},
+      </if>
+      <if test="record.containerName != null">
+        CONTAINER_NAME = #{record.containerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.containerNo != null">
+        CONTAINER_NO = #{record.containerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.containerType != null">
+        CONTAINER_TYPE = #{record.containerType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.maxQty != null">
+        MAX_QTY = #{record.maxQty,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isMantissa != null">
+        IS_MANTISSA = #{record.isMantissa,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mfgDate != null">
+        MFG_DATE = #{record.mfgDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expDate != null">
+        EXP_DATE = #{record.expDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dmxMfg1 != null">
+        DMX_MFG_1 = #{record.dmxMfg1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dmxMfg2 != null">
+        DMX_MFG_2 = #{record.dmxMfg2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dmxMfg3 != null">
+        DMX_MFG_3 = #{record.dmxMfg3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dmxExp1 != null">
+        DMX_EXP_1 = #{record.dmxExp1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dmxExp2 != null">
+        DMX_EXP_2 = #{record.dmxExp2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dmxExp3 != null">
+        DMX_EXP_3 = #{record.dmxExp3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shippingDate != null">
+        SHIPPING_DATE = #{record.shippingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDateTime != null">
+        CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUser != null">
+        CREATED_USER = #{record.createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modifiedDateTime != null">
+        MODIFIED_DATE_TIME = #{record.modifiedDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedUser != null">
+        MODIFIED_USER = #{record.modifiedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.closeDateTime != null">
+        CLOSE_DATE_TIME = #{record.closeDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.closeUser != null">
+        CLOSE_USER = #{record.closeUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Z_PACK_MASTER
+    set SID = #{record.sid,jdbcType=VARCHAR},
+      SITE = #{record.site,jdbcType=VARCHAR},
+      CONTAINER_NAME = #{record.containerName,jdbcType=VARCHAR},
+      CONTAINER_NO = #{record.containerNo,jdbcType=VARCHAR},
+      CONTAINER_TYPE = #{record.containerType,jdbcType=VARCHAR},
+      MAX_QTY = #{record.maxQty,jdbcType=DECIMAL},
+      IS_MANTISSA = #{record.isMantissa,jdbcType=VARCHAR},
+      MFG_DATE = #{record.mfgDate,jdbcType=VARCHAR},
+      EXP_DATE = #{record.expDate,jdbcType=VARCHAR},
+      DMX_MFG_1 = #{record.dmxMfg1,jdbcType=VARCHAR},
+      DMX_MFG_2 = #{record.dmxMfg2,jdbcType=VARCHAR},
+      DMX_MFG_3 = #{record.dmxMfg3,jdbcType=VARCHAR},
+      DMX_EXP_1 = #{record.dmxExp1,jdbcType=VARCHAR},
+      DMX_EXP_2 = #{record.dmxExp2,jdbcType=VARCHAR},
+      DMX_EXP_3 = #{record.dmxExp3,jdbcType=VARCHAR},
+      WEIGHT = #{record.weight,jdbcType=DECIMAL},
+      SHIPPING_DATE = #{record.shippingDate,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{record.createdUser,jdbcType=VARCHAR},
+      MODIFIED_DATE_TIME = #{record.modifiedDateTime,jdbcType=TIMESTAMP},
+      MODIFIED_USER = #{record.modifiedUser,jdbcType=VARCHAR},
+      CLOSE_DATE_TIME = #{record.closeDateTime,jdbcType=TIMESTAMP},
+      CLOSE_USER = #{record.closeUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.att.repository.entity.ZPackMaster">
+    update Z_PACK_MASTER
+    <set>
+      <if test="site != null">
+        SITE = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="containerName != null">
+        CONTAINER_NAME = #{containerName,jdbcType=VARCHAR},
+      </if>
+      <if test="containerNo != null">
+        CONTAINER_NO = #{containerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="containerType != null">
+        CONTAINER_TYPE = #{containerType,jdbcType=VARCHAR},
+      </if>
+      <if test="maxQty != null">
+        MAX_QTY = #{maxQty,jdbcType=DECIMAL},
+      </if>
+      <if test="isMantissa != null">
+        IS_MANTISSA = #{isMantissa,jdbcType=VARCHAR},
+      </if>
+      <if test="mfgDate != null">
+        MFG_DATE = #{mfgDate,jdbcType=VARCHAR},
+      </if>
+      <if test="expDate != null">
+        EXP_DATE = #{expDate,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxMfg1 != null">
+        DMX_MFG_1 = #{dmxMfg1,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxMfg2 != null">
+        DMX_MFG_2 = #{dmxMfg2,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxMfg3 != null">
+        DMX_MFG_3 = #{dmxMfg3,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxExp1 != null">
+        DMX_EXP_1 = #{dmxExp1,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxExp2 != null">
+        DMX_EXP_2 = #{dmxExp2,jdbcType=VARCHAR},
+      </if>
+      <if test="dmxExp3 != null">
+        DMX_EXP_3 = #{dmxExp3,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        WEIGHT = #{weight,jdbcType=DECIMAL},
+      </if>
+      <if test="shippingDate != null">
+        SHIPPING_DATE = #{shippingDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedDateTime != null">
+        MODIFIED_DATE_TIME = #{modifiedDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedUser != null">
+        MODIFIED_USER = #{modifiedUser,jdbcType=VARCHAR},
+      </if>
+      <if test="closeDateTime != null">
+        CLOSE_DATE_TIME = #{closeDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="closeUser != null">
+        CLOSE_USER = #{closeUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.att.repository.entity.ZPackMaster">
+    update Z_PACK_MASTER
+    set SITE = #{site,jdbcType=VARCHAR},
+      CONTAINER_NAME = #{containerName,jdbcType=VARCHAR},
+      CONTAINER_NO = #{containerNo,jdbcType=VARCHAR},
+      CONTAINER_TYPE = #{containerType,jdbcType=VARCHAR},
+      MAX_QTY = #{maxQty,jdbcType=DECIMAL},
+      IS_MANTISSA = #{isMantissa,jdbcType=VARCHAR},
+      MFG_DATE = #{mfgDate,jdbcType=VARCHAR},
+      EXP_DATE = #{expDate,jdbcType=VARCHAR},
+      DMX_MFG_1 = #{dmxMfg1,jdbcType=VARCHAR},
+      DMX_MFG_2 = #{dmxMfg2,jdbcType=VARCHAR},
+      DMX_MFG_3 = #{dmxMfg3,jdbcType=VARCHAR},
+      DMX_EXP_1 = #{dmxExp1,jdbcType=VARCHAR},
+      DMX_EXP_2 = #{dmxExp2,jdbcType=VARCHAR},
+      DMX_EXP_3 = #{dmxExp3,jdbcType=VARCHAR},
+      WEIGHT = #{weight,jdbcType=DECIMAL},
+      SHIPPING_DATE = #{shippingDate,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+      MODIFIED_DATE_TIME = #{modifiedDateTime,jdbcType=TIMESTAMP},
+      MODIFIED_USER = #{modifiedUser,jdbcType=VARCHAR},
+      CLOSE_DATE_TIME = #{closeDateTime,jdbcType=TIMESTAMP},
+      CLOSE_USER = #{closeUser,jdbcType=VARCHAR}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.TdsResourceAbilityMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.TdsResourceAbility">
+    <id column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="ITEM" jdbcType="VARCHAR" property="item" />
+    <result column="OPERATION" jdbcType="VARCHAR" property="operation" />
+    <result column="RESOURCE" jdbcType="VARCHAR" property="resource" />
+    <result column="PRIORITY" jdbcType="DECIMAL" property="priority" />
+    <result column="SWITCH_TIME" jdbcType="DECIMAL" property="switchTime" />
+    <result column="PREPARATION_TIME" jdbcType="DECIMAL" property="preparationTime" />
+    <result column="UPH" jdbcType="DECIMAL" property="uph" />
+    <result column="MODIFIED_DATE_TIME" jdbcType="TIMESTAMP" property="modifiedDateTime" />
+    <result column="MODIFIED_USER" jdbcType="VARCHAR" property="modifiedUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SID, SITE, ITEM, OPERATION, RESOURCE, PRIORITY, SWITCH_TIME, PREPARATION_TIME, UPH, 
+    MODIFIED_DATE_TIME, MODIFIED_USER
+  </sql>
+  <select id="selectByExample" parameterType="com.att.repository.entity.TdsResourceAbilityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TDS_RESOURCE_ABILITY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TDS_RESOURCE_ABILITY
+    where SID = #{sid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from TDS_RESOURCE_ABILITY
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.att.repository.entity.TdsResourceAbilityExample">
+    delete from TDS_RESOURCE_ABILITY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.repository.entity.TdsResourceAbility">
+    insert into TDS_RESOURCE_ABILITY (SID, SITE, ITEM, 
+      OPERATION, RESOURCE, PRIORITY, 
+      SWITCH_TIME, PREPARATION_TIME, UPH, 
+      MODIFIED_DATE_TIME, MODIFIED_USER)
+    values (#{sid,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, 
+      #{operation,jdbcType=VARCHAR}, #{resource,jdbcType=VARCHAR}, #{priority,jdbcType=DECIMAL}, 
+      #{switchTime,jdbcType=DECIMAL}, #{preparationTime,jdbcType=DECIMAL}, #{uph,jdbcType=DECIMAL}, 
+      #{modifiedDateTime,jdbcType=TIMESTAMP}, #{modifiedUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.repository.entity.TdsResourceAbility">
+    insert into TDS_RESOURCE_ABILITY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="site != null">
+        SITE,
+      </if>
+      <if test="item != null">
+        ITEM,
+      </if>
+      <if test="operation != null">
+        OPERATION,
+      </if>
+      <if test="resource != null">
+        RESOURCE,
+      </if>
+      <if test="priority != null">
+        PRIORITY,
+      </if>
+      <if test="switchTime != null">
+        SWITCH_TIME,
+      </if>
+      <if test="preparationTime != null">
+        PREPARATION_TIME,
+      </if>
+      <if test="uph != null">
+        UPH,
+      </if>
+      <if test="modifiedDateTime != null">
+        MODIFIED_DATE_TIME,
+      </if>
+      <if test="modifiedUser != null">
+        MODIFIED_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null">
+        #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null">
+        #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="resource != null">
+        #{resource,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        #{priority,jdbcType=DECIMAL},
+      </if>
+      <if test="switchTime != null">
+        #{switchTime,jdbcType=DECIMAL},
+      </if>
+      <if test="preparationTime != null">
+        #{preparationTime,jdbcType=DECIMAL},
+      </if>
+      <if test="uph != null">
+        #{uph,jdbcType=DECIMAL},
+      </if>
+      <if test="modifiedDateTime != null">
+        #{modifiedDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedUser != null">
+        #{modifiedUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.repository.entity.TdsResourceAbilityExample" resultType="java.lang.Long">
+    select count(*) from TDS_RESOURCE_ABILITY
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update TDS_RESOURCE_ABILITY
+    <set>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site != null">
+        SITE = #{record.site,jdbcType=VARCHAR},
+      </if>
+      <if test="record.item != null">
+        ITEM = #{record.item,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operation != null">
+        OPERATION = #{record.operation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resource != null">
+        RESOURCE = #{record.resource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null">
+        PRIORITY = #{record.priority,jdbcType=DECIMAL},
+      </if>
+      <if test="record.switchTime != null">
+        SWITCH_TIME = #{record.switchTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.preparationTime != null">
+        PREPARATION_TIME = #{record.preparationTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.uph != null">
+        UPH = #{record.uph,jdbcType=DECIMAL},
+      </if>
+      <if test="record.modifiedDateTime != null">
+        MODIFIED_DATE_TIME = #{record.modifiedDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifiedUser != null">
+        MODIFIED_USER = #{record.modifiedUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update TDS_RESOURCE_ABILITY
+    set SID = #{record.sid,jdbcType=VARCHAR},
+      SITE = #{record.site,jdbcType=VARCHAR},
+      ITEM = #{record.item,jdbcType=VARCHAR},
+      OPERATION = #{record.operation,jdbcType=VARCHAR},
+      RESOURCE = #{record.resource,jdbcType=VARCHAR},
+      PRIORITY = #{record.priority,jdbcType=DECIMAL},
+      SWITCH_TIME = #{record.switchTime,jdbcType=DECIMAL},
+      PREPARATION_TIME = #{record.preparationTime,jdbcType=DECIMAL},
+      UPH = #{record.uph,jdbcType=DECIMAL},
+      MODIFIED_DATE_TIME = #{record.modifiedDateTime,jdbcType=TIMESTAMP},
+      MODIFIED_USER = #{record.modifiedUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.att.repository.entity.TdsResourceAbility">
+    update TDS_RESOURCE_ABILITY
+    <set>
+      <if test="site != null">
+        SITE = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null">
+        ITEM = #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null">
+        OPERATION = #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="resource != null">
+        RESOURCE = #{resource,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        PRIORITY = #{priority,jdbcType=DECIMAL},
+      </if>
+      <if test="switchTime != null">
+        SWITCH_TIME = #{switchTime,jdbcType=DECIMAL},
+      </if>
+      <if test="preparationTime != null">
+        PREPARATION_TIME = #{preparationTime,jdbcType=DECIMAL},
+      </if>
+      <if test="uph != null">
+        UPH = #{uph,jdbcType=DECIMAL},
+      </if>
+      <if test="modifiedDateTime != null">
+        MODIFIED_DATE_TIME = #{modifiedDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedUser != null">
+        MODIFIED_USER = #{modifiedUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.att.repository.entity.TdsResourceAbility">
+    update TDS_RESOURCE_ABILITY
+    set SITE = #{site,jdbcType=VARCHAR},
+      ITEM = #{item,jdbcType=VARCHAR},
+      OPERATION = #{operation,jdbcType=VARCHAR},
+      RESOURCE = #{resource,jdbcType=VARCHAR},
+      PRIORITY = #{priority,jdbcType=DECIMAL},
+      SWITCH_TIME = #{switchTime,jdbcType=DECIMAL},
+      PREPARATION_TIME = #{preparationTime,jdbcType=DECIMAL},
+      UPH = #{uph,jdbcType=DECIMAL},
+      MODIFIED_DATE_TIME = #{modifiedDateTime,jdbcType=TIMESTAMP},
+      MODIFIED_USER = #{modifiedUser,jdbcType=VARCHAR}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+</mapper>

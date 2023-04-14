@@ -1,0 +1,161 @@
+<mvc:View controllerName="att.view.stacking.stacking"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:t="sap.ui.table"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+    <Page class="sapUiSizeCompact">
+        <html:style >
+            .sapMPage>.sapMPageHeader + section{
+            top: 2.6rem
+            }
+        </html:style >
+        <customHeader >
+            <Bar class="title-midle">
+                <contentLeft >
+                    <Button text="{i18n>g.search}" icon="sap-icon://open-folder" press="search" />
+                    <Button text="{i18n>stacking.label2}" icon="sap-icon://add" press="createStackNo" />
+                    <Button text="{i18n>stacking.label3}" icon="sap-icon://action" press="openStack" enabled="{= ${/stackStatus} === '1'}" />
+                    <Button text="{i18n>g.clear}" icon="sap-icon://eraser" press="clear" />
+                    <Button text="{i18n>stacking.label4}" icon="sap-icon://print" press="print" />
+                </contentLeft >
+                <!-- 標題 -->
+                <contentMiddle >
+                    <Title text="{i18n>stacking.label1}" />
+                </contentMiddle >
+            </Bar >
+        </customHeader >
+        <content >
+            <VBox >
+                <!-- 檢索條件 -->
+                <FlexBox renderType="Bare" width="100%" class="divColor flex-wrap">
+                    <!-- 第一行 -->
+                    <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+                        <!-- 容器 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label5}" class="myLabel flex40 set-required" />
+                            <Input id="container" width="40%" value="{/container}" showValueHelp="true" valueHelpRequest="openDialog" cd:title="packing.label5" cd:filterKey="name" cd:callBackKey="name" cd:columns="name|stacking.label5;description|stacking.label6;packingMaxQty|stacking.label20" cd:root="/" />
+                        </FlexBox >
+                        <!-- 容器說明 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label6}" class="myLabel flex30" />
+                            <Text text="{/containerDesc}" class="myText" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 第二行 -->
+                    <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTopBottom">
+                        <!-- 棧板編號 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label7}" class="myLabel flex40 set-required" />
+                            <Input id="boxNo" width="40%" value="{/stackNo}" submit="scanStackNo" />
+                        </FlexBox >
+                        <!-- 棧板狀態 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label8}" class="myLabel flex30" />
+                            <Text text="{/stackStatusName}" class="myText" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 第三行 -->
+                    <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginBottom">
+                        <!-- 標籤機 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label9}" class="myLabel flex40 set-required" />
+                            <Input id="printer" width="40%" value="{/printer}" showValueHelp="true" valueHelpRequest="openDialog" cd:title="packing.label9" cd:filterKey="printerName" cd:callBackKey="printerName" cd:columns="printerName|packing.label9" cd:root="/" />
+                        </FlexBox >
+                        <!-- 出貨日期 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label10}" class="myLabel flex30" visible="{/shippingDateRule}" />
+                            <Text text="{/shippingDate}" class="myText" visible="{/shippingDateRule}" />
+                        </FlexBox >
+                    </FlexBox >
+                </FlexBox >
+                <!-- 主內容 -->
+                <FlexBox renderType="Bare" width="100%" class="flex-wrap" justifyContent="Center">
+                    <!-- 第一行 -->
+                    <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+                        <!-- 箱號 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label11}" class="myLabel flex40 set-required" />
+                            <Input id="containerNo" width="40%" value="{/containerNo}" submit="scanContainerNo" enabled="{= ${/stackStatus} === '0' }" />
+                        </FlexBox >
+                        <!-- 裝棧數 / 滿棧數 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label12}" class="myLabel flex30" />
+                            <Text text="{/stackedQty}" class="myText" />
+                            <Text text="&#160;/&#160;" class="myText" />
+                            <Text text="{/maxQty}" class="myText" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 第二行 -->
+                    <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+                        <!-- 可包裝的前綴 -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label13}" class="myLabel flex40" visible="{/affixRule}" />
+                            <Text text="{/prefix}" class="myText" visible="{/affixRule}" />
+                        </FlexBox >
+                        <!-- 可包裝的後綴  -->
+                        <FlexBox renderType="Bare" width="50%">
+                            <Label text="{i18n>stacking.label14}" class="myLabel flex30" visible="{/affixRule}" />
+                            <Text text="{/suffix}" class="myText" visible="{/affixRule}" />
+                        </FlexBox >
+                    </FlexBox >
+                    <!-- 表格 -->
+                    <t:Table id="table" rows="{/stackingList}" firstVisibleRow="{/firstRow}" selectionMode="MultiToggle" width="70%" class="sapUiTinyMarginTop" selectionBehavior="Row">
+                        <t:extension >
+                            <OverflowToolbar style="Clear">
+                                <ToolbarSpacer />
+                                <Button icon="sap-icon://less" press="minus" enabled="{= ${/stackStatus} === '0'}" />
+                            </OverflowToolbar >
+                        </t:extension >
+                        <t:columns >
+                            <!-- 序號 -->
+                            <t:Column hAlign="Center" width="10%">
+                                <Label text="{i18n>stacking.label15}" />
+                                <t:template >
+                                    <Text text="{index}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 物料編號 -->
+                            <t:Column hAlign="Center">
+                                <Label text="{i18n>stacking.label16}" />
+                                <t:template >
+                                    <Text text="{item}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 物料說明 -->
+                            <t:Column hAlign="Center">
+                                <Label text="{i18n>stacking.label17}" />
+                                <t:template >
+                                    <Text text="{itemDesc}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 箱號 -->
+                            <t:Column hAlign="Center">
+                                <Label text="{i18n>stacking.label11}" />
+                                <t:template >
+                                    <Text text="{cartonNo}" />
+                                </t:template >
+                            </t:Column >
+                            <!-- 數量 -->
+                            <t:Column hAlign="Center" width="10%">
+                                <Label text="{i18n>stacking.label18}" />
+                                <t:template >
+                                    <Text text="{cartonQty}" />
+                                </t:template >
+                            </t:Column >
+                        </t:columns >
+                    </t:Table >
+                </FlexBox >
+            </VBox >
+        </content >
+        <!-- 完成 -->
+        <footer >
+            <Toolbar width="100%">
+                <FlexBox alignItems="Center" justifyContent="Center" renderType="Bare" width="100%">
+                    <Button id="finish" width="15%" text="{i18n>stacking.label19}" press="finish" enabled="{= ${/stackStatus} === '0'}" />
+                </FlexBox >
+            </Toolbar >
+        </footer >
+    </Page >
+</mvc:View >

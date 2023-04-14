@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZMaterialYieldBasisMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZMaterialYieldBasis">
+    <id column="SID" jdbcType="VARCHAR" property="sid" />
+    <result column="SITE" jdbcType="VARCHAR" property="site" />
+    <result column="ITEM" jdbcType="VARCHAR" property="item" />
+    <result column="ROUTER" jdbcType="VARCHAR" property="router" />
+    <result column="ROUTER_REVISION" jdbcType="VARCHAR" property="routerRevision" />
+    <result column="OPERATION" jdbcType="VARCHAR" property="operation" />
+    <result column="PLAN_YIELD" jdbcType="DECIMAL" property="planYield" />
+    <result column="STD_LABOR" jdbcType="DECIMAL" property="stdLabor" />
+    <result column="CREATED_DATE_TIME" jdbcType="TIMESTAMP" property="createdDateTime" />
+    <result column="CREATED_USER" jdbcType="VARCHAR" property="createdUser" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    SID, SITE, ITEM, ROUTER, ROUTER_REVISION, OPERATION, PLAN_YIELD, STD_LABOR, CREATED_DATE_TIME, 
+    CREATED_USER
+  </sql>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZMaterialYieldBasisExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_MATERIAL_YIELD_BASIS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from Z_MATERIAL_YIELD_BASIS
+    where SID = #{sid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Z_MATERIAL_YIELD_BASIS
+    where SID = #{sid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.att.repository.entity.ZMaterialYieldBasisExample">
+    delete from Z_MATERIAL_YIELD_BASIS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.repository.entity.ZMaterialYieldBasis">
+    insert into Z_MATERIAL_YIELD_BASIS (SID, SITE, ITEM, 
+      ROUTER, ROUTER_REVISION, OPERATION, 
+      PLAN_YIELD, STD_LABOR, CREATED_DATE_TIME, 
+      CREATED_USER)
+    values (#{sid,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, 
+      #{router,jdbcType=VARCHAR}, #{routerRevision,jdbcType=VARCHAR}, #{operation,jdbcType=VARCHAR}, 
+      #{planYield,jdbcType=DECIMAL}, #{stdLabor,jdbcType=DECIMAL}, #{createdDateTime,jdbcType=TIMESTAMP}, 
+      #{createdUser,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.repository.entity.ZMaterialYieldBasis">
+    insert into Z_MATERIAL_YIELD_BASIS
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        SID,
+      </if>
+      <if test="site != null">
+        SITE,
+      </if>
+      <if test="item != null">
+        ITEM,
+      </if>
+      <if test="router != null">
+        ROUTER,
+      </if>
+      <if test="routerRevision != null">
+        ROUTER_REVISION,
+      </if>
+      <if test="operation != null">
+        OPERATION,
+      </if>
+      <if test="planYield != null">
+        PLAN_YIELD,
+      </if>
+      <if test="stdLabor != null">
+        STD_LABOR,
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME,
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sid != null">
+        #{sid,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null">
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null">
+        #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="router != null">
+        #{router,jdbcType=VARCHAR},
+      </if>
+      <if test="routerRevision != null">
+        #{routerRevision,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null">
+        #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="planYield != null">
+        #{planYield,jdbcType=DECIMAL},
+      </if>
+      <if test="stdLabor != null">
+        #{stdLabor,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDateTime != null">
+        #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        #{createdUser,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZMaterialYieldBasisExample" resultType="java.lang.Long">
+    select count(*) from Z_MATERIAL_YIELD_BASIS
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Z_MATERIAL_YIELD_BASIS
+    <set>
+      <if test="record.sid != null">
+        SID = #{record.sid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site != null">
+        SITE = #{record.site,jdbcType=VARCHAR},
+      </if>
+      <if test="record.item != null">
+        ITEM = #{record.item,jdbcType=VARCHAR},
+      </if>
+      <if test="record.router != null">
+        ROUTER = #{record.router,jdbcType=VARCHAR},
+      </if>
+      <if test="record.routerRevision != null">
+        ROUTER_REVISION = #{record.routerRevision,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operation != null">
+        OPERATION = #{record.operation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planYield != null">
+        PLAN_YIELD = #{record.planYield,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stdLabor != null">
+        STD_LABOR = #{record.stdLabor,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createdDateTime != null">
+        CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdUser != null">
+        CREATED_USER = #{record.createdUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Z_MATERIAL_YIELD_BASIS
+    set SID = #{record.sid,jdbcType=VARCHAR},
+      SITE = #{record.site,jdbcType=VARCHAR},
+      ITEM = #{record.item,jdbcType=VARCHAR},
+      ROUTER = #{record.router,jdbcType=VARCHAR},
+      ROUTER_REVISION = #{record.routerRevision,jdbcType=VARCHAR},
+      OPERATION = #{record.operation,jdbcType=VARCHAR},
+      PLAN_YIELD = #{record.planYield,jdbcType=DECIMAL},
+      STD_LABOR = #{record.stdLabor,jdbcType=DECIMAL},
+      CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{record.createdUser,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.att.repository.entity.ZMaterialYieldBasis">
+    update Z_MATERIAL_YIELD_BASIS
+    <set>
+      <if test="site != null">
+        SITE = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="item != null">
+        ITEM = #{item,jdbcType=VARCHAR},
+      </if>
+      <if test="router != null">
+        ROUTER = #{router,jdbcType=VARCHAR},
+      </if>
+      <if test="routerRevision != null">
+        ROUTER_REVISION = #{routerRevision,jdbcType=VARCHAR},
+      </if>
+      <if test="operation != null">
+        OPERATION = #{operation,jdbcType=VARCHAR},
+      </if>
+      <if test="planYield != null">
+        PLAN_YIELD = #{planYield,jdbcType=DECIMAL},
+      </if>
+      <if test="stdLabor != null">
+        STD_LABOR = #{stdLabor,jdbcType=DECIMAL},
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdUser != null">
+        CREATED_USER = #{createdUser,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.att.repository.entity.ZMaterialYieldBasis">
+    update Z_MATERIAL_YIELD_BASIS
+    set SITE = #{site,jdbcType=VARCHAR},
+      ITEM = #{item,jdbcType=VARCHAR},
+      ROUTER = #{router,jdbcType=VARCHAR},
+      ROUTER_REVISION = #{routerRevision,jdbcType=VARCHAR},
+      OPERATION = #{operation,jdbcType=VARCHAR},
+      PLAN_YIELD = #{planYield,jdbcType=DECIMAL},
+      STD_LABOR = #{stdLabor,jdbcType=DECIMAL},
+      CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      CREATED_USER = #{createdUser,jdbcType=VARCHAR}
+    where SID = #{sid,jdbcType=VARCHAR}
+  </update>
+</mapper>

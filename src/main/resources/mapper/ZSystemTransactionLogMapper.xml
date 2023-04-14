@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.att.repository.mapper.ZSystemTransactionLogMapper">
+  <resultMap id="BaseResultMap" type="com.att.repository.entity.ZSystemTransactionLog">
+    <id column="TRANS_ID" jdbcType="VARCHAR" property="transId" />
+    <result column="FROM_SYSTEM" jdbcType="VARCHAR" property="fromSystem" />
+    <result column="TO_SYSTEM" jdbcType="VARCHAR" property="toSystem" />
+    <result column="RESULT" jdbcType="VARCHAR" property="result" />
+    <result column="FUNCTION_NAME" jdbcType="VARCHAR" property="functionName" />
+    <result column="KEY_VALUE" jdbcType="VARCHAR" property="keyValue" />
+    <result column="CREATED_DATE_TIME" jdbcType="TIMESTAMP" property="createdDateTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.att.repository.entity.ZSystemTransactionLog">
+    <result column="REQUEST" jdbcType="NCLOB" property="request" />
+    <result column="RESPONSE" jdbcType="NCLOB" property="response" />
+    <result column="MESSAGE" jdbcType="NCLOB" property="message" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TRANS_ID, FROM_SYSTEM, TO_SYSTEM, RESULT, FUNCTION_NAME, KEY_VALUE, CREATED_DATE_TIME
+  </sql>
+  <sql id="Blob_Column_List">
+    REQUEST, RESPONSE, MESSAGE
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.att.repository.entity.ZSystemTransactionLogExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Z_SYSTEM_TRANSACTION_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.att.repository.entity.ZSystemTransactionLogExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from Z_SYSTEM_TRANSACTION_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from Z_SYSTEM_TRANSACTION_LOG
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from Z_SYSTEM_TRANSACTION_LOG
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.att.repository.entity.ZSystemTransactionLogExample">
+    delete from Z_SYSTEM_TRANSACTION_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.att.repository.entity.ZSystemTransactionLog">
+    insert into Z_SYSTEM_TRANSACTION_LOG (TRANS_ID, FROM_SYSTEM, TO_SYSTEM, 
+      RESULT, FUNCTION_NAME, KEY_VALUE, 
+      CREATED_DATE_TIME, REQUEST, RESPONSE, 
+      MESSAGE)
+    values (#{transId,jdbcType=VARCHAR}, #{fromSystem,jdbcType=VARCHAR}, #{toSystem,jdbcType=VARCHAR}, 
+      #{result,jdbcType=VARCHAR}, #{functionName,jdbcType=VARCHAR}, #{keyValue,jdbcType=VARCHAR}, 
+      #{createdDateTime,jdbcType=TIMESTAMP}, #{request,jdbcType=NCLOB}, #{response,jdbcType=NCLOB}, 
+      #{message,jdbcType=NCLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.att.repository.entity.ZSystemTransactionLog">
+    insert into Z_SYSTEM_TRANSACTION_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="transId != null">
+        TRANS_ID,
+      </if>
+      <if test="fromSystem != null">
+        FROM_SYSTEM,
+      </if>
+      <if test="toSystem != null">
+        TO_SYSTEM,
+      </if>
+      <if test="result != null">
+        RESULT,
+      </if>
+      <if test="functionName != null">
+        FUNCTION_NAME,
+      </if>
+      <if test="keyValue != null">
+        KEY_VALUE,
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME,
+      </if>
+      <if test="request != null">
+        REQUEST,
+      </if>
+      <if test="response != null">
+        RESPONSE,
+      </if>
+      <if test="message != null">
+        MESSAGE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="transId != null">
+        #{transId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromSystem != null">
+        #{fromSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="toSystem != null">
+        #{toSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null">
+        #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyValue != null">
+        #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDateTime != null">
+        #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="request != null">
+        #{request,jdbcType=NCLOB},
+      </if>
+      <if test="response != null">
+        #{response,jdbcType=NCLOB},
+      </if>
+      <if test="message != null">
+        #{message,jdbcType=NCLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.att.repository.entity.ZSystemTransactionLogExample" resultType="java.lang.Long">
+    select count(*) from Z_SYSTEM_TRANSACTION_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update Z_SYSTEM_TRANSACTION_LOG
+    <set>
+      <if test="record.transId != null">
+        TRANS_ID = #{record.transId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fromSystem != null">
+        FROM_SYSTEM = #{record.fromSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.toSystem != null">
+        TO_SYSTEM = #{record.toSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.result != null">
+        RESULT = #{record.result,jdbcType=VARCHAR},
+      </if>
+      <if test="record.functionName != null">
+        FUNCTION_NAME = #{record.functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keyValue != null">
+        KEY_VALUE = #{record.keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdDateTime != null">
+        CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.request != null">
+        REQUEST = #{record.request,jdbcType=NCLOB},
+      </if>
+      <if test="record.response != null">
+        RESPONSE = #{record.response,jdbcType=NCLOB},
+      </if>
+      <if test="record.message != null">
+        MESSAGE = #{record.message,jdbcType=NCLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update Z_SYSTEM_TRANSACTION_LOG
+    set TRANS_ID = #{record.transId,jdbcType=VARCHAR},
+      FROM_SYSTEM = #{record.fromSystem,jdbcType=VARCHAR},
+      TO_SYSTEM = #{record.toSystem,jdbcType=VARCHAR},
+      RESULT = #{record.result,jdbcType=VARCHAR},
+      FUNCTION_NAME = #{record.functionName,jdbcType=VARCHAR},
+      KEY_VALUE = #{record.keyValue,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP},
+      REQUEST = #{record.request,jdbcType=NCLOB},
+      RESPONSE = #{record.response,jdbcType=NCLOB},
+      MESSAGE = #{record.message,jdbcType=NCLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update Z_SYSTEM_TRANSACTION_LOG
+    set TRANS_ID = #{record.transId,jdbcType=VARCHAR},
+      FROM_SYSTEM = #{record.fromSystem,jdbcType=VARCHAR},
+      TO_SYSTEM = #{record.toSystem,jdbcType=VARCHAR},
+      RESULT = #{record.result,jdbcType=VARCHAR},
+      FUNCTION_NAME = #{record.functionName,jdbcType=VARCHAR},
+      KEY_VALUE = #{record.keyValue,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{record.createdDateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.att.repository.entity.ZSystemTransactionLog">
+    update Z_SYSTEM_TRANSACTION_LOG
+    <set>
+      <if test="fromSystem != null">
+        FROM_SYSTEM = #{fromSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="toSystem != null">
+        TO_SYSTEM = #{toSystem,jdbcType=VARCHAR},
+      </if>
+      <if test="result != null">
+        RESULT = #{result,jdbcType=VARCHAR},
+      </if>
+      <if test="functionName != null">
+        FUNCTION_NAME = #{functionName,jdbcType=VARCHAR},
+      </if>
+      <if test="keyValue != null">
+        KEY_VALUE = #{keyValue,jdbcType=VARCHAR},
+      </if>
+      <if test="createdDateTime != null">
+        CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="request != null">
+        REQUEST = #{request,jdbcType=NCLOB},
+      </if>
+      <if test="response != null">
+        RESPONSE = #{response,jdbcType=NCLOB},
+      </if>
+      <if test="message != null">
+        MESSAGE = #{message,jdbcType=NCLOB},
+      </if>
+    </set>
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.att.repository.entity.ZSystemTransactionLog">
+    update Z_SYSTEM_TRANSACTION_LOG
+    set FROM_SYSTEM = #{fromSystem,jdbcType=VARCHAR},
+      TO_SYSTEM = #{toSystem,jdbcType=VARCHAR},
+      RESULT = #{result,jdbcType=VARCHAR},
+      FUNCTION_NAME = #{functionName,jdbcType=VARCHAR},
+      KEY_VALUE = #{keyValue,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP},
+      REQUEST = #{request,jdbcType=NCLOB},
+      RESPONSE = #{response,jdbcType=NCLOB},
+      MESSAGE = #{message,jdbcType=NCLOB}
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.att.repository.entity.ZSystemTransactionLog">
+    update Z_SYSTEM_TRANSACTION_LOG
+    set FROM_SYSTEM = #{fromSystem,jdbcType=VARCHAR},
+      TO_SYSTEM = #{toSystem,jdbcType=VARCHAR},
+      RESULT = #{result,jdbcType=VARCHAR},
+      FUNCTION_NAME = #{functionName,jdbcType=VARCHAR},
+      KEY_VALUE = #{keyValue,jdbcType=VARCHAR},
+      CREATED_DATE_TIME = #{createdDateTime,jdbcType=TIMESTAMP}
+    where TRANS_ID = #{transId,jdbcType=VARCHAR}
+  </update>
+</mapper>

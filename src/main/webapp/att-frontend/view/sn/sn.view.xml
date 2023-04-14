@@ -1,0 +1,76 @@
+<mvc:View controllerName="att.view.sn.sn"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <Page class="sapUiSizeCompact">
+    <html:style>
+			.sapMPage>.sapMPageHeader + section{
+				top: 2.6rem
+			}
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <contentLeft>
+          <Button text="{i18n>g.search}" icon="sap-icon://detail-view" press="retrieve"/>
+          <Button text="{i18n>g.save}" icon="sap-icon://save" enabled="{/select}" press="save" />
+          <Button text="{i18n>g.clear}" icon="sap-icon://reset" press="clear"/>
+        </contentLeft>
+        <!-- 標題 -->
+        <contentMiddle>
+          <Title text="{i18n>sn.label6}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <VBox>
+        <!-- 檢索條件 -->
+        <FlexBox renderType="Bare" width="100%" class="divColor flex-wrap">
+          <!-- 第一行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+            <!-- SFC -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>sn.label1}" class="myLabel flex60 set-required" />
+              <Input id="sfc" value="{/sfc}" editable="{= !${/select}}" submit="retrieve" class="myText" />
+            </FlexBox>
+            <!-- SFC 數量 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>sn.label2}" class="myLabel flex20" />
+              <Text text="{/sfcQty}" class="myText" />
+            </FlexBox>
+          </FlexBox>
+          <!-- 第二行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTopBottom">
+            <!-- 物料編號 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>sn.label3}" class="myLabel flex60" />
+              <Text text="{/item}" class="myText" />
+            </FlexBox>
+            <!-- 物料說明 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>sn.label4}" class="myLabel flex20" />
+              <Text text="{/itemDesc}" class="myText" />
+            </FlexBox>
+          </FlexBox>
+        </FlexBox>
+
+        <!-- 主內容 -->
+        <FlexBox renderType="Bare" width="100%" class="flex-wrap" justifyContent="Center">
+          <!-- 原始SN -->
+            <FlexBox renderType="Bare" width="40%" class="sapUiSmallMarginTop" justifyContent="Center">
+              <Label text="{i18n>sn.label5}" class="myLabel set-required" />
+              <Input id="sn" width="33%" editable="{/select}" value="{/sn}" liveChange="checkSN" submit="snSubmit" cd:Symbol="false" />
+            </FlexBox>
+          <!-- 更換SN -->
+          <FlexBox renderType="Bare" width="40%" class="sapUiSmallMarginTop" justifyContent="Center">
+            <Label text="{i18n>sn.label7}" class="myLabel set-required" />
+            <Input id="newSn" width="33%" value="{/newSn}" editable="{/select}" liveChange="checkSN" submit="save" cd:Symbol="false" />
+          </FlexBox>
+        </FlexBox>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>

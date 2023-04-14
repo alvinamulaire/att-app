@@ -1,0 +1,214 @@
+<mvc:View controllerName="att.view.tlSn.tlSn"
+    xmlns="sap.m"
+    xmlns:t="sap.ui.table"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
+    xmlns:u="sap.ui.unified"
+    displayBlock="true">
+    <Page showHeader="true"
+        class="tlSn sapUiSizeCompact">
+        <html:style>
+            .tlSn > section{
+                margin-right: 0px;
+                margin-left: 0px;
+                top:40px !important;
+            }
+            .tlSn .divColor {
+                background-color:#e6e6e6;
+                border-bottom-style:groove;
+            }
+            .tlSn .title-midle > div.sapMBarMiddle > div {
+                vertical-align: middle;
+            }
+            .setReq ::before{
+                content: "*";
+                color: #c14646;
+                font-size: 1.25rem;
+                font-weight: bold;
+                position: relative;
+                vertical-align: middle;
+                line-height: 0;
+            }
+            .tlSn .myDividerColumn{
+                -ms-flex-preferred-size: 0;
+                flex-basis: 0;
+                -ms-flex-positive: 1;
+                flex-grow: 1;
+                max-width: 100%;
+                min-height: 42px;
+                top: 5px;
+            }
+            .tlSn .myTextArea{
+                max-width: 100%;
+                min-height: 47px;
+                top: 5px;
+            }
+            .tlSn .myColumn{
+                -ms-flex-preferred-size: 0;
+                flex-basis: 0;
+                -ms-flex-positive: 1;
+                flex-grow: 1;
+                max-width: 100%;
+                min-height: 37px;
+            }
+            .tlSn .myLabel{
+                padding-bottom: 0.5rem !important;
+                padding-top: 0.5rem !important;
+                padding-left: 0.25rem !important;
+                padding-right: 0.25rem !important;
+                justify-content: flex-end !important;
+                display: flex !important;
+                flex: 0 0 33.333333%;
+                max-width: 33.333333%;
+                text-align: right;
+                
+            }
+            .tlSn .myText{
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                display: flex !important;
+                flex: 0 0 66.666667%;
+                max-width: 66.666667%;
+                align-items: center;
+            }
+            .tlSn .myInput{
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                display: flex !important;
+                flex: 0 0 66.666667%;
+                max-width: 66.666667%;
+            }
+            .tlSn .myDivider{ 
+                border-bottom: 1px solid !important;
+            } 
+            .gotop {
+                position: fixed;
+                display: none;
+                opacity: 1;
+                z-index: 110;
+                right: 10px;
+                bottom: 35px;
+                transition: all .2s ease-in-out;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .gotop>span{
+                height: 32px !important;
+                border-radius:999em;
+            }
+            .gotop>span>span{
+                top: 2px;
+            }
+        </html:style>
+        <customHeader>
+            <Bar class="title-midle"
+                visible="{/notPod}">
+                <contentLeft>
+                    <!-- 返回 -->
+                    <Button text="{i18n>g.back}"
+                        icon="sap-icon://nav-back"
+                        press="back"
+                        visible = "{/back}"/>
+                    <!-- 檢索 -->
+                    <Button text="{i18n>g.search}"
+                        icon="sap-icon://detail-view"
+                        press="retrieve"/>
+                    <!-- 編碼 -->
+                    <Button text="{i18n>tlSn.coding}"
+                        icon="sap-icon://add"
+                        press="coding"
+                        enabled="{/canCoding}"/>
+                    <!-- 清除 -->
+                    <Button text="{i18n>g.clear}"
+                        icon="sap-icon://reset"
+                        press="clear"/>
+                    <!-- 標籤補印 -->
+                    <Button text="{i18n>tlSn.reprint}"
+                        icon="sap-icon://print"
+                        press="reprint"/>
+                </contentLeft>
+                <contentMiddle>
+                    <Title level="H3"
+                        text="{i18n>tlSn.title}"/>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+        <content>
+            <FlexBox class="flex-wrap row-cols-2 divColor"
+                width="100%"
+                alignItems="Start"
+                renderType="Bare">
+                <FlexBox class="col-12 col-sm-6 col-md-4 col-lg-4 flex-column"
+                    renderType="Bare">
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- 生產點 -->
+                        <Label class="myLabel"
+                            text="{i18n>g.site}">
+                        </Label>
+                        <Text class="myText"
+                            text="{/site}">
+                        </Text>
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- SFC -->
+                        <Label class="myLabel setReq"
+                            text="{i18n>tlSn.sfc}">
+                        </Label>
+                        <Input id="sfc" value="{/sfc}" editable="{= ${/canCoding} === false}" submit = "retrieve"/>
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- 現場訂單 -->
+                        <Label class="myLabel"
+                            text="{i18n>tlSn.shoporder}">
+                        </Label>
+                        <Text class="myText" id="shoporder" text="{/shopOrder}" />
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- 物料編號 -->
+                        <Label class="myLabel"
+                            text="{i18n>tlSn.item}">
+                        </Label>
+                        <Text class="myText" id="item" text="{/item}" />
+                    </FlexBox>
+                </FlexBox>
+                <FlexBox class="col-12 col-sm-6 col-md-4 col-lg-4 flex-column"
+                    renderType="Bare">
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- 數量 -->
+                        <Label class="myLabel"
+                            text="{i18n>tlSn.qty}">
+                        </Label>
+                        <Text class="myText" id="qty" text="{/qty}" />
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- SN類別碼 -->
+                        <Label class="myLabel"
+                            text="{i18n>tlSn.snType}">
+                        </Label>
+                        <Text class="myText" id="snType" text="{/snType}" />
+                    </FlexBox>
+                    <FlexBox class="myColumn"
+                        renderType="Bare">
+                        <!-- 物料說明 -->
+                        <Label class="myLabel"
+                            text="{i18n>tlSn.itemDes}">
+                        </Label>
+                        <Text class="myText" id="itemDes" text="{/itemDes}" />
+                    </FlexBox>
+                </FlexBox>
+            </FlexBox>
+        </content>
+    </Page>
+</mvc:View>

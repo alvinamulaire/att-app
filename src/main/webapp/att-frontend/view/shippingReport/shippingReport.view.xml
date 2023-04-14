@@ -1,0 +1,111 @@
+<mvc:View controllerName="att.view.shippingReport.shippingReport"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  xmlns:core="sap.ui.core"
+  xmlns:t="sap.ui.table"
+  xmlns:html="http://www.w3.org/1999/xhtml"
+  xmlns:cd="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+  <Page class="sapUiSizeCompact">
+    <html:style>
+			.sapMPage>.sapMPageHeader + section{
+				top: 2.6rem
+			}
+      #__xmlview1--table-rows-row0-fixed, #__xmlview1--table-rows-row1-fixed,
+      #__xmlview1--table-rows-row2-fixed, #__xmlview1--table-rows-row3-fixed,
+      #__xmlview1--table-rows-row4-fixed, #__xmlview1--table-rows-row5-fixed,
+      #__xmlview1--table-rows-row6-fixed {
+        background-color: #F0F0F0
+      }
+    </html:style>
+
+    <customHeader>
+      <Bar class="title-midle">
+        <contentLeft>
+          <Button text="{i18n>g.search}" icon="sap-icon://open-folder" press="search" />
+          <Button text="{i18n>g.clear}" icon="sap-icon://eraser" press="clear" />
+          <Button text="{i18n>g.export}" icon="sap-icon://action" press="export" />
+        </contentLeft>
+        <!-- 標題 -->
+        <contentMiddle>
+          <Title text="{i18n>shippingReport.label1}"/>
+        </contentMiddle>
+      </Bar>
+    </customHeader>
+    <content>
+      <VBox height="100%">
+        <!-- 檢索條件 -->
+        <FlexBox renderType="Bare" width="100%" class="divColor flex-wrap">
+          <!-- 第一行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+            <!-- 包裝工單 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>shippingReport.label2}" class="myLabel flex40 set-required" />
+              <Input id="shopOrder" width="40%" value="{/shopOrder}" liveChange="change" showValueHelp="true" valueHelpRequest="openDialog" cd:title="shippingReport.label2" cd:filterKey="shopOrder" cd:callBackKey="shopOrder" cd:columns="shopOrder|shippingReport.label15;item|g.material;itemDesc|g.materialDesc" cd:root="/" />
+            </FlexBox>
+            <!-- 計畫開始 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>shippingReport.label6}" class="myLabel flex20" />
+              <DateTimePicker width="40%" class="myInput" value="{/planStartDate}" change="dateCheck" displayFormat="yyyy-MM-dd HH:mm:ss" valueFormat="yyyy-MM-dd HH:mm:ss" />
+            </FlexBox>
+          </FlexBox>
+          <!-- 第二行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" class="col-12 sapUiTinyMarginTop">
+            <!-- 棧板 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>shippingReport.label3}" class="myLabel flex40" />
+              <MultiInput id="pallet" width="40%" valueHelpOnly="true" showValueHelp="true" tokenUpdate="tokenUpdate" valueHelpRequest="openDialog" cd:title="shippingReport.label16" cd:filterKey="palletNo" cd:callBackKey="palletNo" cd:columns="palletNo|shippingReport.label16" cd:root="/" cd:multiple="true" tokens="{path: '/palletNo',sorter: { path: 'palletNo' }}">
+                <tokens>
+                  <Token key="{palletNo}" text="{palletNo}" />
+                </tokens>
+              </MultiInput>
+            </FlexBox>
+            <!-- 計畫結束 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>shippingReport.label7}" class="myLabel flex20" />
+              <DateTimePicker width="40%" class="myInput" value="{/planEndDate}" change="dateCheck" displayFormat="yyyy-MM-dd HH:mm:ss" valueFormat="yyyy-MM-dd HH:mm:ss" />
+            </FlexBox>
+          </FlexBox>
+          <!-- 第三行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" height="32px" class="col-12 sapUiTinyMarginTop">
+            <!-- 箱號 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>shippingReport.label4}" class="myLabel flex40" />
+              <MultiInput id="carton" width="40%" valueHelpOnly="true" showValueHelp="true" tokenUpdate="tokenUpdate" valueHelpRequest="openDialog" cd:title="shippingReport.label4" cd:filterKey="cartonNo" cd:callBackKey="cartonNo" cd:columns="palletNo|shippingReport.label16;cartonNo|shippingReport.label4" cd:root="/" cd:multiple="true" tokens="{path: '/cartonNo',sorter: { path: 'cartonNo' }}">
+                <tokens>
+                  <Token key="{cartonNo}" text="{cartonNo}" />
+                </tokens>
+              </MultiInput>
+            </FlexBox>
+            <!--  -->
+            <FlexBox renderType="Bare" width="50%" />
+          </FlexBox>
+          <!-- 第四行 -->
+          <FlexBox alignItems="Center" renderType="Bare" width="100%" height="32px" class="col-12 sapUiTinyMarginTopBottom">
+            <!-- SN號 -->
+            <FlexBox renderType="Bare" width="50%">
+              <Label text="{i18n>shippingReport.label5}" class="myLabel flex40" />
+              <MultiInput id="sn" width="40%" valueHelpOnly="true" showValueHelp="true" tokenUpdate="tokenUpdate" valueHelpRequest="openDialog" cd:title="shippingReport.label5" cd:filterKey="sn" cd:callBackKey="sn" cd:columns="palletNo|shippingReport.label16;cartonNo|shippingReport.label4;sn|shippingReport.label5" cd:root="/" cd:multiple="true" tokens="{path: '/sn',sorter: { path: 'sn' }}">
+                <tokens>
+                  <Token key="{sn}" text="{sn}" />
+                </tokens>
+              </MultiInput>
+            </FlexBox>
+            <!--  -->
+            <FlexBox renderType="Bare" width="50%" />
+          </FlexBox>
+        </FlexBox>
+        <!-- 主內容 -->
+        <FlexBox renderType="Bare" width="100%" height="100%" class="flex-wrap" justifyContent="Center">
+          <t:Table id="table" rows="{/tableLists}" selectionBehavior="RowOnly" cellClick="click" columnHeaderVisible="false" fixedColumnCount="1" selectionMode="MultiToggle" class="sapUiTinyMarginTop" width="95%">
+            <t:extension>
+              <OverflowToolbar style="Clear">
+                <ToolbarSpacer/>
+                <Button icon="sap-icon://less" press="minus"/>
+              </OverflowToolbar>
+            </t:extension>
+          </t:Table>
+        </FlexBox>
+      </VBox>
+    </content>
+  </Page>
+</mvc:View>
